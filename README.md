@@ -1,31 +1,40 @@
-# PIX·L
+# PIX·L — mosaicos de bloques
 
-Tienda web de mosaicos de bloques hechos con la foto del cliente. Modelo con inventario propio: compras piezas por mayoreo, las tienes en casa y envías cada pedido desde México.
+Página donde el cliente sube una foto, la ve convertida en mosaico de piezas 1×1 y ordena su kit con bases e instrucciones numeradas.
 
-Abre `index.html` en el navegador. No necesita servidor ni dependencias. Los textos entre corchetes, como [Tu dirección], son para que pongas tus datos.
+## Qué hace
 
-## Lo que ve el cliente
+- **Subir imagen** (botón o arrastrar y soltar) y encuadrarla arrastrando sobre la vista previa, con zoom, brillo, contraste, saturación y difuminado opcional.
+- **Tamaños** de 1 a 6 bases de 32×32 por lado (25.6 cm por base), con presets (1×1, 2×2, 3×3, 4×4, 2×3, 3×2, 3×4 y 4×3) o medidas personalizadas.
+- **Pieza redonda o cuadrada** (98138 / 3024). El inventario de cada una se lleva por separado.
+- **Solo usa los colores del catálogo.** La conversión compara colores con CIEDE2000, que se parece a cómo los percibe el ojo.
+- **Revisa el inventario en tiempo real.** Si un color no alcanza, sugiere el más parecido que sí tenga piezas suficientes. El cliente lo acepta con "Sí, sustituir" o pide "Otra opción". No se puede ordenar hasta resolverlo.
+- **Pedido**: piezas con repuesto (3 %, mínimo 2 por color), bases del color elegido, envío y total en MXN. Al confirmar se descarga `PXL-….json` con el diseño exacto y se abre WhatsApp con el resumen.
+- **Instrucciones imprimibles**: portada con el mapa de bases (A1, A2…), y una hoja por base con cada cuadrito numerado, coordenadas y líneas cada 8 piezas.
 
-- Tienda con barra de avisos, buscador, carrito, accesos rápidos, colección con filtros de categoría y precio, dudas frecuentes y pie de página.
-- **Diseños listos:** 7 mosaicos originales de 16 × 16 (corazón, nopal, atardecer, calaverita, taquito, gatito, arcoíris) en mini o cuadro, y tarjetas de regalo. Si no te alcanza un color del inventario, salen como agotados.
-- **Crea el tuyo:** sube su foto y ve cómo las piezas caen y encajan; elige estilo, tamaño (13 a 77 cm) y tipo de pieza.
-- **Carrito:** suma productos, calcula envío (gratis desde un monto que tú decides) y manda todo el pedido por WhatsApp.
-- **Instrucciones:** secciones de 16 × 16 con el número de color en cada cuadrito.
+## Inventario: `catalog.json`
 
-## Panel de la dueña
+Es lo único que necesitas editar día a día:
 
-Al final de la página, o en `index.html#duena`. Se guarda solo en el navegador donde lo uses.
+- `colores[].stock.redondo` / `.cuadrado`: las piezas que tienes. Ponlo en `0` y el color aparece como agotado.
+- `colores[].activo: false`: oculta un color.
+- `bases[]`: colores, precio y stock de las bases 32×32.
+- `tienda`: precio por pieza, envío, envío gratis desde cierto monto y **tu número de WhatsApp** (con lada, p. ej. `5215512345678`).
+- `proveedor`: tamaño y costo de cada lote, para calcular tu compra.
 
-- **Costos:** bolsa de 1,000 piezas, bases, impuesto de importación, tipo de cambio, empaque, envío nacional, margen y piezas extra. Calcula costo, precio y ganancia.
-- **Inventario por color:** los clientes solo ven colores con existencia. Si un diseño necesita más piezas de las que tienes, te propone el color más parecido que sí tienes, o recalcular sin ese color.
-- **Surtir pedido:** lista por color (y en gramos si calibras la báscula con 100 piezas), y botón para descontarlo del inventario.
-- **Para resurtir:** colores con menos de 300 piezas.
-- **Archivos:** plano completo, sección actual y vista previa en PNG.
+La página vuelve a leer `catalog.json` cada 60 s y cuando el cliente regresa a la pestaña. Si cambiaste el stock, el mosaico abierto se revisa de nuevo solo.
 
-## Colores
+> Hay una copia del catálogo dentro de `index.html` (`#catalogo-embebido`). Solo se usa si la página no puede leer `catalog.json`, por ejemplo al abrirla desde el disco. Después de editar el catálogo, actualízala.
 
-40 colores del catálogo Gobricks con sus equivalentes de BrickLink y Rebrickable. El color más parecido se elige con la fórmula CIEDE2000. Si tu proveedor usa otros colores, ajusta la lista `PAL` en `index.html`.
+## Modo tienda (`index.html?admin`)
 
-## Marca
+- Editar el inventario desde la página (se guarda en ese navegador) y **descargar el `catalog.json`** para subirlo al repo.
+- **Compra al proveedor**: los lotes por color que necesitas para el diseño actual, con su costo estimado, un enlace de búsqueda y la opción de exportarlo a CSV.
 
-No uses la palabra LEGO, su logo ni figuras tipo minifigura. Para describir las piezas usa "compatibles con las principales marcas de bloques".
+## Proveedor
+
+Lotes de piezas 1×1 compatibles (round tile 98138 / plate 3024) de vendedores MOC en AliExpress. Hay lotes de 500 a 1000 piezas por color, con decenas de colores y envío a México. Los precios del catálogo son estimados: cámbialos por lo que pagues de verdad.
+
+## Publicar
+
+Settings → Pages → *Deploy from branch* → `main` / root. No necesita servidor ni compilar nada.

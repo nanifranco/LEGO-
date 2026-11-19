@@ -2,900 +2,1003 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PIX·L · mosaicos de bloques con tu foto</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>PIX·L — Tu foto en mosaico de bloques</title>
+<meta name="description" content="Sube una foto y conviértela en un mosaico de bloques con instrucciones numeradas. Envíos a todo México.">
+<meta name="theme-color" content="#FBF5EA">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#FFFFFF; --soft:#F5F3EE; --line:#E6E2D9; --ink:#141414; --mut:#5d5a54;
-  --red:#C91A09; --yel:#F2CD37; --blue:#0055BF; --navy:#0A3463; --grn:#237841; --tq:#36AEBF;
-  --r:14px;
+  --bg:#FBF5EA; --ink:#1E1B18; --muted:#6B645C; --card:#FFFFFF; --soft:#F3EBDD;
+  --r:#FF4D2E; --y:#FFC72C; --b:#2D5BFF; --g:#1FA463;
+  --bd:2.5px solid var(--ink); --sh:4px 4px 0 var(--ink); --rad:14px;
+  font-family:'Bricolage Grotesque',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Rubik,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-h1,h2,h3{margin:0;line-height:1.05;letter-spacing:-.02em}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);line-height:1.4;
+  background-image:radial-gradient(circle at 1px 1px,#0000000d 1.6px,transparent 0);background-size:22px 22px}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{line-height:1.05;margin:0}
 a{color:inherit}
-button,input,select{font:inherit;color:inherit}
-:focus-visible{outline:3px solid var(--tq);outline-offset:2px}
-.wrap{max-width:1240px;margin:0 auto;padding:0 18px}
-.mut{color:var(--mut)}
-.hide{display:none!important}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+[hidden]{display:none!important}
 
-.notice{background:var(--yel);font-size:14px;font-weight:600;text-align:center;padding:8px 12px}
-.notice span+span::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ink);margin:0 12px;vertical-align:middle}
-@media(max-width:640px){.notice span:nth-child(n+2){display:none}}
+/* ---------- header ---------- */
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:16px;padding:12px clamp(14px,4vw,40px);
+  background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:var(--bd)}
+.logo{font-weight:800;font-size:28px;letter-spacing:-.02em;text-decoration:none;display:flex;align-items:center;gap:3px}
+.logo .stud{width:15px;height:15px;border-radius:50%;background:var(--r);border:2.5px solid var(--ink);box-shadow:inset -2px -2px 0 #0003;display:inline-block;transform:translateY(2px)}
+.pasos{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.pasos span{font-size:13px;font-weight:600;padding:5px 10px;border-radius:99px;border:2px solid var(--ink);background:var(--card);opacity:.45;transition:.25s}
+.pasos span.on{opacity:1;background:var(--y)}
+.admin-badge{font-size:12px;font-weight:800;background:var(--ink);color:var(--bg);padding:4px 10px;border-radius:99px}
 
-header.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
-.hrow{display:flex;align-items:center;gap:18px;padding:14px 0}
-.logo{display:inline-flex;align-items:center;font:900 30px Rubik;letter-spacing:-.03em;text-decoration:none;line-height:1;flex:none}
-.logo i{display:inline-block;width:.34em;height:.34em;border-radius:50%;background:var(--red);margin:0 .1em;box-shadow:inset -2px -2px 0 rgba(0,0,0,.25),inset 2px 2px 0 rgba(255,255,255,.45);transform:translateY(.02em)}
-.search{flex:1;display:flex;align-items:center;gap:8px;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:0 14px;max-width:520px}
-.search input{border:0;background:none;padding:10px 0;width:100%;outline:none}
-.search svg{flex:none}
-.hbtns{display:flex;align-items:center;gap:6px;margin-left:auto}
-.ibtn{position:relative;display:inline-grid;place-items:center;width:44px;height:44px;border-radius:12px;border:0;background:none;cursor:pointer}
-.ibtn:hover{background:var(--soft)}
-.badge{position:absolute;top:4px;right:2px;min-width:20px;height:20px;border-radius:999px;background:var(--red);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center;padding:0 5px}
-.badge.bump{animation:bump .4s}
-@keyframes bump{40%{transform:scale(1.35)}}
-nav.main{display:flex;gap:4px;padding:0 0 10px;overflow-x:auto;scrollbar-width:none}
-nav.main a{flex:none;text-decoration:none;font-weight:600;font-size:15px;padding:7px 12px;border-radius:9px}
-nav.main a:hover{background:var(--soft)}
-@media(max-width:700px){.search{display:none}}
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(20px,5vw,60px);align-items:center;
+  max-width:1200px;margin:0 auto;padding:clamp(30px,7vw,90px) clamp(16px,4vw,40px)}
+.hero h1{font-size:clamp(42px,7vw,88px);font-weight:800;letter-spacing:-.035em}
+.hero h1 em{font-style:normal;background:var(--y);padding:0 .12em;border-radius:8px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.hero p{font-size:clamp(17px,2vw,21px);color:var(--muted);max-width:34ch;margin:20px 0 28px}
+.hero .acciones{display:flex;gap:12px;flex-wrap:wrap}
+.hero .datos{display:flex;gap:22px;margin-top:32px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+.hero .datos b{display:block;font-size:22px;color:var(--ink)}
+.caida{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;padding:14px;background:#1E1E1E;border:var(--bd);border-radius:18px;box-shadow:8px 8px 0 var(--ink);aspect-ratio:1;max-width:440px;margin-left:auto}
+.caida i{border-radius:50%;aspect-ratio:1;box-shadow:inset -2px -3px 0 #0000003a,inset 2px 2px 0 #ffffff40;animation:cae 3.8s cubic-bezier(.3,1.4,.5,1) infinite both}
+@keyframes cae{0%{transform:translateY(-140%) scale(.6);opacity:0}12%{transform:none;opacity:1}82%{transform:none;opacity:1}100%{transform:translateY(30%) scale(.6);opacity:0}}
+.drop-zona{position:fixed;inset:0;z-index:50;background:#2D5BFFcc;display:grid;place-items:center;color:#fff;font-size:clamp(26px,5vw,48px);font-weight:800;pointer-events:none;opacity:0;transition:.2s}
+body.arrastrando .drop-zona{opacity:1}
 
-.quick{display:flex;gap:8px;overflow-x:auto;padding:16px 0 4px;scrollbar-width:none}
-.qchip{flex:none;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 14px 7px 8px;font-weight:600;font-size:14px;text-decoration:none;cursor:pointer}
-.qchip:hover{border-color:var(--ink)}
-.stud{display:inline-block;width:18px;height:18px;border-radius:50%;box-shadow:inset -2px -2px 0 rgba(0,0,0,.22),inset 2px 2px 0 rgba(255,255,255,.4);flex:none}
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;font-weight:800;font-size:16px;
+  padding:13px 20px;border-radius:12px;border:var(--bd);background:var(--r);color:#fff;box-shadow:var(--sh);transition:transform .12s,box-shadow .12s;text-decoration:none;user-select:none}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.btn.sec{background:var(--card);color:var(--ink)}
+.btn.azul{background:var(--b)}
+.btn.verde{background:var(--g)}
+.btn.chico{font-size:14px;padding:8px 12px;border-radius:10px;box-shadow:3px 3px 0 var(--ink)}
+.btn.ancho{width:100%}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:var(--sh)}
+.btn.grande{font-size:19px;padding:16px 26px}
+.chip{cursor:pointer;font-size:13px;font-weight:600;padding:6px 11px;border-radius:99px;border:2px solid var(--ink);background:var(--card)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:13px 22px;font-weight:700;font-size:16px;cursor:pointer;text-decoration:none;background:var(--ink);color:#fff;transition:transform .08s}
-.btn:active{transform:scale(.97)}
-.btn.red{background:var(--red)}
-.btn.yel{background:var(--yel);color:var(--ink)}
-.btn.ghost{background:var(--bg);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
-.btn.line{background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px #fff}
-.btn.sm{padding:9px 15px;font-size:14px}
-.btn.wide{width:100%}
-.btn.added{background:var(--grn)}
-.btn[disabled]{opacity:.45;cursor:not-allowed}
+/* ---------- app layout ---------- */
+.app{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:22px;max-width:1400px;margin:0 auto;padding:22px clamp(12px,3vw,32px) 60px;align-items:start}
+.card{background:var(--card);border:var(--bd);border-radius:var(--rad);box-shadow:var(--sh)}
+.vista{padding:14px;position:sticky;top:78px}
+.vista-barra{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.medidas{font-weight:800;font-size:18px}
+.medidas small{display:block;font-weight:400;font-size:13px;color:var(--muted)}
+.vista-acciones{display:flex;gap:6px;flex-wrap:wrap}
+.lienzo{position:relative;display:grid;place-items:center;background:var(--soft);border-radius:10px;padding:10px;min-height:300px;overflow:hidden;touch-action:none}
+#mosaico{display:block;border-radius:4px;box-shadow:0 10px 30px #0004;cursor:grab;max-width:100%}
+#mosaico.arrastrando{cursor:grabbing}
+.arrastra{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:600;background:#000a;color:#fff;padding:4px 10px;border-radius:99px;pointer-events:none;opacity:.85}
+.panel{display:flex;flex-direction:column;gap:16px}
+.bloque{padding:0}
+.bloque>summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:800;font-size:18px;display:flex;align-items:center;gap:8px}
+.bloque>summary::-webkit-details-marker{display:none}
+.bloque>summary::after{content:"＋";margin-left:auto;font-weight:600}
+.bloque[open]>summary::after{content:"－"}
+.bloque .cont{padding:0 16px 16px}
+.n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--y);border:2px solid var(--ink);font-size:13px}
+.etq{font-size:13px;font-weight:600;color:var(--muted);margin:12px 0 6px;display:block}
+.tamanos{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.tam{cursor:pointer;border:2px solid var(--ink);border-radius:10px;background:var(--card);padding:8px 4px;text-align:center;font-size:12px;line-height:1.2}
+.tam b{display:block;font-size:15px}
+.tam .forma{margin:0 auto 5px;background:var(--soft);border:1.5px solid var(--ink);border-radius:3px}
+.tam[aria-pressed="true"]{background:var(--y);box-shadow:2px 2px 0 var(--ink)}
+.personal{display:flex;gap:8px;align-items:center;margin-top:10px;font-size:14px}
+.personal input{width:56px;padding:6px;border:2px solid var(--ink);border-radius:8px;text-align:center}
+.seg{display:flex;border:2px solid var(--ink);border-radius:10px;overflow:hidden}
+.seg button{flex:1;padding:8px;border:0;background:var(--card);cursor:pointer;font-weight:600;font-size:14px}
+.seg button+button{border-left:2px solid var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.rango{display:grid;grid-template-columns:92px 1fr 34px;align-items:center;gap:8px;font-size:14px;margin:6px 0}
+.rango output{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+input[type=range]{accent-color:var(--r);width:100%}
+.check{display:flex;gap:8px;align-items:center;font-size:14px;margin-top:8px;cursor:pointer}
+.check input{width:18px;height:18px;accent-color:var(--r)}
 
-.hero{margin-top:14px;background:var(--navy);color:#fff;border-radius:22px;overflow:hidden;display:grid;align-items:center}
-@media(min-width:920px){.hero{grid-template-columns:1fr 1fr}}
-.hero .txt{padding:34px 26px}
-@media(min-width:920px){.hero .txt{padding:56px 52px}}
-.hero h1{font-size:clamp(42px,6vw,76px);font-weight:900;letter-spacing:-.04em}
-.hero h1 span{color:var(--yel)}
-.hero p{font-size:18px;color:#c9d6ec;max-width:36ch;margin:18px 0 26px}
-.hero .ctas{display:flex;flex-wrap:wrap;gap:10px}
-.hero .art{padding:0 22px 26px;display:grid;place-items:center}
-@media(min-width:920px){.hero .art{padding:40px 44px}}
-.base{background:#6C6E68;border-radius:14px;padding:12px;width:100%;max-width:470px;box-shadow:0 18px 40px rgba(0,0,0,.35)}
-.base canvas{display:block;width:100%;height:auto;border-radius:3px}
-.props{display:grid;gap:10px;margin:18px 0 0}
-@media(min-width:760px){.props{grid-template-columns:repeat(3,1fr)}}
-.prop{display:flex;gap:12px;align-items:center;background:var(--soft);border-radius:var(--r);padding:14px 16px;font-size:15px}
-.prop b{display:block}
-.prop .ico{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;flex:none}
+/* colors */
+.inv{font-size:12px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:6px}
+.inv .punto{width:8px;height:8px;border-radius:50%;background:var(--g);box-shadow:0 0 0 3px #1FA46333;animation:late 1.8s infinite}
+@keyframes late{50%{box-shadow:0 0 0 6px #1FA46311}}
+.alerta{border:2px solid var(--ink);border-radius:12px;padding:11px;margin-bottom:10px;background:#FFF4D6}
+.alerta.sin{background:#FFE3DD}
+.alerta p{margin:0 0 8px;font-size:14px}
+.par{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;margin-bottom:9px;flex-wrap:wrap}
+.par .flecha{font-size:18px}
+.parecido{font-size:12px;font-weight:600;padding:2px 7px;border-radius:99px;border:1.5px solid var(--ink);background:var(--card)}
+.alerta .btns{display:flex;gap:7px;flex-wrap:wrap}
+.sw{display:inline-block;width:20px;height:20px;border-radius:50%;border:2px solid var(--ink);flex:none;box-shadow:inset -2px -2px 0 #0002}
+.sw.sq{border-radius:5px}
+.subs{font-size:13px;margin:4px 0 10px;display:flex;flex-direction:column;gap:5px}
+.subs div{display:flex;align-items:center;gap:6px}
+.subs button{margin-left:auto;font-size:12px;border:0;background:none;text-decoration:underline;cursor:pointer;color:var(--muted)}
+.ok{font-size:14px;font-weight:600;color:var(--g);margin:0 0 10px}
+.paleta{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:6px}
+.pc{position:relative;aspect-ratio:1;border-radius:50%;border:2px solid var(--ink);cursor:pointer;padding:0;box-shadow:inset -3px -3px 0 #0002,inset 2px 2px 0 #fff4;display:grid;place-items:center;font-size:11px;font-weight:800}
+.pc.usado{outline:3px solid var(--ink);outline-offset:2px}
+.pc.fuera{opacity:.22}
+.pc.agotado::after{content:"";position:absolute;inset:40% -8%;background:var(--ink);transform:rotate(-45deg);height:2.5px}
+.leyenda-pal{font-size:12px;color:var(--muted);margin-top:10px}
+.admin-stock{display:grid;grid-template-columns:22px 1fr 82px;gap:6px 8px;align-items:center;font-size:13px;margin-top:12px;max-height:320px;overflow:auto;padding-right:4px}
+.admin-stock input{width:100%;padding:4px 6px;border:1.5px solid var(--ink);border-radius:6px;text-align:right}
 
-.sec{margin-top:64px;scroll-margin-top:120px}
-.sechead{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px;margin-bottom:18px}
-.sechead h2{font-size:clamp(30px,4vw,44px);font-weight:800}
-.sechead p{margin:6px 0 0;max-width:52ch}
-.crumbs{font-size:14px;color:var(--mut);margin-bottom:8px}
+/* order */
+.pedido .cont{padding-top:14px}
+.pedido h2{font-size:22px}
+.renglon{display:flex;justify-content:space-between;gap:10px;font-size:15px;padding:6px 0;border-bottom:1.5px dashed #0002}
+.renglon.total{font-size:22px;font-weight:800;border:0;padding-top:12px}
+.renglon small{color:var(--muted)}
+.bases-sel{display:flex;gap:8px;margin:6px 0 4px}
+.bases-sel button{cursor:pointer;display:flex;align-items:center;gap:6px;padding:6px 10px;border:2px solid var(--ink);border-radius:10px;background:var(--card);font-size:13px;font-weight:600}
+.bases-sel button[aria-pressed="true"]{background:var(--y)}
+.tabla{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+.tabla th{text-align:left;color:var(--muted);font-weight:600;padding:4px}
+.tabla td{padding:5px 4px;border-top:1px solid #0001}
+.tabla td.num{text-align:right;font-variant-numeric:tabular-nums}
+.mini{font-size:13px;color:var(--muted);margin:8px 0 0}
+.bloquea{font-size:13px;font-weight:600;color:var(--r);margin:10px 0 0}
+.acc-pedido{display:grid;gap:10px;margin-top:14px}
+details.sub>summary{cursor:pointer;font-weight:600;font-size:14px;margin-top:12px}
 
-.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px}
-.fchips{display:flex;flex-wrap:wrap;gap:8px}
-.fchip{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 14px;font-weight:600;font-size:14px;cursor:pointer}
-.fchip[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
-.sort{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600}
-.sort select{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg)}
-.grid{display:grid;gap:18px;grid-template-columns:repeat(2,minmax(0,1fr))}
-@media(min-width:760px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(min-width:1060px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.pcard{display:flex;flex-direction:column;gap:8px}
-.pimg{position:relative;background:var(--soft);border-radius:var(--r);aspect-ratio:1;display:grid;place-items:center;overflow:hidden}
-.pimg canvas{width:72%;height:auto;border-radius:3px;box-shadow:0 8px 18px rgba(0,0,0,.18);transition:transform .25s}
-.pcard:hover .pimg canvas{transform:rotate(-2deg) scale(1.03)}
-.tag{position:absolute;top:10px;left:10px;background:var(--red);color:#fff;font-size:12px;font-weight:700;border-radius:999px;padding:3px 9px}
-.tag.out{background:var(--ink)}
-.pcard h3{font-size:16px;font-weight:600;letter-spacing:0}
-.price{font-weight:800;font-size:17px}
-.vpills{display:flex;flex-wrap:wrap;gap:6px}
-.vpill{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:4px 9px;font-size:13px;font-weight:600;cursor:pointer}
-.vpill[aria-pressed=true]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
-.empty{grid-column:1/-1;text-align:center;padding:40px 10px;background:var(--soft);border-radius:var(--r);display:grid;gap:10px;justify-items:center}
-.empty p{margin:0}
-.gift{width:72%;aspect-ratio:1.6;border-radius:12px;display:flex;flex-direction:column;justify-content:space-between;padding:12px 14px;color:#fff;box-shadow:0 8px 18px rgba(0,0,0,.18);
-  background-image:radial-gradient(circle at 12px 12px,rgba(255,255,255,.22) 6px,transparent 7px);background-size:24px 24px}
-.gift b{font:900 24px Rubik;letter-spacing:-.03em}
-.gift small{font-weight:700;font-size:12px}
+/* dialogs */
+dialog{border:var(--bd);border-radius:18px;box-shadow:8px 8px 0 var(--ink);padding:0;max-width:min(560px,94vw);width:100%;background:var(--card)}
+dialog::backdrop{background:#1E1B18aa}
+.dlg{padding:22px}
+.dlg h2{font-size:26px;margin-bottom:6px}
+.dlg p{color:var(--muted);margin:0 0 14px}
+.campos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.campos label{display:flex;flex-direction:column;font-size:13px;font-weight:600;gap:4px}
+.campos label.full{grid-column:1/-1}
+.campos input,.campos textarea,.campos select{padding:10px;border:2px solid var(--ink);border-radius:10px;font-size:16px;background:#fff}
+.dlg .pie{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+.resumen-dlg{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:14px;margin-bottom:14px}
 
-.creator{display:grid;gap:22px}
-@media(min-width:960px){.creator{grid-template-columns:1.05fr 1fr}}
-.cbox{background:var(--soft);border-radius:20px;padding:18px;position:relative}
-@media(min-width:960px){.cbox{padding:26px;position:sticky;top:130px;align-self:start}}
-.cbox .base{max-width:none;box-shadow:none}
-.peek{position:absolute;left:30px;top:30px;background:#fff;border-radius:999px;padding:6px 12px;font-weight:600;font-size:13px;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none;box-shadow:0 2px 8px rgba(0,0,0,.2)}
-.upl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
-.panel h3{font-size:16px;font-weight:700;margin:22px 0 10px;letter-spacing:0}
-.panel h3:first-child{margin-top:0}
-.optgrid{display:grid;gap:8px}
-.optgrid.st{grid-template-columns:repeat(auto-fill,minmax(112px,1fr))}
-.optgrid.sz{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
-.opt{border:1.5px solid var(--line);border-radius:12px;background:var(--bg);padding:10px 12px;cursor:pointer;text-align:left;display:grid;gap:1px}
-.opt:hover{border-color:#bdb6a8}
-.opt[aria-pressed=true]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
-.opt .sw{display:flex;gap:3px;margin-bottom:6px}
-.opt .sw i{flex:1;height:14px;border-radius:3px;border:1px solid rgba(0,0,0,.12)}
-.opt strong{font-size:15px;font-weight:600}
-.opt small{font-size:13px;color:var(--mut)}
-.opt em{font-style:normal;font-weight:800;margin-top:3px}
-.seg{display:flex;flex-wrap:wrap;gap:8px}
-.seg button{border:1.5px solid var(--line);border-radius:999px;background:var(--bg);padding:8px 14px;font-weight:600;font-size:14px;cursor:pointer}
-.seg button[aria-pressed=true]{border-color:var(--ink);background:var(--ink);color:#fff}
-details.more{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
-details.more summary{cursor:pointer;font-weight:700}
-.tweak{display:grid;gap:12px;margin-top:12px}
-.tweak label{display:grid;gap:4px;font-size:14px;font-weight:600}
-input[type=range]{width:100%;accent-color:var(--red)}
-.sumbox{margin-top:22px;border-top:1px solid var(--line);padding-top:18px}
-.bigprice{font:900 44px Rubik;letter-spacing:-.03em;line-height:1;margin-top:4px}
-.facts{display:flex;flex-wrap:wrap;gap:8px 18px;margin:12px 0;font-size:14px;color:var(--mut)}
-.facts b{color:var(--ink)}
-.chips{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 14px}
-.chip{display:inline-flex;align-items:center;gap:5px;background:var(--soft);border-radius:999px;padding:2px 9px 2px 3px;font-size:12px;font-weight:600}
-.chip i{width:15px;height:15px;border-radius:50%;border:1px solid rgba(0,0,0,.15)}
-.cta2{display:grid;gap:8px;grid-template-columns:1fr 1fr}
+/* toast */
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);opacity:0;visibility:hidden;background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:12px;font-weight:600;z-index:90;transition:.3s cubic-bezier(.3,1.4,.5,1);max-width:90vw}
+#toast.on{transform:translate(-50%,0);opacity:1;visibility:visible}
 
-.how{display:grid;gap:14px}
-@media(min-width:820px){.how{grid-template-columns:repeat(4,1fr)}}
-.hw{background:var(--soft);border-radius:var(--r);padding:20px}
-.hw .n{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:800;margin-bottom:12px}
-.hw h3{font-size:18px;font-weight:700;letter-spacing:0;margin-bottom:6px}
-.hw p{margin:0;color:var(--mut);font-size:15px}
-.guide{display:grid;gap:20px;background:var(--soft);border-radius:20px;padding:18px}
-@media(min-width:920px){.guide{grid-template-columns:1.1fr 1fr;padding:26px}}
-.guide canvas{width:100%;height:auto;border-radius:10px;display:block;background:#fff}
-.secgrid{display:grid;gap:5px;margin-top:10px}
-.secbtn{border:1.5px solid var(--line);background:#fff;border-radius:8px;padding:7px 0;font-weight:700;font-size:13px;cursor:pointer}
-.secbtn.ok{background:#d9f0df}
-.secbtn[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
-.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:10px}
-.lg{display:flex;align-items:center;gap:8px;font-size:14px;padding:5px 8px;border-radius:8px;background:#fff}
-.lg .k{font-weight:800;font-size:13px;min-width:26px;text-align:center;border-radius:5px;padding:2px 3px;border:1px solid rgba(0,0,0,.15)}
-.lg .q{margin-left:auto;font-weight:700}
-.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.faq{display:grid;gap:10px;max-width:860px}
-.faq details{background:var(--soft);border-radius:12px;padding:14px 18px}
-.faq summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:10px}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";font-size:22px;line-height:1}
-.faq details[open] summary::after{content:"–"}
-.faq p{margin:10px 0 0;color:var(--mut)}
+/* instructions */
+.instrucciones{position:fixed;inset:0;z-index:60;background:var(--bg);overflow:auto}
+.instr-barra{position:sticky;top:0;display:flex;align-items:center;gap:10px;padding:12px 20px;background:var(--bg);border-bottom:var(--bd);z-index:2}
+.instr-barra h2{font-size:20px;margin-right:auto}
+.pagina{max-width:860px;margin:24px auto;background:#fff;border:var(--bd);border-radius:14px;padding:28px}
+.pagina h2{font-size:30px}
+.pagina h3{font-size:26px;display:flex;align-items:baseline;gap:12px}
+.pagina h3 small{font-size:14px;font-weight:400;color:var(--muted)}
+.pagina canvas{width:100%;height:auto;display:block;margin:14px 0}
+.mapa{display:grid;gap:4px;margin:14px 0;max-width:420px}
+.mapa div{aspect-ratio:1;border:2px solid var(--ink);border-radius:6px;display:grid;place-items:center;font-weight:800;background:var(--soft)}
+.leyenda{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 14px;font-size:14px}
+.leyenda div{display:flex;align-items:center;gap:7px}
+.leyenda .num{display:inline-grid;place-items:center;min-width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);font-weight:800;font-size:12px}
+.leyenda .cant{margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums}
+.pasos-armado{padding-left:20px}
+.pasos-armado li{margin:6px 0}
 
-.scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:50;opacity:0;pointer-events:none;transition:.2s}
-.scrim.on{opacity:1;pointer-events:auto}
-.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100vw);background:#fff;z-index:51;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;visibility:hidden}
-.drawer.on{transform:none;visibility:visible}
-.dhead{display:flex;align-items:center;justify-content:space-between;padding:18px;border-bottom:1px solid var(--line)}
-.dhead h2{font-size:22px}
-.ditems{flex:1;overflow:auto;padding:12px 18px;display:grid;gap:12px;align-content:start}
-.ditem{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center}
-.ditem .thumb{width:64px;height:64px;border-radius:10px;background:var(--soft);display:grid;place-items:center;overflow:hidden}
-.ditem .thumb canvas{width:48px;height:auto}
-.ditem b{font-weight:600;font-size:15px;display:block}
-.ditem small{color:var(--mut);font-size:13px}
-.qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;margin-top:6px}
-.qty button{border:0;background:none;width:30px;height:30px;cursor:pointer;font-weight:700}
-.qty span{min-width:22px;text-align:center;font-weight:600;font-size:14px}
-.dfoot{border-top:1px solid var(--line);padding:16px 18px;display:grid;gap:10px}
-.dl{display:flex;justify-content:space-between;font-size:15px}
-.dl.t{font-weight:800;font-size:19px}
-.freebar{height:8px;background:var(--soft);border-radius:999px;overflow:hidden}
-.freebar i{display:block;height:100%;background:var(--grn);border-radius:999px;transition:width .3s}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 16px 40px}
 
-footer.ft{margin-top:80px;background:var(--ink);color:#e9e6df}
-.ftgrid{display:grid;gap:28px;padding:44px 0 26px}
-@media(min-width:860px){.ftgrid{grid-template-columns:1.4fr 1fr 1fr 1fr}}
-.ft .logo{color:#fff;font-size:34px}
-.ft p{margin:10px 0 0;color:#bdb8ae;font-size:15px}
-.ft h4{margin:0 0 10px;font-size:15px}
-.ft ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:15px}
-.ft a,.ft .lnk{color:#e9e6df;text-decoration:none;background:none;border:0;padding:0;cursor:pointer;font-size:15px;text-align:left}
-.ft a:hover,.ft .lnk:hover{text-decoration:underline}
-.legal{border-top:1px solid #333;padding:18px 0 28px;font-size:13px;color:#a8a399}
+@media (max-width:960px){
+  .app{grid-template-columns:1fr}
+  .vista{position:static}
+  .hero{grid-template-columns:1fr}
+  .caida{max-width:320px;margin:0 auto}
+  .pasos{display:none}
+}
+@media (max-width:480px){.tamanos{grid-template-columns:repeat(4,1fr)} .campos{grid-template-columns:1fr}}
 
-.owner{background:var(--navy);color:#fff;border-radius:20px;padding:22px}
-@media(min-width:920px){.owner{padding:30px}}
-.owner h2{font-size:34px}
-.owner .mut{color:#c3cfe4}
-.ogrid{display:grid;gap:16px;margin-top:18px}
-@media(min-width:920px){.ogrid{grid-template-columns:1fr 1fr}}
-.ocard{background:#123f73;border-radius:12px;padding:16px;min-width:0}
-.ocard.full{grid-column:1/-1}
-.ocard h3{font-size:18px;font-weight:700;letter-spacing:0;margin-bottom:10px}
-.field{display:grid;gap:4px;font-size:13px;font-weight:600;color:#d4ddee}
-.field input{background:#fff;color:var(--ink);border:0;border-radius:7px;padding:8px 10px;min-width:0;width:100%}
-.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.otable{width:100%;border-collapse:collapse;font-size:14px}
-.otable td,.otable th{padding:6px 4px;border-bottom:1px solid #2a5690;text-align:left}
-.otable th{font-size:12px;color:#c3cfe4;font-weight:600}
-.otable .n{text-align:right;font-variant-numeric:tabular-nums}
-.otable tr.t td{font-weight:700;border-bottom:0;padding-top:10px}
-.otable tr.short td{color:var(--yel)}
-.profit{font:900 34px Rubik}
-.inv{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px;margin-top:10px}
-.iv{display:grid;grid-template-columns:22px 1fr 82px;align-items:center;gap:8px;background:#0d3768;border:1px solid #2a5690;border-radius:8px;padding:6px 8px;font-size:13px}
-.iv i{width:22px;height:22px;border-radius:5px;border:1px solid rgba(255,255,255,.35)}
-.iv span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.iv span small{display:block;color:#c3cfe4;font-size:11px}
-.iv input{width:100%;border:0;border-radius:6px;padding:5px 6px;color:var(--ink);text-align:right}
-.iv.short{border-color:var(--yel)}
-.iv.zero{opacity:.55}
-.alert{background:var(--yel);color:var(--ink);border-radius:10px;padding:14px;margin-top:12px}
-.alert h3{font-size:16px;margin-bottom:4px}
-.subopts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.subopt{display:flex;align-items:center;gap:6px;border:1.5px solid var(--ink);background:#fff;color:var(--ink);border-radius:8px;padding:6px 10px;cursor:pointer;font-weight:600;font-size:13px}
-.subopt i{width:16px;height:16px;border-radius:4px}
-.subopt em{font-style:normal;font-weight:500;color:var(--mut)}
-.done{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:#0d3768;border-radius:8px;padding:8px 10px;margin-top:8px;font-size:14px}
-.done i{width:16px;height:16px;border-radius:4px;display:inline-block;vertical-align:middle}
-
-.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:11px 16px;border-radius:12px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:.2s;z-index:60;max-width:90vw}
-.toast.on{opacity:1;transform:translateX(-50%)}
-.rain{position:fixed;inset:0;pointer-events:none;z-index:55;overflow:hidden}
-.rain i{position:absolute;top:-30px;width:22px;height:14px;border-radius:3px;box-shadow:inset -2px -2px 0 rgba(0,0,0,.2);animation:fall 1.4s cubic-bezier(.4,.1,.7,1) forwards}
-.rain i::before,.rain i::after{content:"";position:absolute;top:-5px;width:7px;height:5px;background:inherit;border-radius:2px 2px 0 0}
-.rain i::before{left:3px}.rain i::after{right:3px}
-@keyframes fall{to{transform:translateY(110vh) rotate(var(--r))}}
-.fly{position:fixed;z-index:56;width:18px;height:12px;border-radius:3px;pointer-events:none;transition:transform .6s cubic-bezier(.5,-.3,.6,1),opacity .6s}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{
+  @page{size:letter;margin:10mm}
+  body{background:#fff}
+  body>*:not(#instrucciones){display:none!important}
+  .instrucciones{position:static;overflow:visible}
+  .instr-barra{display:none}
+  .pagina{border:0;margin:0;padding:0;max-width:none;break-after:page}
+  .pagina:last-child{break-after:auto}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<div class="notice"><span>Envío gratis desde <b id="nFree">$1,499</b></span><span>Piezas extra en cada pedido</span><span>Armado y enviado desde México</span></div>
+<div class="drop-zona">Suelta tu imagen aquí</div>
+
 <header class="top">
-  <div class="wrap">
-    <div class="hrow">
-      <a class="logo" href="#inicio" aria-label="PIX·L, inicio">PIX<i aria-hidden="true"></i>L</a>
-      <form class="search" id="searchForm" role="search">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <label class="sr" for="q">Buscar diseños</label>
-        <input id="q" type="search" placeholder="Busca un diseño: gato, nopal, corazón…">
-      </form>
-      <div class="hbtns">
-        <button class="ibtn" id="cartBtn" type="button" aria-label="Abrir carrito">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14l-1.5 11a2 2 0 0 1-2 1.7H8.5a2 2 0 0 1-2-1.7z"/><path d="M9 7V5.5a3 3 0 0 1 6 0V7"/></svg>
-          <span class="badge hide" id="cartCount">0</span>
-        </button>
-      </div>
-    </div>
-    <nav class="main" aria-label="Principal">
-      <a href="#crea">Crea el tuyo</a><a href="#disenos">Diseños listos</a><a href="#disenos" data-filter="regalo">Regalos</a><a href="#como">Cómo funciona</a><a href="#dudas">Dudas frecuentes</a>
-    </nav>
-  </div>
+  <a class="logo" href="./" aria-label="PIX·L inicio">PIX<span class="stud"></span>L</a>
+  <nav class="pasos" aria-label="Pasos">
+    <span data-paso="1" class="on">1 · Sube</span>
+    <span data-paso="2">2 · Ajusta</span>
+    <span data-paso="3">3 · Colores</span>
+    <span data-paso="4">4 · Ordena</span>
+  </nav>
+  <span class="admin-badge" id="admin-badge" hidden>Modo tienda</span>
 </header>
 
-<main class="wrap" id="inicio">
-  <div class="quick" id="quick"></div>
-
-  <section class="hero">
-    <div class="txt">
-      <h1>Tu foto, hecha de <span>bloques.</span></h1>
-      <p>Mosaicos para armar con tus fotos, tu mascota o tu persona favorita. Te llegan las piezas a casa con instrucciones numeradas.</p>
-      <div class="ctas"><a class="btn yel" href="#crea">Crear con mi foto</a><a class="btn line" href="#disenos">Ver diseños listos</a></div>
+<section class="hero" id="hero">
+  <div>
+    <h1>Tu foto, <em>pieza por pieza.</em></h1>
+    <p>Sube una imagen, elige el tamaño y te armamos un mosaico de bloques con instrucciones numeradas. Te llega todo a casa, en cualquier parte de México.</p>
+    <div class="acciones">
+      <label class="btn grande" for="archivo">Subir imagen</label>
+      <button class="btn sec grande" id="ejemplo" type="button">Ver un ejemplo</button>
     </div>
-    <div class="art"><div class="base"><canvas id="cvHero" width="10" height="10" aria-label="Mosaico de ejemplo armándose"></canvas></div></div>
-  </section>
-
-  <div class="props">
-    <div class="prop"><span class="ico" style="background:#fde9e6"><span class="stud" style="background:var(--red)"></span></span><div><b>Piezas de sobra</b><span class="mut">Te mandamos extras de cada color</span></div></div>
-    <div class="prop"><span class="ico" style="background:#fdf4d2"><span class="stud" style="background:var(--yel)"></span></span><div><b>Instrucciones numeradas</b><span class="mut">Por secciones, cuadrito por cuadrito</span></div></div>
-    <div class="prop"><span class="ico" style="background:#e3edfb"><span class="stud" style="background:var(--blue)"></span></span><div><b>Envío a todo México</b><span class="mut">Sale de nuestro taller en días</span></div></div>
+    <div class="datos">
+      <div><b id="dato-colores">—</b>colores en inventario</div>
+      <div><b>25.6 cm</b>por cada base 32×32</div>
+      <div><b>1 a 6</b>bases por lado</div>
+    </div>
   </div>
+  <div aria-hidden="true"><div class="caida" id="caida"></div></div>
+</section>
+<input type="file" id="archivo" accept="image/*" hidden>
 
-  <section class="sec" id="crea">
-    <div class="crumbs">Inicio › Crea el tuyo</div>
-    <div class="sechead"><div><h2>Mosaico con tu foto</h2><p class="mut">Sube tu foto y mira tu mosaico al instante. Cambia estilo y tamaño, y el precio se actualiza solo.</p></div></div>
-    <div class="creator">
-      <div class="cbox">
-        <div class="base"><canvas id="cvMain" width="10" height="10" aria-label="Vista previa de tu mosaico"></canvas></div>
-        <span class="peek hide" id="peek">Mantén presionado para ver tu foto</span>
-        <div class="upl">
-          <button class="btn red" id="upBtn" type="button">Subir mi foto</button>
-          <input type="file" id="file" accept="image/*" class="hide">
-          <span class="mut" style="font-size:14px">Tu foto se procesa en tu dispositivo.</span>
+<main class="app" id="app" hidden>
+  <section class="vista card" aria-label="Vista previa">
+    <div class="vista-barra">
+      <div class="medidas" id="medidas"></div>
+      <div class="vista-acciones">
+        <button class="chip" id="btn-original" type="button" aria-pressed="false">Ver original</button>
+        <button class="chip" id="btn-lineas" type="button" aria-pressed="true">Divisiones</button>
+        <label class="chip" for="archivo">Cambiar foto</label>
+      </div>
+    </div>
+    <div class="lienzo" id="lienzo">
+      <canvas id="mosaico" aria-label="Vista previa del mosaico"></canvas>
+      <div class="arrastra" id="hint">Arrastra para encuadrar</div>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <details class="card bloque" open id="b-tamano">
+      <summary><span class="n">1</span> Tamaño y pieza</summary>
+      <div class="cont">
+        <span class="etq">Bases de 32×32 (ancho × alto)</span>
+        <div class="tamanos" id="tamanos"></div>
+        <div class="personal">Personalizado:
+          <input type="number" id="pw" min="1" max="6" value="2" aria-label="Bases a lo ancho"> ×
+          <input type="number" id="ph" min="1" max="6" value="2" aria-label="Bases a lo alto">
+        </div>
+        <span class="etq">Tipo de pieza</span>
+        <div class="seg" id="pieza">
+          <button type="button" data-v="redondo" aria-pressed="true">● Redonda 1×1</button>
+          <button type="button" data-v="cuadrado" aria-pressed="false">■ Cuadrada 1×1</button>
         </div>
       </div>
-      <div class="panel">
-        <h3>Estilo</h3>
-        <div class="optgrid st" id="styles"></div>
-        <h3>Tamaño</h3>
-        <div class="optgrid sz" id="sizes"></div>
-        <h3>Piezas</h3>
-        <div class="seg" id="finish">
-          <button type="button" data-p="3024">Con botón</button>
-          <button type="button" data-p="98138">Redondas lisas</button>
-          <button type="button" data-p="3070b">Cuadradas lisas</button>
-        </div>
-        <details class="more">
-          <summary>Ajustar encuadre y color</summary>
-          <div class="tweak">
-            <label>Acercar<input type="range" id="zoom" min="1" max="3" step="0.05" value="1"></label>
-            <label>Mover a los lados<input type="range" id="cropX" min="0" max="1" step="0.01" value="0.5"></label>
-            <label>Mover arriba y abajo<input type="range" id="cropY" min="0" max="1" step="0.01" value="0.5"></label>
-            <label>Brillo<input type="range" id="bri" min="-60" max="60" value="0"></label>
-            <label>Contraste<input type="range" id="con" min="-60" max="60" value="0"></label>
-            <label>Intensidad del color<input type="range" id="sat" min="0" max="200" value="110"></label>
-            <label style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" id="dither"> Más detalle (mezcla colores por puntos)</label>
+    </details>
+
+    <details class="card bloque" id="b-ajustes">
+      <summary><span class="n">2</span> Encuadre y ajustes</summary>
+      <div class="cont">
+        <div class="rango"><label for="zoom">Zoom</label><input type="range" id="zoom" min="1" max="4" step="0.01" value="1"><output id="o-zoom">1×</output></div>
+        <div class="rango"><label for="brillo">Brillo</label><input type="range" id="brillo" min="-50" max="50" value="0"><output id="o-brillo">0</output></div>
+        <div class="rango"><label for="contraste">Contraste</label><input type="range" id="contraste" min="-50" max="50" value="0"><output id="o-contraste">0</output></div>
+        <div class="rango"><label for="saturacion">Saturación</label><input type="range" id="saturacion" min="-50" max="50" value="0"><output id="o-saturacion">0</output></div>
+        <label class="check"><input type="checkbox" id="dither"> Difuminado (más detalle, más mezcla de colores)</label>
+        <button class="btn sec chico" id="reset" type="button" style="margin-top:12px">Restablecer</button>
+      </div>
+    </details>
+
+    <details class="card bloque" open id="b-colores">
+      <summary><span class="n">3</span> Colores <span class="inv" id="estado-inv"></span></summary>
+      <div class="cont">
+        <div id="alertas"></div>
+        <div class="subs" id="subs"></div>
+        <div class="paleta" id="paleta"></div>
+        <p class="leyenda-pal">Toca un color para quitarlo o volver a usarlo. Los marcados con contorno están en tu mosaico; los tachados están agotados.</p>
+        <div id="admin-inv" hidden>
+          <span class="etq">Inventario (piezas · <span id="admin-pieza"></span>)</span>
+          <div class="admin-stock" id="admin-stock"></div>
+          <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+            <button class="btn sec chico" id="exportar-cat" type="button">Descargar catalog.json</button>
+            <button class="btn sec chico" id="reset-cat" type="button">Volver al publicado</button>
           </div>
-        </details>
-        <div class="sumbox" aria-live="polite">
-          <div class="mut" id="sumTitle" style="font-size:14px"></div>
-          <div class="bigprice" id="price">$0</div>
-          <div class="facts"><span><b id="fPieces">0</b> piezas</span><span><b id="fColors">0</b> colores</span><span><b id="fBases">0</b> <span id="fBasesL">base</span></span><span>≈ <b id="fTime">0 h</b> de armado</span></div>
-          <div class="chips" id="chips"></div>
-          <div class="cta2">
-            <button class="btn" id="addCustom" type="button">Añadir al carrito</button>
-            <button class="btn ghost" id="buyNow" type="button">Pedir ahora</button>
-          </div>
-          <div class="mut" id="orderCode" style="font-size:13px;margin-top:10px"></div>
         </div>
       </div>
-    </div>
-  </section>
+    </details>
 
-  <section class="sec" id="disenos">
-    <div class="crumbs">Inicio › Diseños listos</div>
-    <div class="sechead"><div><h2>Diseños listos</h2><p class="mut">Mosaicos originales para regalar o para tu cuarto. En mini (13 cm) o cuadro (26 cm).</p></div></div>
-    <div class="filters">
-      <div class="fchips" id="cats"></div>
-      <label class="sort">Ordenar<select id="sort"><option value="feat">Destacados</option><option value="lo">Precio: menor a mayor</option><option value="hi">Precio: mayor a menor</option><option value="az">Nombre: A–Z</option></select></label>
-    </div>
-    <div class="fchips" id="pricef" style="margin:-6px 0 18px"></div>
-    <div class="grid" id="grid"></div>
-  </section>
-
-  <section class="sec" id="como">
-    <div class="sechead"><h2>Cómo funciona</h2></div>
-    <div class="how">
-      <div class="hw"><div class="n" style="background:var(--red)">1</div><h3>Elige o crea</h3><p>Un diseño listo o tu propia foto. Sale mejor una cara o una mascota de cerca.</p></div>
-      <div class="hw"><div class="n" style="background:#a8820a">2</div><h3>Pide por WhatsApp</h3><p>Tu carrito se convierte en un mensaje. Confirmamos tu diseño y forma de pago.</p></div>
-      <div class="hw"><div class="n" style="background:var(--blue)">3</div><h3>Te lo mandamos</h3><p>Piezas separadas por color, base e instrucciones, desde nuestro taller.</p></div>
-      <div class="hw"><div class="n" style="background:var(--grn)">4</div><h3>Ármalo</h3><p>Secciones de 16 × 16, unos 45 minutos cada una. Sin pegamento.</p></div>
-    </div>
-  </section>
-
-  <section class="sec" id="instrucciones">
-    <div class="sechead"><div><h2>Así son tus instrucciones</h2><p class="mut">Cada cuadrito lleva el número de su color. Arma una fila a la vez, de izquierda a derecha.</p></div></div>
-    <div class="guide">
-      <div>
-        <div class="row" style="justify-content:space-between;margin-bottom:10px">
-          <div><strong id="secTitle" style="font-size:22px;font-weight:800"></strong> <span class="mut" id="secSub"></span></div>
-          <div class="row"><button class="btn ghost sm" id="secPrev" type="button" aria-label="Sección anterior">‹</button><button class="btn ghost sm" id="secNext" type="button" aria-label="Sección siguiente">›</button></div>
+    <section class="card bloque pedido" id="b-pedido" aria-label="Pedido">
+      <div class="cont">
+        <h2><span class="n">4</span> Tu kit</h2>
+        <div id="resumen"></div>
+        <span class="etq">Bases 32×32</span>
+        <label class="check"><input type="checkbox" id="con-bases" checked> Incluir <span id="n-bases"></span> bases</label>
+        <div class="bases-sel" id="bases-sel"></div>
+        <div id="totales"></div>
+        <p class="bloquea" id="bloquea" hidden></p>
+        <div class="acc-pedido">
+          <button class="btn ancho grande" id="ordenar" type="button">Ordenar mi mosaico</button>
+          <button class="btn sec ancho" id="ver-instr" type="button">Ver instrucciones de armado</button>
         </div>
-        <canvas id="cvSection" width="10" height="10"></canvas>
-        <label class="row" style="margin-top:12px;font-weight:600;gap:8px"><input type="checkbox" id="secDone"> Ya terminé esta sección</label>
+        <details class="sub"><summary>Lista de piezas</summary><div id="lista"></div></details>
+        <details class="sub" id="proveedor" hidden><summary>Compra al proveedor (solo tienda)</summary><div id="lista-prov"></div></details>
       </div>
-      <div>
-        <div class="mut" style="font-weight:600">Elige una sección</div>
-        <div class="secgrid" id="secGrid"></div>
-        <h3 style="font-size:18px;margin-top:18px;letter-spacing:0">Piezas de esta sección</h3>
-        <div class="legend" id="secLegend"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec" id="dudas">
-    <div class="sechead"><h2>Dudas frecuentes</h2></div>
-    <div class="faq">
-      <details><summary>¿Las piezas son LEGO?</summary><p>No. Son piezas de plástico compatibles con las principales marcas de bloques. PIX·L es una marca independiente y no está afiliada a ninguna empresa de juguetes.</p></details>
-      <details><summary>¿Qué foto funciona mejor?</summary><p>Una con buena luz, donde la cara o la mascota se vea de cerca y el fondo sea sencillo. Puedes acercar y mover el encuadre antes de pedir.</p></details>
-      <details><summary>¿Puedo ver mi diseño antes de pagar?</summary><p>Sí. Lo que ves en la vista previa es tu mosaico pieza por pieza, y antes de enviarlo lo revisamos contigo por WhatsApp.</p></details>
-      <details><summary>¿Cuánto tarda en llegar?</summary><p>Lo preparamos en unos días y lo mandamos por paquetería a todo México. Te compartimos tu número de guía.</p></details>
-      <details><summary>¿Cómo pago?</summary><p>Al confirmar tu pedido por WhatsApp te damos las formas de pago disponibles.</p></details>
-      <details><summary>¿Y si me falta una pieza?</summary><p>Cada pedido trae piezas extra de cada color. Si aun así te falta alguna, escríbenos y te la mandamos.</p></details>
-      <details><summary>¿Necesita pegamento o marco?</summary><p>No. Las piezas se quedan fijas en la base. Si lo quieres colgar, una base de 32 × 32 cabe en muchos marcos de 26 cm.</p></details>
-    </div>
-  </section>
-
-  <section class="sec owner hide" id="duena" aria-label="Panel de la dueña">
-    <div class="row" style="justify-content:space-between"><h2>Panel de la dueña</h2><button class="btn yel sm" id="closeOwner" type="button">Cerrar panel</button></div>
-    <p class="mut" style="margin:10px 0 0;max-width:72ch">Tus clientes no ven esto. Se guarda solo en este dispositivo: costos, precios, inventario y surtido del diseño con foto que está en pantalla.</p>
-    <div class="ogrid">
-      <div class="ocard">
-        <h3>Costos y precios</h3>
-        <div class="fgrid">
-          <label class="field">US$ por bolsa de 1,000 piezas<input type="number" id="oBag" step="0.1" min="0"></label>
-          <label class="field">US$ base 32×32<input type="number" id="oBase32" step="0.1" min="0"></label>
-          <label class="field">US$ placa 16×16<input type="number" id="oBase16" step="0.1" min="0"></label>
-          <label class="field">Impuesto de importación %<input type="number" id="oTax" step="0.5" min="0"></label>
-          <label class="field">Pesos por dólar<input type="number" id="oFx" step="0.1" min="1"></label>
-          <label class="field">Empaque por pedido (MXN)<input type="number" id="oPack" step="5" min="0"></label>
-          <label class="field">Tu margen %<input type="number" id="oMargin" step="5" min="0"></label>
-          <label class="field">Piezas extra %<input type="number" id="oSpare" step="1" min="0"></label>
-          <label class="field">Envío que cobras (MXN)<input type="number" id="oShipFee" step="5" min="0"></label>
-          <label class="field">Envío gratis desde (MXN)<input type="number" id="oFree" step="50" min="0"></label>
-          <label class="field">Gramos por 100 piezas<input type="number" id="oGrams" step="0.1" min="0" placeholder="pésalas una vez"></label>
-          <label class="field">Tu WhatsApp (con lada)<input type="tel" id="oWa" placeholder="5215512345678"></label>
-        </div>
-        <p class="mut" style="font-size:13px;margin:12px 0 0">Valores iniciales de referencia: bolsa de 1,000 piezas 1×1 en AliExpress, 33.5% de impuesto a paquetes desde China y base 32×32 compatible. Cámbialos por lo que pagues.</p>
-      </div>
-      <div class="ocard">
-        <h3>Diseño con foto en pantalla</h3>
-        <table class="otable" id="oTable"></table>
-        <div class="row" style="justify-content:space-between;margin-top:12px"><span class="mut">Tu ganancia</span><span class="profit" id="oProfit"></span></div>
-      </div>
-      <div class="ocard full">
-        <h3>Inventario por color</h3>
-        <p class="mut" style="margin:0;font-size:14px">Los clientes solo ven colores con existencia, y un diseño listo sale "agotado" si no te alcanza algún color. Si el diseño con foto necesita más de lo que tienes, aquí te propongo el color más parecido.</p>
-        <div id="pending"></div><div id="subs"></div>
-        <div class="inv" id="inv"></div>
-      </div>
-      <div class="ocard">
-        <h3>Surtir el diseño con foto</h3>
-        <table class="otable" id="pick"></table>
-        <div class="row" style="margin-top:14px"><button class="btn yel sm" id="fulfil" type="button">Descontar del inventario</button><button class="btn ghost sm" id="cpPick" type="button">Copiar lista</button></div>
-      </div>
-      <div class="ocard">
-        <h3>Para resurtir</h3>
-        <p class="mut" style="margin:0 0 8px;font-size:14px">Colores con menos de 300 piezas.</p>
-        <table class="otable" id="restock"></table>
-        <h3 style="margin-top:18px">Archivos para tu cliente</h3>
-        <div class="row"><button class="btn yel sm" id="dlPlan" type="button">Plano completo</button><button class="btn ghost sm" id="dlSec" type="button">Sección actual</button><button class="btn ghost sm" id="dlPrev" type="button">Vista previa</button></div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </aside>
 </main>
 
-<footer class="ft">
-  <div class="wrap">
-    <div class="ftgrid">
-      <div><span class="logo">PIX<i aria-hidden="true"></i>L</span><p>Mosaicos de bloques hechos con tus fotos. Armados pieza por pieza, en casa.</p><p>[Tu dirección o zona de entregas]<br>[Tu horario de atención]</p></div>
-      <div><h4>Tienda</h4><ul><li><a href="#crea">Crea el tuyo</a></li><li><a href="#disenos">Diseños listos</a></li><li><a href="#disenos" data-filter="regalo">Tarjetas de regalo</a></li></ul></div>
-      <div><h4>Ayuda</h4><ul><li><a href="#como">Cómo funciona</a></li><li><a href="#dudas">Dudas frecuentes</a></li><li><button class="lnk" id="trackBtn" type="button">Rastrear pedido</button></li></ul></div>
-      <div><h4>Comunidad</h4><ul><li><a href="#instrucciones">Instrucciones</a></li><li>[Tu Instagram]</li><li>[Tu TikTok]</li></ul></div>
+<section class="instrucciones" id="instrucciones" hidden></section>
+
+<dialog id="dlg-pedido">
+  <form class="dlg" id="form-pedido" method="dialog">
+    <h2>Casi listo</h2>
+    <p>Déjanos tus datos para enviarte tu kit.</p>
+    <div class="resumen-dlg" id="resumen-dlg"></div>
+    <div class="campos">
+      <label class="full">Nombre completo<input name="nombre" required autocomplete="name"></label>
+      <label>WhatsApp / teléfono<input name="telefono" required type="tel" autocomplete="tel" inputmode="tel"></label>
+      <label>Correo<input name="correo" type="email" autocomplete="email"></label>
+      <label class="full">Calle y número<input name="calle" required autocomplete="street-address"></label>
+      <label>Colonia<input name="colonia" required></label>
+      <label>Código postal<input name="cp" required inputmode="numeric" pattern="[0-9]{5}" autocomplete="postal-code"></label>
+      <label>Ciudad / municipio<input name="ciudad" required autocomplete="address-level2"></label>
+      <label>Estado<select name="estado" required id="sel-estado"></select></label>
+      <label class="full">Notas (opcional)<textarea name="notas" rows="2"></textarea></label>
     </div>
-    <div class="legal">© PIX·L. Piezas compatibles con las principales marcas de bloques. PIX·L es una marca independiente y no está afiliada, patrocinada ni avalada por ninguna empresa de juguetes. · <button class="lnk" id="openOwner" type="button" style="color:#a8a399;font-size:13px;text-decoration:underline">Panel de la dueña</button></div>
+    <div class="pie">
+      <button class="btn sec" value="cancel" formnovalidate type="submit">Cancelar</button>
+      <button class="btn" value="ok" type="submit" id="confirmar">Confirmar pedido</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlg-ok">
+  <div class="dlg">
+    <h2>¡Pedido <span id="folio"></span> listo! 🎉</h2>
+    <p id="ok-txt"></p>
+    <div class="pie" style="justify-content:flex-start">
+      <a class="btn verde" id="ok-wa" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+      <button class="btn sec" id="ok-json" type="button">Descargar pedido</button>
+      <button class="btn sec" id="ok-instr" type="button">Instrucciones</button>
+      <button class="btn sec" id="ok-cerrar" type="button">Cerrar</button>
+    </div>
   </div>
-</footer>
+</dialog>
 
-<div class="scrim" id="scrim"></div>
-<aside class="drawer" id="drawer" aria-label="Carrito" aria-hidden="true">
-  <div class="dhead"><h2>Tu carrito</h2><button class="ibtn" id="closeCart" type="button" aria-label="Cerrar carrito"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
-  <div class="ditems" id="ditems"></div>
-  <div class="dfoot" id="dfoot"></div>
-</aside>
-<div class="toast" id="toast" role="status"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<footer>PIX·L · Mosaicos de bloques hechos en México · Piezas compatibles con las marcas principales de bloques de construcción.</footer>
 
+<script type="application/json" id="catalogo-embebido">{"actualizado":"2026-11-19","tienda":{"nombre":"PIX·L","whatsapp":"","moneda":"MXN","precioPieza":0.35,"envio":149,"envioGratisDesde":1500,"extraPct":0.03,"extraMin":2},"proveedor":{"nombre":"AliExpress · lotes MOC 1×1 compatibles","nota":"Lotes de piezas 1×1 por color (round tile 98138 o plate 3024) de vendedores MOC con envío a México. Ajusta costoLote con el precio real que pagues.","loteTamano":100,"costoLote":25,"busqueda":{"redondo":"https://www.aliexpress.com/w/wholesale-1x1-round-tile-98138-{color}.html","cuadrado":"https://www.aliexpress.com/w/wholesale-1x1-plate-3024-{color}.html"}},"piezas":{"redondo":{"nombre":"Redondo 1×1","ref":"98138"},"cuadrado":{"nombre":"Cuadrado 1×1","ref":"3024"}},"bases":[{"id":"negra","nombre":"Negra","hex":"#1E1E1E","precio":79,"stock":40},{"id":"gris","nombre":"Gris claro","hex":"#A0A5A9","precio":79,"stock":25},{"id":"blanca","nombre":"Blanca","hex":"#F2F2F2","precio":79,"stock":12}],"colores":[{"id":"blanco","nombre":"Blanco","en":"white","hex":"#F4F4F4","stock":{"redondo":8000,"cuadrado":6000}},{"id":"gris-claro","nombre":"Gris claro","en":"light bluish gray","hex":"#A0A5A9","stock":{"redondo":6000,"cuadrado":5000}},{"id":"gris-oscuro","nombre":"Gris oscuro","en":"dark bluish gray","hex":"#6C6E68","stock":{"redondo":6000,"cuadrado":5000}},{"id":"negro","nombre":"Negro","en":"black","hex":"#1B2A34","stock":{"redondo":9000,"cuadrado":7000}},{"id":"rojo","nombre":"Rojo","en":"red","hex":"#C91A09","stock":{"redondo":4000,"cuadrado":3000}},{"id":"rojo-oscuro","nombre":"Rojo oscuro","en":"dark red","hex":"#720E0F","stock":{"redondo":2500,"cuadrado":2000}},{"id":"naranja","nombre":"Naranja","en":"orange","hex":"#FE8A18","stock":{"redondo":3000,"cuadrado":2500}},{"id":"naranja-claro","nombre":"Naranja claro","en":"bright light orange","hex":"#F8BB3D","stock":{"redondo":2500,"cuadrado":2000}},{"id":"amarillo","nombre":"Amarillo","en":"yellow","hex":"#F2CD37","stock":{"redondo":4000,"cuadrado":3000}},{"id":"amarillo-claro","nombre":"Amarillo claro","en":"bright light yellow","hex":"#FFF03A","stock":{"redondo":2000,"cuadrado":1500}},{"id":"beige","nombre":"Beige","en":"tan","hex":"#E4CD9E","stock":{"redondo":4000,"cuadrado":3000}},{"id":"beige-oscuro","nombre":"Beige oscuro","en":"dark tan","hex":"#958A73","stock":{"redondo":2500,"cuadrado":2000}},{"id":"piel-clara","nombre":"Piel clara","en":"light nougat","hex":"#F6D7B3","stock":{"redondo":3500,"cuadrado":2500}},{"id":"piel","nombre":"Piel","en":"nougat","hex":"#D09168","stock":{"redondo":3500,"cuadrado":2500}},{"id":"piel-media","nombre":"Piel media","en":"medium nougat","hex":"#AA7D55","stock":{"redondo":3000,"cuadrado":2500}},{"id":"cafe","nombre":"Café","en":"reddish brown","hex":"#582A12","stock":{"redondo":3500,"cuadrado":3000}},{"id":"cafe-oscuro","nombre":"Café oscuro","en":"dark brown","hex":"#352100","stock":{"redondo":2500,"cuadrado":2000}},{"id":"lima","nombre":"Lima","en":"lime","hex":"#BBE90B","stock":{"redondo":2000,"cuadrado":1500}},{"id":"verde-brillante","nombre":"Verde brillante","en":"bright green","hex":"#4B9F4A","stock":{"redondo":2500,"cuadrado":2000}},{"id":"verde","nombre":"Verde","en":"green","hex":"#237841","stock":{"redondo":3000,"cuadrado":2500}},{"id":"verde-oscuro","nombre":"Verde oscuro","en":"dark green","hex":"#184632","stock":{"redondo":2500,"cuadrado":2000}},{"id":"verde-olivo","nombre":"Verde olivo","en":"olive green","hex":"#9B9A5A","stock":{"redondo":0,"cuadrado":800}},{"id":"verde-arena","nombre":"Verde arena","en":"sand green","hex":"#A0BCAC","stock":{"redondo":1500,"cuadrado":1200}},{"id":"aqua-claro","nombre":"Aqua claro","en":"light aqua","hex":"#ADC3C0","stock":{"redondo":1200,"cuadrado":1000}},{"id":"turquesa","nombre":"Turquesa","en":"medium azure","hex":"#36AEBF","stock":{"redondo":2500,"cuadrado":2000}},{"id":"turquesa-oscuro","nombre":"Turquesa oscuro","en":"dark turquoise","hex":"#008F9B","stock":{"redondo":2000,"cuadrado":1500}},{"id":"azul-cielo","nombre":"Azul cielo","en":"bright light blue","hex":"#9FC3E9","stock":{"redondo":2500,"cuadrado":2000}},{"id":"azul-medio","nombre":"Azul medio","en":"medium blue","hex":"#5A93DB","stock":{"redondo":3000,"cuadrado":2500}},{"id":"azul","nombre":"Azul","en":"blue","hex":"#0055BF","stock":{"redondo":4000,"cuadrado":3000}},{"id":"azul-arena","nombre":"Azul arena","en":"sand blue","hex":"#6074A1","stock":{"redondo":1500,"cuadrado":1200}},{"id":"azul-marino","nombre":"Azul marino","en":"dark blue","hex":"#0A3463","stock":{"redondo":3000,"cuadrado":2500}},{"id":"lavanda","nombre":"Lavanda","en":"lavender","hex":"#E1D5ED","stock":{"redondo":150,"cuadrado":600}},{"id":"lila","nombre":"Lila","en":"medium lavender","hex":"#AC78BA","stock":{"redondo":1500,"cuadrado":1200}},{"id":"morado","nombre":"Morado","en":"dark purple","hex":"#3F3691","stock":{"redondo":5000,"cuadrado":4000}},{"id":"magenta","nombre":"Magenta","en":"magenta","hex":"#923978","stock":{"redondo":1500,"cuadrado":1200}},{"id":"rosa-oscuro","nombre":"Rosa oscuro","en":"dark pink","hex":"#C870A0","stock":{"redondo":2000,"cuadrado":1500}},{"id":"rosa-claro","nombre":"Rosa claro","en":"bright pink","hex":"#E4ADC8","stock":{"redondo":2000,"cuadrado":1500}},{"id":"coral","nombre":"Coral","en":"coral","hex":"#FF698F","stock":{"redondo":0,"cuadrado":0}}]}</script>
 <script>
-"use strict";
-/* ============ Catálogo de colores (Gobricks): [#, nombre, nombre LEGO equivalente, BrickLink, Rebrickable, hex] ============ */
-const PAL=[
- ['090','Blanco','White',1,15,'FFFFFF'],['080','Negro','Black',11,0,'05131D'],
- ['010','Rojo','Bright Red',5,4,'C91A09'],['014','Rojo vino','New Dark Red',59,320,'720E0F'],
- ['021','Naranja','Bright Orange',4,25,'FE8A18'],['083','Naranja tostado','Dark Orange',68,484,'A95500'],
- ['036','Mango','Flame Yellowish Orange',110,191,'F8BB3D'],['030','Amarillo','Bright Yellow',3,14,'F2CD37'],
- ['033','Amarillo limón','Cool Yellow',103,226,'FFF03A'],['031','Arena','Brick Yellow',2,19,'E4CD9E'],
- ['034','Arena oscura','Sand Yellow',69,28,'958A73'],['032','Durazno','Light Nougat',90,78,'F6D7B3'],
- ['084','Caramelo','Medium Nougat',150,84,'AA7D55'],['081','Café rojizo','Reddish Brown',88,70,'582A12'],
- ['082','Chocolate','Dark Brown',120,308,'352100'],['071','Gris claro','Medium Stone Grey',86,71,'A0A5A9'],
- ['072','Gris oscuro','Dark Stone Grey',85,72,'6C6E68'],['073','Plata','Silver Metallic',95,179,'898788'],
- ['035','Dorado','Warm Gold',115,297,'AA7F2E'],['040','Verde','Dark Green',6,2,'237841'],
- ['043','Verde brillante','Bright Green',36,10,'4B9F4A'],['042','Lima','Bright Yellowish Green',34,27,'BBE90B'],
- ['044','Pistache','Spring Yellowish Green',158,158,'DFEEA5'],['047','Verde bosque','Earth Green',80,288,'184632'],
- ['048','Salvia','Sand Green',48,378,'A0BCAC'],['049','Olivo','Olive Green',155,326,'9B9A5A'],
- ['045','Aqua','Aqua',152,323,'ADC3C0'],['046','Turquesa','Medium Azur',156,322,'36AEBF'],
- ['051','Azul celeste','Dark Azur',153,321,'078BC9'],['050','Azul','Bright Blue',7,1,'0055BF'],
- ['052','Azul medio','Medium Blue',42,73,'5A93DB'],['053','Azul cielo','Light Royal Blue',105,212,'9FC3E9'],
- ['054','Azul mezclilla','Sand Blue',55,379,'6074A1'],['055','Azul marino','Earth Blue',63,272,'0A3463'],
- ['056','Lavanda','Lavender',154,31,'E1D5ED'],['062','Lila','Medium Lavender',157,30,'AC78BA'],
- ['060','Morado','Medium Lilac',89,85,'3F3691'],['011','Rosa pastel','Light Purple',104,29,'E4ADC8'],
- ['012','Rosa','Bright Purple',47,5,'C870A0'],['013','Magenta','Bright Reddish Violet',71,26,'923978'],
-].map(([g,n,lego,bl,rb,hex])=>{const rgb=[parseInt(hex.slice(0,2),16),parseInt(hex.slice(2,4),16),parseInt(hex.slice(4,6),16)];
-  return {g,n,lego,bl,rb,hex:'#'+hex,rgb,lab:rgb2lab(...rgb),lum:.299*rgb[0]+.587*rgb[1]+.114*rgb[2]};});
-const IDX=Object.fromEntries(PAL.map((p,i)=>[p.g,i]));
-const STARTER=['090','080','010','014','021','083','036','030','033','031','034','032','084','081','082','071','072','040','043','042','046','050','052','053','055','056','060','062','011','012','013','045'];
+(() => {
+'use strict';
+/* ============================================================
+   PIX·L — generador de mosaicos de bloques
+   El inventario vive en catalog.json (se vuelve a consultar
+   cada 60 s y al regresar a la pestaña). Modo tienda: ?admin
+   ============================================================ */
+const $ = (s, el = document) => el.querySelector(s);
+const PLACA = 32, CM = 0.8;
+const ADMIN = new URLSearchParams(location.search).has('admin');
+const LS_STOCK = 'pixl_stock_v1', LS_PEDIDOS = 'pixl_pedidos_v1';
+const fmt = n => n.toLocaleString('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
+const fmtN = n => n.toLocaleString('es-MX');
+const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+const ESTADOS = ['Aguascalientes','Baja California','Baja California Sur','Campeche','Chiapas','Chihuahua','Ciudad de México','Coahuila','Colima','Durango','Estado de México','Guanajuato','Guerrero','Hidalgo','Jalisco','Michoacán','Morelos','Nayarit','Nuevo León','Oaxaca','Puebla','Querétaro','Quintana Roo','San Luis Potosí','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz','Yucatán','Zacatecas'];
+const TAMANOS = [[1,1],[2,2],[3,3],[4,4],[2,3],[3,2],[3,4],[4,3]];
 
-/* ============ Diseños listos: pixel art original de 16×16 ============ */
-function rainbow(){const keys=['r','n','y','g','b','p'],rows=[];
- for(let y=0;y<16;y++){let s='';for(let x=0;x<16;x++){const d=Math.hypot(x-7.5,(y-14.5)*1.05),band=Math.floor((d-4)/1.55);
-   s+=(y>=12&&(x<3||x>12))?'w':(band>=0&&band<6)?keys[5-band]:'.';}rows.push(s);}return rows;}
-const DESIGNS=[
- {id:'corazon',n:'Corazón',cat:'amor',map:{'.':'011','R':'010','D':'014','W':'090'},rows:[
-  '................','................','...RRR....RRR...','..RRRRR..RRRRR..','.RRWRRRRRRRRRRR.','.RWRRRRRRRRRRRD.','.RRRRRRRRRRRRRD.','.RRRRRRRRRRRRRD.',
-  '..RRRRRRRRRRRD..','...RRRRRRRRRD...','....RRRRRRRD....','.....RRRRRD.....','......RRRD......','.......RD.......','................','................']},
- {id:'nopal',n:'Nopal en maceta',cat:'mexicano',map:{'.':'032','G':'043','L':'042','P':'012','O':'083','o':'084'},rows:[
-  '................','.......PP.......','......GGGG......','..PG..GLGG......','.GGGG.GGGG..GG..','.GLGG.GGLG.GGGG.','.GGGGGGGGG.GLGG.','..GGGGGLGGGGGG..',
-  '......GGGGGG....','......GLGG......','......GGGG......','....OOOOOOOO....','....oooooooo....','.....OOOOOO.....','.....OOOOOO.....','................']},
- {id:'atardecer',n:'Atardecer en el mar',cat:'paisaje',map:{'m':'060','g':'013','n':'021','o':'036','s':'033','d':'055','b':'050','y':'030'},rows:[
-  'mmmmmmmmmmmmmmmm','mmmmmmmmmmmmmmmm','gggggggggggggggg','gggggssssssggggg','nnnnssssssssnnnn','nnnssssssssssnnn','ooossssssssssooo','oooossssssssoooo',
-  'dddddddddddddddd','bbbbbyyyyyybbbbb','bbbbbbyyyybbbbbb','ddddddyyyydddddd','bbbbbbbyybbbbbbb','dddddddyyddddddd','bbbbbbbbbbbbbbbb','dddddddddddddddd']},
- {id:'calaverita',n:'Calaverita',cat:'mexicano',map:{'.':'055','W':'090','P':'012','K':'080','Y':'033','R':'010','B':'046'},rows:[
-  '................','.....WWWWWW.....','...WWWWRRWWWW...','..WWWWRYYRWWWW..','..WWWWWRRWWWWW..','..WPPPWWWWPPPW..','..WPKPWWWWPKPW..','..WPPPWWWWPPPW..',
-  '..WWWWWBBWWWWW..','...WWWWKKWWWW...','....WWWWWWWW....','....WKWKWKWK....','....WWWWWWWW....','.....WKWKWK.....','................','................']},
- {id:'taco',n:'Taquito',cat:'mexicano',map:{'.':'053','L':'042','R':'010','M':'081','Y':'036','y':'030','W':'090'},rows:[
-  '................','..WW............','.WWWW......WW...','..........WWWW..','.....LLLRLLL....','...LRLLLLLRLL...','..LLMMMMMMMMLL..','.YYMMMMMMMMMMYY.',
-  '.YyYMMMMMMMMYyY.','.YYYYYYYYYYYYYY.','..YYyYYYYYYyYY..','....YYYYYYYY....','................','................','................','................']},
- {id:'gatito',n:'Gatito naranja',cat:'mascotas',map:{'.':'056','K':'080','O':'021','G':'043','P':'011','W':'090'},rows:[
-  '................','..K..........K..','..KK........KK..','..KOK......KOK..','..KOOKKKKKKOOK..','..KOOOOOOOOOOK..','.KOOOOOOOOOOOOK.','.KOOGKOOOOGKOOK.',
-  '.KOOGKOOOOGKOOK.','.KOOOOOPPOOOOOK.','.KWWOOOKKOOOWWK.','..KOOOKOOKOOOK..','...KOOOOOOOOK...','....KKKKKKKK....','................','................']},
- {id:'arcoiris',n:'Arcoíris',cat:'amor',map:{'.':'053','r':'010','n':'021','y':'033','g':'043','b':'050','p':'060','w':'090'},rows:rainbow()},
-];
-const CATS=[['todo','Todo'],['mexicano','Mexicano'],['mascotas','Mascotas'],['amor','Amor'],['paisaje','Paisajes'],['regalo','Regalos']];
-const GIFTS=[{id:'gift500',n:'Tarjeta de regalo $500',amount:500,bg:'#C91A09'},{id:'gift1000',n:'Tarjeta de regalo $1,000',amount:1000,bg:'#0055BF'}];
-const STYLES=[
- {k:'color',n:'A todo color',d:'Fiel a tu foto',g:null,sat:110},
- {k:'pop',n:'Pop',d:'Colores fuertes',g:['090','080','010','021','033','030','050','046','042','043','011','012','060'],sat:150},
- {k:'pastel',n:'Pastel',d:'Suave y tierno',g:['090','056','011','062','053','045','044','032','031','048','054','055'],sat:90},
- {k:'sepia',n:'Vintage',d:'Tonos cálidos',g:['090','032','031','084','034','083','081','082','080'],sat:60},
- {k:'bn',n:'Blanco y negro',d:'4 tonos de gris',g:['090','071','072','080'],sat:0},
-];
-const SIZES=[
- {k:'mini',n:'Mini',W:16,H:16},{k:'cuadro',n:'Cuadro',W:32,H:32},{k:'poster',n:'Póster',W:48,H:48},
- {k:'retrato',n:'Retrato',W:48,H:64},{k:'paisaje',n:'Paisaje',W:64,H:48},{k:'pared',n:'Pared',W:64,H:64},{k:'mural',n:'Mural',W:96,H:96},
-];
-const FINISH={'3024':{n:'con botón',shape:'sq',stud:true},'98138':{n:'redondas lisas',shape:'rd',stud:false},'3070b':{n:'cuadradas lisas',shape:'sq',stud:false}};
-const SEC=16;
+const S = {
+  cat: null, pal: [], fuente: '', img: null,
+  pieza: 'redondo', pw: 2, ph: 2,
+  zoom: 1, ox: .5, oy: .5, brillo: 0, contraste: 0, saturacion: 0, dither: false,
+  excluidos: new Set(), subs: {}, opcion: {},
+  grid: null, W: 0, H: 0, cuenta: null, problemas: [],
+  original: false, lineas: true, base: null, conBases: true,
+  firmaStock: '', pedido: null
+};
 
-function rgb2lab(r,g,b){const f=c=>{c/=255;return c<=.04045?c/12.92:Math.pow((c+.055)/1.055,2.4)};let R=f(r),G=f(g),B=f(b);
- let x=(R*.4124+G*.3576+B*.1805)/.95047,y=R*.2126+G*.7152+B*.0722,z=(R*.0193+G*.1192+B*.9505)/1.08883;
- const h=t=>t>.008856?Math.cbrt(t):7.787*t+16/116;x=h(x);y=h(y);z=h(z);return[116*y-16,500*(x-y),200*(y-z)];}
-function dE(a,b){const[L1,a1,b1]=a,[L2,a2,b2]=b,r=Math.PI/180;const C1=Math.hypot(a1,b1),C2=Math.hypot(a2,b2),Cb=(C1+C2)/2,p7=Math.pow(25,7);
- const G=.5*(1-Math.sqrt(Math.pow(Cb,7)/(Math.pow(Cb,7)+p7)));const a1p=(1+G)*a1,a2p=(1+G)*a2,C1p=Math.hypot(a1p,b1),C2p=Math.hypot(a2p,b2);
- const hh=(x,y)=>{if(!x&&!y)return 0;let t=Math.atan2(y,x)/r;return t<0?t+360:t};const h1=hh(a1p,b1),h2=hh(a2p,b2);
- const dL=L2-L1,dC=C2p-C1p;let dh=0;if(C1p*C2p){dh=h2-h1;if(dh>180)dh-=360;else if(dh<-180)dh+=360;}const dH=2*Math.sqrt(C1p*C2p)*Math.sin(dh*r/2);
- const Lb=(L1+L2)/2,Cbp=(C1p+C2p)/2;let hb=h1+h2;if(C1p*C2p){hb=Math.abs(h1-h2)>180?(h1+h2<360?(h1+h2+360)/2:(h1+h2-360)/2):(h1+h2)/2;}
- const T=1-.17*Math.cos((hb-30)*r)+.24*Math.cos(2*hb*r)+.32*Math.cos((3*hb+6)*r)-.2*Math.cos((4*hb-63)*r);const dT=30*Math.exp(-Math.pow((hb-275)/25,2));
- const RC=2*Math.sqrt(Math.pow(Cbp,7)/(Math.pow(Cbp,7)+p7));const SL=1+.015*Math.pow(Lb-50,2)/Math.sqrt(20+Math.pow(Lb-50,2)),SC=1+.045*Cbp,SH=1+.015*Cbp*T;
- const RT=-Math.sin(2*dT*r)*RC;return Math.sqrt((dL/SL)**2+(dC/SC)**2+(dH/SH)**2+RT*(dC/SC)*(dH/SH));}
+/* ---------------- color ---------------- */
+function hex2rgb(h) { h = h.replace('#', ''); return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)]; }
+function rgb2lab(r, g, b) {
+  const f = c => { c /= 255; return c > 0.04045 ? Math.pow((c + 0.055) / 1.055, 2.4) : c / 12.92; };
+  const R = f(r), G = f(g), B = f(b);
+  let x = (R * 0.4124 + G * 0.3576 + B * 0.1805) / 0.95047;
+  let y = (R * 0.2126 + G * 0.7152 + B * 0.0722);
+  let z = (R * 0.0193 + G * 0.1192 + B * 0.9505) / 1.08883;
+  const t = v => v > 0.008856 ? Math.cbrt(v) : 7.787 * v + 16 / 116;
+  x = t(x); y = t(y); z = t(z);
+  return [116 * y - 16, 500 * (x - y), 200 * (y - z)];
+}
+const RAD = Math.PI / 180, P25 = Math.pow(25, 7);
+function de2000(A, B) {
+  const [L1, a1, b1] = A, [L2, a2, b2] = B;
+  const Cb = (Math.hypot(a1, b1) + Math.hypot(a2, b2)) / 2, Cb7 = Math.pow(Cb, 7);
+  const G = 0.5 * (1 - Math.sqrt(Cb7 / (Cb7 + P25)));
+  const a1p = a1 * (1 + G), a2p = a2 * (1 + G);
+  const C1 = Math.hypot(a1p, b1), C2 = Math.hypot(a2p, b2);
+  const hue = (x, y) => { if (x === 0 && y === 0) return 0; const h = Math.atan2(y, x) / RAD; return h < 0 ? h + 360 : h; };
+  const h1 = hue(a1p, b1), h2 = hue(a2p, b2);
+  const dL = L2 - L1, dC = C2 - C1;
+  let dh = 0;
+  if (C1 * C2 !== 0) { dh = h2 - h1; if (dh > 180) dh -= 360; else if (dh < -180) dh += 360; }
+  const dH = 2 * Math.sqrt(C1 * C2) * Math.sin(dh * RAD / 2);
+  const Lm = (L1 + L2) / 2, Cm = (C1 + C2) / 2;
+  let hm = h1 + h2;
+  if (C1 * C2 !== 0) hm = Math.abs(h1 - h2) > 180 ? (h1 + h2 < 360 ? (h1 + h2 + 360) / 2 : (h1 + h2 - 360) / 2) : (h1 + h2) / 2;
+  const T = 1 - 0.17 * Math.cos((hm - 30) * RAD) + 0.24 * Math.cos(2 * hm * RAD) + 0.32 * Math.cos((3 * hm + 6) * RAD) - 0.20 * Math.cos((4 * hm - 63) * RAD);
+  const dT = 30 * Math.exp(-Math.pow((hm - 275) / 25, 2));
+  const Cm7 = Math.pow(Cm, 7), RC = 2 * Math.sqrt(Cm7 / (Cm7 + P25));
+  const SL = 1 + 0.015 * Math.pow(Lm - 50, 2) / Math.sqrt(20 + Math.pow(Lm - 50, 2));
+  const SC = 1 + 0.045 * Cm, SH = 1 + 0.015 * Cm * T, RT = -Math.sin(2 * dT * RAD) * RC;
+  const l = dL / SL, c = dC / SC, h = dH / SH;
+  return Math.sqrt(l * l + c * c + h * h + RT * c * h);
+}
+const lum = ([r, g, b]) => (0.299 * r + 0.587 * g + 0.114 * b);
+const sombra = (rgb, f) => `rgb(${rgb.map(v => Math.round(clamp(v * f, 0, 255))).join(',')})`;
+const aclara = (rgb, f) => `rgb(${rgb.map(v => Math.round(v + (255 - v) * f)).join(',')})`;
+function parecido(e) { return e < 4 ? 'casi idéntico' : e < 9 ? 'muy parecido' : e < 16 ? 'parecido' : 'se nota el cambio'; }
 
-/* ============ Estado ============ */
-const DEF={bag:7.23,base32:4.69,base16:1.6,tax:33.5,fx:18.5,pack:50,margin:110,spare:5,shipFee:129,free:1499,grams:0,wa:''};
-const S={img:null,demo:true,style:'color',size:'cuadro',finish:'3024',zoom:1,cx:.5,cy:.5,bri:0,con:0,sat:110,dither:false,
- stock:Object.fromEntries(PAL.map(p=>[p.g,STARTER.includes(p.g)?1000:0])),subs:{},grid:null,counts:null,order:[],sec:0,done:new Set(),
- o:{...DEF},code:'',anim:new Map(),cart:[],cat:'todo',pf:'all',sort:'feat',q:'',variant:{},confirmFulfil:false};
-try{const s=JSON.parse(localStorage.getItem('pixl-owner')||'null');if(s){Object.assign(S.o,s.o||{});if(s.stock)Object.assign(S.stock,s.stock);}}catch(e){}
-try{const c=JSON.parse(localStorage.getItem('pixl-cart')||'null');if(Array.isArray(c))S.cart=c;}catch(e){}
-const persist=()=>{try{localStorage.setItem('pixl-owner',JSON.stringify({o:S.o,stock:S.stock}));}catch(e){}};
-const saveCart=()=>{try{localStorage.setItem('pixl-cart',JSON.stringify(S.cart));}catch(e){}};
-const $=id=>document.getElementById(id);
-const size=()=>SIZES.find(s=>s.k===S.size);
-const reduce=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
-const newCode=()=>{const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='PX-';for(let i=0;i<5;i++)s+=a[Math.floor(Math.random()*a.length)];return s;};
-S.code=newCode();
-const mx=n=>'$'+Math.round(n).toLocaleString('es-MX');
+/* ---------------- catálogo / inventario ---------------- */
+const stockDe = c => (c.stock && typeof c.stock === 'object') ? (c.stock[S.pieza] ?? 0) : (c.stock ?? 0);
+const leerLS = k => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } };
+const guardarLS = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
 
-/* ============ Precios ============ */
-function bases(sz){const {W,H}=sz;if(W%32===0&&H%32===0)return{n:(W/32)*(H/32),size:32,name:'Base 32×32'};return{n:(W/16)*(H/16),size:16,name:'Placa 16×16'};}
-function costFor(sz){const o=S.o,b=bases(sz),qty=Math.ceil(sz.W*sz.H*(1+o.spare/100)),imp=1+o.tax/100;
- const pieces=qty*o.bag/1000*o.fx*imp,base=b.n*(b.size===32?o.base32:o.base16)*o.fx*imp;return{qty,b,pieces,base,pack:+o.pack,total:pieces+base+(+o.pack)};}
-const retail=sz=>Math.max(149,Math.ceil(costFor(sz).total*(1+S.o.margin/100)/50)*50-1);
-const designSize=v=>v==='cuadro'?{W:32,H:32}:{W:16,H:16};
-
-/* ============ Dibujo de piezas ============ */
-function piece(x,px,py,cs,col,f){
- if(f.shape==='rd'){x.fillStyle='#55574f';x.fillRect(px,py,cs,cs);x.fillStyle=col;x.beginPath();x.arc(px+cs/2,py+cs/2,cs*.46,0,7);x.fill();
-  if(cs>=7){x.fillStyle='rgba(255,255,255,.2)';x.beginPath();x.arc(px+cs*.38,py+cs*.36,cs*.15,0,7);x.fill();}}
- else{x.fillStyle=col;x.fillRect(px,py,cs,cs);const e=Math.max(1,cs*.06);x.fillStyle='rgba(0,0,0,.2)';x.fillRect(px,py+cs-e,cs,e);x.fillRect(px+cs-e,py,e,cs);
-  x.fillStyle='rgba(255,255,255,.14)';x.fillRect(px,py,cs,e);}
- if(f.stud&&cs>=6){const r=cs*.3,cx=px+cs/2,cy=py+cs/2;x.fillStyle='rgba(0,0,0,.25)';x.beginPath();x.arc(cx+cs*.04,cy+cs*.05,r,0,7);x.fill();
-  x.fillStyle=col;x.beginPath();x.arc(cx,cy,r,0,7);x.fill();x.fillStyle='rgba(255,255,255,.28)';x.beginPath();x.arc(cx-r*.3,cy-r*.3,r*.45,0,7);x.fill();}
+async function cargarCatalogo(silencioso) {
+  let data = null, fuente = 'local';
+  try {
+    const r = await fetch('catalog.json?t=' + Date.now(), { cache: 'no-store' });
+    if (r.ok) { data = await r.json(); fuente = 'en línea'; }
+  } catch (e) {}
+  if (!data) data = JSON.parse($('#catalogo-embebido').textContent);
+  if (ADMIN) {
+    const loc = leerLS(LS_STOCK);
+    if (loc) for (const c of data.colores) if (loc[c.id]) c.stock = loc[c.id];
+  }
+  const firma = JSON.stringify(data.colores.map(c => [c.id, c.stock, c.activo]));
+  const cambio = S.firmaStock && firma !== S.firmaStock;
+  S.firmaStock = firma; S.cat = data; S.fuente = fuente; S.actualizado = new Date();
+  S.pal = data.colores.filter(c => c.activo !== false).map(c => { const rgb = hex2rgb(c.hex); return { ...c, rgb, lab: rgb2lab(...rgb) }; });
+  if (!S.base || !data.bases.some(b => b.id === S.base)) S.base = data.bases[0].id;
+  $('#dato-colores').textContent = S.pal.filter(c => stockDe(c) > 0).length;
+  pintarBases();
+  if (cambio && !silencioso) toast('Inventario actualizado');
+  else if (cambio) toast('El inventario cambió — revisamos tu mosaico');
+  if (S.img) procesar(false);
+  pintarEstadoInv();
 }
-function emptyStud(x,px,py,cs){x.fillStyle='#6C6E68';x.fillRect(px,py,cs,cs);if(cs>=6){x.fillStyle='#7d7f78';x.beginPath();x.arc(px+cs/2,py+cs/2,cs*.3,0,7);x.fill();}}
-/* Dibuja una cuadrícula. kind: 'drop' = las piezas caen y encajan; 'pop' = se reacomodan en onda desde el centro */
-function drawGrid(cv,W,H,cols,cs,kind,finish='3024'){
- const f=FINISH[finish];cv.width=W*cs;cv.height=H*cs;const x=cv.getContext('2d');
- const prev=S.anim.get(cv);if(prev)prev.stop=true;S.anim.delete(cv);
- if(reduce()||!kind){for(let y=0;y<H;y++)for(let q=0;q<W;q++)piece(x,q*cs,y*cs,cs,cols[y*W+q],f);return;}
- const N=W*H,delay=new Float32Array(N),dur=kind==='drop'?420:260,spread=kind==='drop'?1300:520,cxm=(W-1)/2,cym=(H-1)/2,maxd=Math.hypot(cxm,cym)||1;
- for(let y=0;y<H;y++)for(let q=0;q<W;q++)delay[y*W+q]=kind==='drop'?((H-1-y)/H*.75+Math.random()*.25)*spread:(Math.hypot(q-cxm,y-cym)/maxd)*spread+Math.random()*60;
- const tok={stop:false};S.anim.set(cv,tok);const t0=performance.now();
- const ease=t=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2);};
- const step=now=>{if(tok.stop)return;const t=now-t0;let all=true;x.clearRect(0,0,cv.width,cv.height);
-  for(let y=0;y<H;y++)for(let q=0;q<W;q++)emptyStud(x,q*cs,y*cs,cs);
-  for(let y=0;y<H;y++)for(let q=0;q<W;q++){const p=y*W+q,k=(t-delay[p])/dur;
-   if(k<=0){all=false;continue;}if(k>=1){piece(x,q*cs,y*cs,cs,cols[p],f);continue;}all=false;const e=ease(k);
-   if(kind==='drop'){x.globalAlpha=Math.min(1,k*2);piece(x,q*cs,y*cs-(1-e)*cs*4,cs,cols[p],f);x.globalAlpha=1;}
-   else{const c=cs*(.4+.6*e),o=(cs-c)/2;x.save();x.translate(q*cs+o,y*cs+o);piece(x,0,0,c,cols[p],f);x.restore();}}
-  if(!all)requestAnimationFrame(step);else if(S.anim.get(cv)===tok)S.anim.delete(cv);};
- requestAnimationFrame(step);
-}
-const designCols=d=>d.rows.join('').split('').map(ch=>PAL[IDX[d.map[ch]]].hex);
-function designCounts(d,variant){const mult=variant==='cuadro'?4:1,c={};for(const ch of d.rows.join('')){const g=d.map[ch];c[g]=(c[g]||0)+mult;}return c;}
-function designAvailable(d,variant){return Object.entries(designCounts(d,variant)).every(([g,n])=>S.stock[g]>=Math.ceil(n*(1+S.o.spare/100)));}
-
-/* ============ Foto del cliente ============ */
-function demo(){
- const c=document.createElement('canvas');c.width=c.height=640;const x=c.getContext('2d');
- const g=x.createLinearGradient(0,0,640,640);g.addColorStop(0,'#ffd8b0');g.addColorStop(1,'#9fd4e6');x.fillStyle=g;x.fillRect(0,0,640,640);
- x.fillStyle='#fff3a6';for(let i=0;i<9;i++){x.beginPath();x.arc(70+i*70,575+(i%2)*28,24,0,7);x.fill();}
- x.fillStyle='#5a2e14';x.beginPath();x.ellipse(165,270,70,135,-.45,0,7);x.fill();x.beginPath();x.ellipse(475,270,70,135,.45,0,7);x.fill();
- x.fillStyle='#c27c3e';x.beginPath();x.ellipse(320,340,185,175,0,0,7);x.fill();
- x.fillStyle='#f6dcb8';x.beginPath();x.ellipse(320,420,115,88,0,0,7);x.fill();
- x.fillStyle='#1c1410';x.beginPath();x.arc(250,315,24,0,7);x.fill();x.beginPath();x.arc(390,315,24,0,7);x.fill();
- x.beginPath();x.ellipse(320,385,40,29,0,0,7);x.fill();
- x.fillStyle='#fff';x.beginPath();x.arc(259,306,8,0,7);x.fill();x.beginPath();x.arc(399,306,8,0,7);x.fill();
- x.fillStyle='#e8507a';x.beginPath();x.ellipse(320,462,28,36,0,0,Math.PI);x.fill();
- x.strokeStyle='#1c1410';x.lineWidth=8;x.lineCap='round';x.beginPath();x.moveTo(320,412);x.lineTo(320,440);x.moveTo(278,444);x.quadraticCurveTo(320,472,362,444);x.stroke();
- x.fillStyle='#c91a09';x.fillRect(200,505,240,34);x.fillStyle='#ffe96b';x.beginPath();x.arc(320,545,22,0,7);x.fill();
- const im=new Image();im.onload=()=>{S.img=im;S.demo=true;render(null);};im.src=c.toDataURL();
-}
-function loadFile(f){
- if(!f)return;if(!f.type||!f.type.startsWith('image/')){toast('Elige una imagen JPG o PNG.');return;}
- const im=new Image();im.onload=()=>{S.img=im;S.demo=false;Object.assign(S,{zoom:1,cx:.5,cy:.5});$('zoom').value=1;$('cropX').value=.5;$('cropY').value=.5;
-  S.done.clear();S.code=newCode();$('crea').scrollIntoView({block:'start'});render('drop');toast('¡Listo! Así se ve tu foto en bloques');};
- im.onerror=()=>toast('No pudimos abrir esa imagen. Prueba con una JPG o PNG.');im.src=URL.createObjectURL(f);
-}
-function sample(){
- const {W,H}=size(),img=S.img,iw=img.naturalWidth,ih=img.naturalHeight,ta=W/H;let sw,sh;if(iw/ih>ta){sh=ih;sw=ih*ta;}else{sw=iw;sh=iw/ta;}
- sw/=S.zoom;sh/=S.zoom;const sx=(iw-sw)*S.cx,sy=(ih-sh)*S.cy;
- let cw=Math.max(W,Math.round(sw)),ch=Math.max(H,Math.round(sh));let cur=document.createElement('canvas');cur.width=cw;cur.height=ch;
- let cx=cur.getContext('2d');cx.imageSmoothingQuality='high';cx.drawImage(img,sx,sy,sw,sh,0,0,cw,ch);
- while(cw/2>W*1.5||ch/2>H*1.5){const nw=Math.max(W,Math.round(cw/2)),nh=Math.max(H,Math.round(ch/2));const n=document.createElement('canvas');n.width=nw;n.height=nh;
-  const nx=n.getContext('2d');nx.imageSmoothingQuality='high';nx.drawImage(cur,0,0,nw,nh);cur=n;cw=nw;ch=nh;}
- const o=document.createElement('canvas');o.width=W;o.height=H;const ox=o.getContext('2d');ox.imageSmoothingQuality='high';ox.drawImage(cur,0,0,W,H);
- const d=ox.getImageData(0,0,W,H).data,px=new Float32Array(W*H*3);
- const b=S.bri*2.2,c=S.con,cf=(259*(c*2.55+255))/(255*(259-c*2.55)),s=S.sat/100;
- for(let i=0,j=0;i<d.length;i+=4,j+=3){const a=d[i+3]/255;let r=d[i]*a+255*(1-a),g=d[i+1]*a+255*(1-a),bl=d[i+2]*a+255*(1-a);
-  r=cf*(r-128)+128+b;g=cf*(g-128)+128+b;bl=cf*(bl-128)+128+b;const L=.299*r+.587*g+.114*bl;px[j]=L+(r-L)*s;px[j+1]=L+(g-L)*s;px[j+2]=L+(bl-L)*s;}
- return px;
-}
-function quantize(px,allowed){
- const {W,H}=size(),N=W*H,out=new Uint8Array(N),cache=new Map();
- const near=(r,g,b)=>{r=Math.max(0,Math.min(255,Math.round(r)));g=Math.max(0,Math.min(255,Math.round(g)));b=Math.max(0,Math.min(255,Math.round(b)));
-  const k=(r<<16)|(g<<8)|b;let v=cache.get(k);if(v!==undefined)return v;const lab=rgb2lab(r,g,b);let best=allowed[0],bd=1e9;
-  for(const i of allowed){const e=dE(lab,PAL[i].lab);if(e<bd){bd=e;best=i;}}cache.set(k,best);return best;};
- if(!S.dither){for(let p=0;p<N;p++)out[p]=near(px[p*3],px[p*3+1],px[p*3+2]);return out;}
- const e=Float32Array.from(px);
- for(let y=0;y<H;y++)for(let x=0;x<W;x++){const p=y*W+x,j=p*3,i=near(e[j],e[j+1],e[j+2]);out[p]=i;const[pr,pg,pb]=PAL[i].rgb;
-  const er=(e[j]-pr)*.8,eg=(e[j+1]-pg)*.8,eb=(e[j+2]-pb)*.8;
-  const add=(xx,yy,f)=>{if(xx<0||xx>=W||yy>=H)return;const q=(yy*W+xx)*3;e[q]+=er*f;e[q+1]+=eg*f;e[q+2]+=eb*f;};
-  add(x+1,y,7/16);add(x-1,y+1,3/16);add(x,y+1,5/16);add(x+1,y+1,1/16);}
- return out;
-}
-function allowed(){const st=STYLES.find(s=>s.k===S.style);const ok=i=>S.stock[PAL[i].g]>0&&S.subs[PAL[i].g]!=='drop';
- let al=(st.g?st.g.map(g=>IDX[g]):PAL.map((p,i)=>i)).filter(ok);if(al.length<2)al=PAL.map((p,i)=>i).filter(ok);if(al.length<2)al=[IDX['080'],IDX['090']];return al;}
-function compute(){const grid=quantize(sample(),allowed());
- for(let p=0;p<grid.length;p++){const t=S.subs[PAL[grid[p]].g];if(t&&t!=='drop')grid[p]=IDX[t];}
- S.grid=grid;S.counts=new Array(PAL.length).fill(0);for(const v of grid)S.counts[v]++;
- S.order=PAL.map((p,i)=>i).filter(i=>S.counts[i]).sort((a,b)=>S.counts[b]-S.counts[a]);}
-const need=i=>Math.ceil(S.counts[i]*(1+S.o.spare/100));
-const shortages=()=>S.order.filter(i=>need(i)>S.stock[PAL[i].g]);
-const gridCols=()=>Array.from(S.grid,i=>PAL[i].hex);
-function shrink(){const sz=size(),k=Math.max(1,Math.floor(sz.W/32)),cols=[];for(let y=0;y<sz.H;y+=k)for(let x=0;x<sz.W;x+=k)cols.push(PAL[S.grid[y*sz.W+x]].hex);
- return{W:Math.ceil(sz.W/k),H:Math.ceil(sz.H/k),cols};}
-
-/* ============ Instrucciones ============ */
-const numCol=i=>PAL[i].lum>140?'#141414':'#ffffff';
-function drawSection(cv,si,cs){
- const {W}=size(),cols=W/SEC,sr=Math.floor(si/cols),sc=si%cols,ox=sc*SEC,oy=sr*SEC,head=Math.round(cs*.9);
- cv.width=head+SEC*cs+2;cv.height=head+SEC*cs+2;const x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,cv.width,cv.height);
- const rk=Object.fromEntries(S.order.map((i,k)=>[i,k+1]));
- x.textAlign='center';x.textBaseline='middle';x.font=`600 ${Math.round(cs*.4)}px Rubik,sans-serif`;x.fillStyle='#5d5a54';
- for(let c=0;c<SEC;c++)x.fillText(String(c+1),head+c*cs+cs/2,head/2);
- for(let r=0;r<SEC;r++)x.fillText(String.fromCharCode(65+r),head/2,head+r*cs+cs/2);
- x.font=`800 ${Math.round(cs*.42)}px Rubik,sans-serif`;
- for(let r=0;r<SEC;r++)for(let c=0;c<SEC;c++){const i=S.grid[(oy+r)*W+ox+c],px=head+c*cs,py=head+r*cs;x.fillStyle=PAL[i].hex;x.fillRect(px,py,cs,cs);x.fillStyle=numCol(i);x.fillText(String(rk[i]),px+cs/2,py+cs/2+1);}
- x.strokeStyle='rgba(0,0,0,.18)';x.lineWidth=1;
- for(let k=0;k<=SEC;k++){x.beginPath();x.moveTo(head+k*cs+.5,head);x.lineTo(head+k*cs+.5,head+SEC*cs);x.stroke();x.beginPath();x.moveTo(head,head+k*cs+.5);x.lineTo(head+SEC*cs,head+k*cs+.5);x.stroke();}
- x.strokeStyle='#141414';x.lineWidth=2;
- for(let k=0;k<=SEC;k+=4){x.beginPath();x.moveTo(head+k*cs,head);x.lineTo(head+k*cs,head+SEC*cs);x.stroke();x.beginPath();x.moveTo(head,head+k*cs);x.lineTo(head+SEC*cs,head+k*cs);x.stroke();}
-}
-function drawPlan(cs){const {W,H}=size(),head=Math.round(cs*1.1),c=document.createElement('canvas');c.width=head+W*cs+2;c.height=head+H*cs+2;const x=c.getContext('2d');
- x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);const rk=Object.fromEntries(S.order.map((i,k)=>[i,k+1]));x.textAlign='center';x.textBaseline='middle';
- x.font=`600 ${Math.round(cs*.36)}px Rubik,sans-serif`;x.fillStyle='#5d5a54';
- for(let k=0;k<W;k++)x.fillText(String(k+1),head+k*cs+cs/2,head/2);for(let k=0;k<H;k++)x.fillText(String(k+1),head/2,head+k*cs+cs/2);
- x.font=`800 ${Math.round(cs*.42)}px Rubik,sans-serif`;
- for(let r=0;r<H;r++)for(let q=0;q<W;q++){const i=S.grid[r*W+q];x.fillStyle=PAL[i].hex;x.fillRect(head+q*cs,head+r*cs,cs,cs);x.fillStyle=numCol(i);x.fillText(String(rk[i]),head+q*cs+cs/2,head+r*cs+cs/2+1);}
- x.strokeStyle='rgba(0,0,0,.15)';x.lineWidth=1;for(let k=0;k<=W;k++){x.beginPath();x.moveTo(head+k*cs+.5,head);x.lineTo(head+k*cs+.5,head+H*cs);x.stroke();}
- for(let k=0;k<=H;k++){x.beginPath();x.moveTo(head,head+k*cs+.5);x.lineTo(head+W*cs,head+k*cs+.5);x.stroke();}
- x.strokeStyle='#C91A09';x.lineWidth=3;for(let k=0;k<=W;k+=SEC){x.beginPath();x.moveTo(head+k*cs,head);x.lineTo(head+k*cs,head+H*cs);x.stroke();}
- for(let k=0;k<=H;k+=SEC){x.beginPath();x.moveTo(head,head+k*cs);x.lineTo(head+W*cs,head+k*cs);x.stroke();}return c;}
-
-/* ============ Interfaz ============ */
-const csFor=(cv,W)=>Math.max(4,Math.floor(((cv.parentElement.clientWidth||400)-24)*(window.devicePixelRatio||1)/W));
-let raf=0;
-function render(kind){if(!S.img)return;cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{compute();paint(kind);});}
-function paint(kind){const {W,H}=size(),cv=$('cvMain');drawGrid(cv,W,H,gridCols(),csFor(cv,W),kind,S.finish);
- $('peek').classList.toggle('hide',S.demo);paintCreator();paintGuide();
- const t=document.querySelector('[data-thumb="custom"]');if(t&&!S.anim.has(t))drawThumb(t,null);
- if(!$('duena').classList.contains('hide'))paintOwner();}
-function showOriginal(on){const cv=$('cvMain');if(!on){const {W,H}=size();drawGrid(cv,W,H,gridCols(),csFor(cv,W),null,S.finish);return;}
- const {W,H}=size(),img=S.img,iw=img.naturalWidth,ih=img.naturalHeight,ta=W/H;let sw,sh;if(iw/ih>ta){sh=ih;sw=ih*ta;}else{sw=iw;sh=iw/ta;}sw/=S.zoom;sh/=S.zoom;
- cv.getContext('2d').drawImage(img,(iw-sw)*S.cx,(ih-sh)*S.cy,sw,sh,0,0,cv.width,cv.height);}
-function paintCreator(){
- $('styles').innerHTML=STYLES.map(s=>{const sw=(s.g||['010','030','050','043','012','080']).slice(0,6).map(g=>`<i style="background:${PAL[IDX[g]].hex}"></i>`).join('');
-  return `<button class="opt" type="button" data-s="${s.k}" aria-pressed="${s.k===S.style}"><div class="sw">${sw}</div><strong>${s.n}</strong><small>${s.d}</small></button>`;}).join('');
- $('sizes').innerHTML=SIZES.map(s=>`<button class="opt" type="button" data-z="${s.k}" aria-pressed="${s.k===S.size}"><strong>${s.n}</strong><small>${(s.W*.8).toFixed(0)} × ${(s.H*.8).toFixed(0)} cm</small><em>${mx(retail(s))}</em></button>`).join('');
- document.querySelectorAll('#finish button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.p===S.finish));
- const sz=size(),N=sz.W*sz.H,b=bases(sz);
- $('sumTitle').textContent=`${sz.n} · ${(sz.W*.8).toFixed(0)} × ${(sz.H*.8).toFixed(0)} cm · ${STYLES.find(s=>s.k===S.style).n.toLowerCase()} · piezas ${FINISH[S.finish].n}`;
- $('price').textContent=mx(retail(sz));$('fPieces').textContent=N.toLocaleString('es-MX');$('fColors').textContent=S.order.length;
- $('fBases').textContent=b.n;$('fBasesL').textContent=b.size===32?(b.n===1?'base':'bases'):(b.n===1?'placa base':'placas base');
- const hrs=N/256*.75;$('fTime').textContent=hrs<1?Math.round(hrs*60)+' min':(Math.round(hrs*2)/2).toLocaleString('es-MX')+' h';
- $('chips').innerHTML=S.order.map(i=>`<span class="chip"><i style="background:${PAL[i].hex}"></i>${PAL[i].n}</span>`).join('');
- $('orderCode').textContent=`Código de tu diseño: ${S.code}`;
-}
-function paintGuide(){
- const {W,H}=size(),cols=W/SEC,rows=H/SEC,n=cols*rows;if(S.sec>=n)S.sec=0;const sr=Math.floor(S.sec/cols),sc=S.sec%cols;
- $('secTitle').textContent=`Sección ${String.fromCharCode(65+sr)}${sc+1}`;$('secSub').textContent=`(${S.sec+1} de ${n})`;
- const cv=$('cvSection'),w=(cv.parentElement.clientWidth||600)*(window.devicePixelRatio||1);drawSection(cv,S.sec,Math.max(22,Math.floor((w-30)/(SEC+1))));
- $('secDone').checked=S.done.has(S.sec);const g=$('secGrid');g.style.gridTemplateColumns=`repeat(${cols},minmax(0,1fr))`;let h='';
- for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const k=r*cols+c;h+=`<button type="button" class="secbtn${S.done.has(k)?' ok':''}" data-sec="${k}" aria-pressed="${k===S.sec}">${String.fromCharCode(65+r)}${c+1}</button>`;}g.innerHTML=h;
- const rk=Object.fromEntries(S.order.map((i,k)=>[i,k+1])),cnt={};for(let r=0;r<SEC;r++)for(let c=0;c<SEC;c++){const i=S.grid[(sr*SEC+r)*W+sc*SEC+c];cnt[i]=(cnt[i]||0)+1;}
- $('secLegend').innerHTML=Object.keys(cnt).map(Number).sort((a,b)=>rk[a]-rk[b]).map(i=>`<div class="lg"><span class="k" style="background:${PAL[i].hex};color:${numCol(i)}">${rk[i]}</span><span>${PAL[i].n}</span><span class="q">${cnt[i]}</span></div>`).join('');
+function pintarEstadoInv() {
+  if (!S.actualizado) return;
+  const h = S.actualizado.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+  $('#estado-inv').innerHTML = `<span class="punto"></span>inventario ${S.fuente} · ${h}`;
 }
 
-/* ---- colección ---- */
-function products(){
- const list=[{id:'custom',n:'Mosaico con tu foto',cat:'todo',price:retail(SIZES[0]),from:true,feat:0}];
- DESIGNS.forEach((d,k)=>{const v=S.variant[d.id]||'mini';list.push({id:d.id,n:d.n,cat:d.cat,price:retail(designSize(v)),variant:v,design:d,feat:k+1,avail:designAvailable(d,v)});});
- GIFTS.forEach((g,k)=>list.push({id:g.id,n:g.n,cat:'regalo',price:g.amount,gift:g,feat:20+k}));
- return list;
+/* ---------------- imagen ---------------- */
+async function cargarArchivo(file) {
+  if (!file || !file.type.startsWith('image/')) { toast('Ese archivo no es una imagen'); return; }
+  let img;
+  try { img = await createImageBitmap(file); }
+  catch (e) {
+    img = await new Promise((ok, mal) => { const i = new Image(); i.onload = () => ok(i); i.onerror = mal; i.src = URL.createObjectURL(file); })
+      .catch(() => null);
+  }
+  if (!img) { toast('No pudimos abrir esa imagen'); return; }
+  usarImagen(img);
 }
-function paintGrid(animate){
- let list=products().filter(p=>S.cat==='todo'||p.cat===S.cat||(p.id==='custom'&&S.cat!=='regalo'));
- if(S.q){const q=S.q.toLowerCase();list=list.filter(p=>(p.n+' '+p.cat).toLowerCase().includes(q));}
- const pf={all:()=>true,a:p=>p.price<=600,b:p=>p.price>600&&p.price<=1500,c:p=>p.price>1500}[S.pf];list=list.filter(pf);
- list.sort({feat:(a,b)=>a.feat-b.feat,lo:(a,b)=>a.price-b.price,hi:(a,b)=>b.price-a.price,az:(a,b)=>a.n.localeCompare(b.n,'es')}[S.sort]);
- $('cats').innerHTML=CATS.map(([k,n])=>`<button class="fchip" type="button" data-cat="${k}" aria-pressed="${S.cat===k}">${n}</button>`).join('');
- $('pricef').innerHTML=[['all','Todos los precios'],['a','Hasta $600'],['b','$600 a $1,500'],['c','Más de $1,500']].map(([k,n])=>`<button class="fchip" type="button" data-pf="${k}" aria-pressed="${S.pf===k}">${n}</button>`).join('');
- if(!list.length){$('grid').innerHTML=`<div class="empty"><h3 style="font-size:20px">No encontramos ese diseño</h3><p class="mut">Pero lo podemos hacer con tu foto.</p><a class="btn red" href="#crea">Crear con mi foto</a></div>`;return;}
- $('grid').innerHTML=list.map(p=>{
-  let img,meta='',btn;
-  if(p.id==='custom'){img=`<canvas data-thumb="custom" width="10" height="10"></canvas><span class="tag">Personalizado</span>`;meta=`<span class="mut" style="font-size:13px">7 tamaños, de 13 a 77 cm</span>`;btn=`<a class="btn sm" href="#crea">Crear el mío</a>`;}
-  else if(p.gift){img=`<div class="gift" style="background-color:${p.gift.bg}"><small>PIX·L</small><b>${mx(p.gift.amount)}</b><small>Tarjeta de regalo</small></div>`;btn=`<button class="btn sm" type="button" data-add="${p.id}">Añadir</button>`;}
-  else{img=`<canvas data-thumb="${p.id}" width="10" height="10"></canvas>${p.avail?'':'<span class="tag out">Agotado</span>'}`;
-   meta=`<div class="vpills">${['mini','cuadro'].map(v=>`<button class="vpill" type="button" data-var="${p.id}" data-v="${v}" aria-pressed="${p.variant===v}">${v==='mini'?'Mini 13 cm':'Cuadro 26 cm'}</button>`).join('')}</div>`;
-   btn=`<button class="btn sm" type="button" data-add="${p.id}" ${p.avail?'':'disabled'}>${p.avail?'Añadir':'Agotado'}</button>`;}
-  return `<article class="pcard"><div class="pimg">${img}</div><h3>${p.n}</h3><div class="price">${p.from?'Desde ':''}${mx(p.price)}</div>${meta}<div>${btn}</div></article>`;}).join('');
- document.querySelectorAll('[data-thumb]').forEach(cv=>{if(animate&&thumbIO&&!reduce()){drawGrid(cv,16,16,new Array(256).fill('#6C6E68'),20,null);thumbIO.observe(cv);}else drawThumb(cv,null);});
+function usarImagen(img) {
+  S.img = img; S.zoom = 1; S.ox = S.oy = .5; $('#zoom').value = 1; $('#o-zoom').textContent = '1×';
+  S.subs = {}; S.opcion = {};
+  $('#hero').hidden = true; $('#app').hidden = false;
+  marcarPasos(3);
+  window.scrollTo({ top: 0 });
+  requestAnimationFrame(() => procesar(true));
 }
-const thumbIO='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){thumbIO.unobserve(e.target);drawThumb(e.target,'drop');}}),{threshold:.35}):null;
-function drawThumb(cv,kind){const id=cv.dataset.thumb;
- if(id==='custom'){if(!S.grid)return;const s=shrink();drawGrid(cv,s.W,s.H,s.cols,Math.max(4,Math.floor(320/s.W)),kind);return;}
- const d=DESIGNS.find(x=>x.id===id);drawGrid(cv,16,16,designCols(d),20,kind);}
-
-/* ---- carrito ---- */
-function addToCart(item,fromEl){
- const ex=S.cart.find(c=>c.key===item.key);if(ex)ex.qty++;else S.cart.push({...item,qty:1});saveCart();paintCart();flyToCart(fromEl,item.color||'#C91A09');
- const b=$('cartCount');b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');
+function ejemplo() {
+  const c = document.createElement('canvas'); c.width = c.height = 640; const x = c.getContext('2d');
+  let g = x.createLinearGradient(0, 0, 0, 400); g.addColorStop(0, '#2b3a8f'); g.addColorStop(.55, '#e85d8c'); g.addColorStop(1, '#ffb347');
+  x.fillStyle = g; x.fillRect(0, 0, 640, 640);
+  x.fillStyle = '#fff3a0'; x.beginPath(); x.arc(320, 330, 110, 0, Math.PI * 2); x.fill();
+  x.fillStyle = '#5b2a6e'; x.beginPath(); x.moveTo(0, 420); x.lineTo(150, 270); x.lineTo(260, 380); x.lineTo(390, 230); x.lineTo(520, 360); x.lineTo(640, 290); x.lineTo(640, 640); x.lineTo(0, 640); x.fill();
+  x.fillStyle = '#2a1640'; x.beginPath(); x.moveTo(0, 520); x.lineTo(200, 410); x.lineTo(360, 500); x.lineTo(500, 430); x.lineTo(640, 490); x.lineTo(640, 640); x.lineTo(0, 640); x.fill();
+  g = x.createLinearGradient(0, 540, 0, 640); g.addColorStop(0, '#1c6e8c'); g.addColorStop(1, '#0a2a44'); x.fillStyle = g; x.fillRect(0, 560, 640, 80);
+  x.fillStyle = '#ffd56b'; for (let i = 0; i < 6; i++) x.fillRect(250 + i * 6, 570 + i * 11, 140 - i * 12, 4);
+  for (let i = 0; i < 60; i++) { x.fillStyle = `rgba(255,255,255,${Math.random() * .8})`; x.fillRect(Math.random() * 640, Math.random() * 200, 2, 2); }
+  usarImagen(c);
 }
-function cartTotals(){const sub=S.cart.reduce((a,c)=>a+c.price*c.qty,0);const ship=sub===0||sub>=S.o.free?0:+S.o.shipFee;return{sub,ship,total:sub+ship};}
-function paintCart(){
- const n=S.cart.reduce((a,c)=>a+c.qty,0);$('cartCount').textContent=n;$('cartCount').classList.toggle('hide',!n);$('nFree').textContent=mx(S.o.free);
- if(!S.cart.length){$('ditems').innerHTML=`<div class="empty"><h3 style="font-size:19px">Tu carrito está vacío</h3><p class="mut">Crea un mosaico con tu foto o elige un diseño listo.</p><a class="btn red" href="#crea" data-close>Crear con mi foto</a></div>`;$('dfoot').innerHTML='';return;}
- $('ditems').innerHTML=S.cart.map((c,k)=>`<div class="ditem"><div class="thumb">${c.thumb?`<canvas data-cthumb="${k}" width="10" height="10"></canvas>`:`<span class="stud" style="width:34px;height:34px;background:${c.color||'#C91A09'}"></span>`}</div>
-  <div><b>${c.name}</b><small>${c.detail}</small><br><span class="qty"><button type="button" data-dec="${k}" aria-label="Quitar uno">−</button><span>${c.qty}</span><button type="button" data-inc="${k}" aria-label="Agregar uno">+</button></span></div>
-  <div style="font-weight:700">${mx(c.price*c.qty)}</div></div>`).join('');
- document.querySelectorAll('[data-cthumb]').forEach(cv=>{const c=S.cart[+cv.dataset.cthumb];drawGrid(cv,c.thumb.W,c.thumb.H,c.thumb.cols,Math.max(2,Math.floor(96/c.thumb.W)),null);});
- const t=cartTotals(),left=Math.max(0,S.o.free-t.sub);
- $('dfoot').innerHTML=`<div class="dl"><span>Subtotal</span><span>${mx(t.sub)}</span></div><div class="dl"><span>Envío</span><span>${t.ship?mx(t.ship):'Gratis'}</span></div>
-  <div class="freebar" aria-hidden="true"><i style="width:${Math.min(100,t.sub/Math.max(1,S.o.free)*100)}%"></i></div>
-  <div class="mut" style="font-size:13px">${left?`Te faltan ${mx(left)} para el envío gratis`:'Tu pedido tiene envío gratis'}</div>
-  <div class="dl t"><span>Total</span><span>${mx(t.total)}</span></div>
-  <button class="btn red wide" id="checkout" type="button">Pedir por WhatsApp</button><button class="btn ghost wide sm" id="copyCart" type="button">Copiar mi pedido</button>`;
+const dimImg = im => [im.width || im.naturalWidth, im.height || im.naturalHeight];
+function recorte(W, H) {
+  const [iw, ih] = dimImg(S.img), a = W / H;
+  let cw, ch;
+  if (iw / ih > a) { ch = ih; cw = ih * a; } else { cw = iw; ch = iw / a; }
+  cw /= S.zoom; ch /= S.zoom;
+  return { sx: (iw - cw) * S.ox, sy: (ih - ch) * S.oy, cw, ch, iw, ih };
 }
-function cartText(){const t=cartTotals();return `¡Hola PIX·L! Quiero hacer este pedido:\n`+S.cart.map(c=>`• ${c.qty} × ${c.name} (${c.detail})${c.code?` · código ${c.code}`:''} · ${mx(c.price*c.qty)}`).join('\n')+
- `\nSubtotal: ${mx(t.sub)}\nEnvío: ${t.ship?mx(t.ship):'gratis'}\nTotal: ${mx(t.total)} MXN`+(S.cart.some(c=>c.code)?'\nAhorita les mando mi foto.':'');}
-function openCart(){$('drawer').classList.add('on');$('scrim').classList.add('on');$('drawer').setAttribute('aria-hidden','false');paintCart();setTimeout(()=>$('closeCart').focus(),50);}
-function closeCart(){$('drawer').classList.remove('on');$('scrim').classList.remove('on');$('drawer').setAttribute('aria-hidden','true');}
-function customItem(){const sz=size();return{key:'custom-'+S.code+'-'+S.size+'-'+S.style+'-'+S.finish,name:'Mosaico con tu foto',
- detail:`${sz.n} ${(sz.W*.8).toFixed(0)}×${(sz.H*.8).toFixed(0)} cm · ${STYLES.find(s=>s.k===S.style).n} · piezas ${FINISH[S.finish].n}`,price:retail(sz),code:S.code,thumb:shrink(),color:'#C91A09'};}
-
-/* ---- panel dueña ---- */
-function suggest(g){const L=PAL[IDX[g]].lab,n=need(IDX[g]);return PAL.filter(p=>p.g!==g&&S.stock[p.g]-(S.counts[IDX[p.g]]?need(IDX[p.g]):0)>=n).map(p=>({p,d:dE(L,p.lab)})).sort((a,b)=>a.d-b.d).slice(0,4);}
-function pickText(){const o=S.o,b=bases(size());return `Pedido ${S.code}\n`+S.order.map(i=>`${PAL[i].n} (#${PAL[i].g}): ${need(i)} piezas${o.grams>0?` ≈ ${(need(i)*o.grams/100).toFixed(1)} g`:''}`).join('\n')+`\n${b.n} × ${b.name}`;}
-const OF=[['oBag','bag'],['oBase32','base32'],['oBase16','base16'],['oTax','tax'],['oFx','fx'],['oPack','pack'],['oMargin','margin'],['oSpare','spare'],['oShipFee','shipFee'],['oFree','free'],['oGrams','grams'],['oWa','wa']];
-function paintOwner(){
- const o=S.o;for(const [id,k] of OF)if(document.activeElement!==$(id))$(id).value=((k==='grams'||k==='wa')&&!o[k])?'':o[k];
- const sz=size(),c=costFor(sz),price=retail(sz);
- $('oTable').innerHTML=`<tr><td>${c.qty.toLocaleString('es-MX')} piezas con impuesto</td><td class="n">${mx(c.pieces)}</td></tr><tr><td>${c.b.n} × ${c.b.name} con impuesto</td><td class="n">${mx(c.base)}</td></tr>
-  <tr><td>Empaque</td><td class="n">${mx(c.pack)}</td></tr><tr class="t"><td>Costo</td><td class="n">${mx(c.total)}</td></tr><tr class="t"><td>Precio al cliente (sin envío)</td><td class="n">${mx(price)}</td></tr>`;
- $('oProfit').textContent=mx(price-c.total);
- const sh=shortages();
- $('pending').innerHTML=sh.map(i=>{const p=PAL[i],sg=suggest(p.g);return `<div class="alert"><h3>Te faltan piezas de ${p.n}: necesitas ${need(i)} y tienes ${S.stock[p.g]}</h3><div style="font-size:14px">¿Lo cambio por el más parecido que sí tienes?</div><div class="subopts">${
-  sg.map((s,k)=>`<button class="subopt" type="button" data-sub="${p.g}" data-to="${s.p.g}"><i style="background:${s.p.hex}"></i>${k?'Usar':'Sí, usar'} ${s.p.n} <em>${s.d<5?'casi igual':s.d<12?'parecido':'distinto'}</em></button>`).join('')||'<em>No tienes otro color con suficientes piezas.</em>'
-  }<button class="subopt" type="button" data-sub="${p.g}" data-to="drop">Recalcular sin este color</button></div></div>`;}).join('');
- $('subs').innerHTML=Object.entries(S.subs).map(([g,t])=>{const a=PAL[IDX[g]];return `<div class="done"><i style="background:${a.hex}"></i><s>${a.n}</s> cambiado por ${t==='drop'?'otros colores':`<i style="background:${PAL[IDX[t]].hex}"></i> ${PAL[IDX[t]].n}`}<button class="subopt" type="button" data-undo="${g}" style="margin-left:auto">Deshacer</button></div>`;}).join('');
- $('inv').innerHTML=[...PAL].sort((a,b)=>(S.counts[IDX[b.g]]||0)-(S.counts[IDX[a.g]]||0)||S.stock[b.g]-S.stock[a.g]).map(p=>{const i=IDX[p.g],n=S.counts[i]?need(i):0;
-  return `<label class="iv${n>S.stock[p.g]?' short':''}${S.stock[p.g]?'':' zero'}"><i style="background:${p.hex}"></i><span>${p.n}<small>#${p.g}${n?` · usa ${n}`:''}</small></span><input type="number" min="0" step="100" data-st="${p.g}" value="${S.stock[p.g]}" aria-label="Piezas de ${p.n} en inventario"></label>`;}).join('');
- $('pick').innerHTML=`<tr><th>Color</th><th class="n">Piezas</th>${o.grams>0?'<th class="n">Gramos</th>':''}</tr>`+S.order.map(i=>`<tr class="${need(i)>S.stock[PAL[i].g]?'short':''}"><td>${PAL[i].n} #${PAL[i].g}</td><td class="n">${need(i)}</td>${o.grams>0?`<td class="n">${(need(i)*o.grams/100).toFixed(1)}</td>`:''}</tr>`).join('')+`<tr class="t"><td>${bases(sz).n} × ${bases(sz).name}</td><td></td>${o.grams>0?'<td></td>':''}</tr>`;
- const low=PAL.filter(p=>S.stock[p.g]>0&&S.stock[p.g]<300);
- $('restock').innerHTML=low.length?low.map(p=>`<tr><td>${p.n} #${p.g}</td><td class="n">quedan ${S.stock[p.g]}</td></tr>`).join(''):'<tr><td>Todo bien por ahora.</td></tr>';
- $('fulfil').disabled=sh.length>0;$('fulfil').textContent=S.confirmFulfil?'¿Seguro? Toca otra vez':'Descontar del inventario';
+function muestrear(W, H) {
+  const r = recorte(W, H);
+  // reducción por pasos para no perder detalle
+  let src = S.img, sx = r.sx, sy = r.sy, sw = r.cw, sh = r.ch;
+  while (sw > W * 3 && sh > H * 3) {
+    const c = document.createElement('canvas'); c.width = Math.ceil(sw / 2); c.height = Math.ceil(sh / 2);
+    const x = c.getContext('2d'); x.imageSmoothingQuality = 'high';
+    x.drawImage(src, sx, sy, sw, sh, 0, 0, c.width, c.height);
+    src = c; sx = 0; sy = 0; sw = c.width; sh = c.height;
+  }
+  const c = document.createElement('canvas'); c.width = W; c.height = H;
+  const x = c.getContext('2d', { willReadFrequently: true }); x.imageSmoothingQuality = 'high';
+  x.fillStyle = '#fff'; x.fillRect(0, 0, W, H);
+  x.drawImage(src, sx, sy, sw, sh, 0, 0, W, H);
+  return x.getImageData(0, 0, W, H);
+}
+function ajustar(d) {
+  const b = S.brillo * 2.55, cc = S.contraste * 2.55, f = (259 * (cc + 255)) / (255 * (259 - cc)), s = 1 + S.saturacion / 50;
+  if (!b && !cc && !S.saturacion) return;
+  for (let i = 0; i < d.length; i += 4) {
+    let r = d[i], g = d[i + 1], bl = d[i + 2];
+    r = f * (r - 128) + 128 + b; g = f * (g - 128) + 128 + b; bl = f * (bl - 128) + 128 + b;
+    const gr = 0.299 * r + 0.587 * g + 0.114 * bl;
+    d[i] = clamp(gr + (r - gr) * s, 0, 255); d[i + 1] = clamp(gr + (g - gr) * s, 0, 255); d[i + 2] = clamp(gr + (bl - gr) * s, 0, 255);
+  }
 }
 
-/* ============ Utilidades ============ */
-let DL=null;
-async function save(name,data){if(!DL){toast('Las descargas no están disponibles aquí.');return;}try{await DL.save({filename:name,data});}catch(e){if(e&&e.code==='declined')return;toast('No se pudo descargar el archivo.');}}
-const blob=c=>new Promise(r=>c.toBlob(r,'image/png'));
-function toast(t){const el=$('toast');el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('on'),2400);}
-async function copy(t,ok){try{await navigator.clipboard.writeText(t);toast(ok);}catch(e){toast('Tu navegador no dejó copiar. Selecciona el texto y cópialo.');}}
-const BC=['#C91A09','#F2CD37','#0055BF','#4B9F4A','#FE8A18','#E4ADC8','#36AEBF'];
-function rain(){if(reduce())return;const r=document.createElement('div');r.className='rain';
- for(let i=0;i<34;i++){const b=document.createElement('i');b.style.left=(Math.random()*100)+'vw';b.style.background=BC[i%BC.length];b.style.animationDelay=(Math.random()*.5)+'s';b.style.setProperty('--r',(Math.random()*720-360)+'deg');r.appendChild(b);}
- document.body.appendChild(r);setTimeout(()=>r.remove(),2200);}
-function flyToCart(el,color){if(reduce()||!el)return;const a=el.getBoundingClientRect(),b=$('cartBtn').getBoundingClientRect();const f=document.createElement('div');f.className='fly';f.style.background=color;
- f.style.left=(a.left+a.width/2)+'px';f.style.top=a.top+'px';document.body.appendChild(f);
- requestAnimationFrame(()=>{f.style.transform=`translate(${b.left+b.width/2-a.left-a.width/2}px,${b.top+10-a.top}px) rotate(540deg) scale(.6)`;f.style.opacity='.4';});setTimeout(()=>f.remove(),700);}
-function openOwner(){$('duena').classList.remove('hide');paintOwner();$('duena').scrollIntoView({block:'start'});}
-function waLink(text){const wa=(S.o.wa||'').replace(/\D/g,'');return wa?`https://wa.me/${wa}?text=${encodeURIComponent(text)}`:null;}
-function sendOrder(text){rain();const l=waLink(text);if(l){const a=document.createElement('a');a.href=l;a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();}
- else copy(text,'Pedido copiado. Pégalo en el WhatsApp de PIX·L.');}
-
-/* ============ Eventos ============ */
-function init(){
- const trackOrder=()=>sendOrder('¡Hola PIX·L! Quiero saber cómo va mi pedido. Mi código es: ');
- const QUICK=[['Con tu foto','#crea','#C91A09'],['Mascotas','mascotas','#FE8A18'],['Mexicano','mexicano','#4B9F4A'],['Amor','amor','#C870A0'],['Paisajes','paisaje','#0055BF'],['Tarjetas de regalo','regalo','#F2CD37'],['Rastrear pedido','track','#36AEBF'],['Dudas','#dudas','#6C6E68']];
- $('quick').innerHTML=QUICK.map(([n,t,c])=>t.startsWith('#')?`<a class="qchip" href="${t}"><span class="stud" style="background:${c}"></span>${n}</a>`:`<button class="qchip" type="button" data-q="${t}"><span class="stud" style="background:${c}"></span>${n}</button>`).join('');
- $('quick').onclick=e=>{const b=e.target.closest('[data-q]');if(!b)return;if(b.dataset.q==='track'){trackOrder();return;}S.cat=b.dataset.q;paintGrid(false);$('disenos').scrollIntoView({block:'start'});};
- document.querySelectorAll('[data-filter]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();S.cat=a.dataset.filter;paintGrid(false);$('disenos').scrollIntoView({block:'start'});}));
- $('trackBtn').onclick=trackOrder;
- // héroe: los diseños listos se arman solos, uno tras otro
- const hcv=$('cvHero');let hk=0;const heroLoop=()=>{const d=DESIGNS[hk%DESIGNS.length];hk++;drawGrid(hcv,16,16,designCols(d),Math.max(8,Math.floor(((hcv.parentElement.clientWidth||400)-24)*(window.devicePixelRatio||1)/16)),'drop');};
- heroLoop();if(!reduce())setInterval(()=>{if(!document.hidden)heroLoop();},4200);
- $('searchForm').onsubmit=e=>{e.preventDefault();S.q=$('q').value.trim();S.cat='todo';paintGrid(false);$('disenos').scrollIntoView({block:'start'});};
- $('q').oninput=e=>{S.q=e.target.value.trim();paintGrid(false);};
- $('cats').onclick=e=>{const b=e.target.closest('[data-cat]');if(!b)return;S.cat=b.dataset.cat;paintGrid(false);};
- $('pricef').onclick=e=>{const b=e.target.closest('[data-pf]');if(!b)return;S.pf=b.dataset.pf;paintGrid(false);};
- $('sort').onchange=e=>{S.sort=e.target.value;paintGrid(false);};
- $('grid').onclick=e=>{const v=e.target.closest('[data-var]');if(v){S.variant[v.dataset.var]=v.dataset.v;paintGrid(false);return;}
-  const a=e.target.closest('[data-add]');if(!a)return;const id=a.dataset.add;
-  if(id.startsWith('gift')){const g=GIFTS.find(x=>x.id===id);addToCart({key:id,name:g.n,detail:'Te la mandamos por WhatsApp',price:g.amount,color:g.bg},a);}
-  else{const d=DESIGNS.find(x=>x.id===id),vv=S.variant[id]||'mini',cols=designCols(d);
-   addToCart({key:id+'-'+vv,name:d.n,detail:vv==='mini'?'Mini 13 × 13 cm':'Cuadro 26 × 26 cm',price:retail(designSize(vv)),thumb:{W:16,H:16,cols},color:cols[7*16+7]},a);}
-  a.textContent='Agregado ✓';a.classList.add('added');setTimeout(()=>{a.textContent='Añadir';a.classList.remove('added');},1500);};
- $('upBtn').onclick=()=>$('file').click();$('file').onchange=e=>loadFile(e.target.files[0]);
- document.body.addEventListener('dragover',e=>e.preventDefault());document.body.addEventListener('drop',e=>{e.preventDefault();loadFile(e.dataTransfer.files[0]);});
- const pk=$('peek');pk.addEventListener('pointerdown',()=>showOriginal(true));['pointerup','pointerleave','pointercancel'].forEach(ev=>pk.addEventListener(ev,()=>showOriginal(false)));
- $('styles').onclick=e=>{const b=e.target.closest('[data-s]');if(!b)return;S.style=b.dataset.s;S.sat=STYLES.find(s=>s.k===S.style).sat;$('sat').value=S.sat;render('pop');};
- $('sizes').onclick=e=>{const b=e.target.closest('[data-z]');if(!b)return;S.size=b.dataset.z;S.sec=0;S.done.clear();render('pop');};
- $('finish').onclick=e=>{const b=e.target.closest('[data-p]');if(!b)return;S.finish=b.dataset.p;render('pop');};
- for(const [id,k] of [['zoom','zoom'],['cropX','cx'],['cropY','cy'],['bri','bri'],['con','con'],['sat','sat']])$(id).oninput=e=>{S[k]=+e.target.value;render();};
- $('dither').onchange=e=>{S.dither=e.target.checked;render('pop');};
- $('addCustom').onclick=e=>{addToCart(customItem(),e.currentTarget);toast('Agregado a tu carrito');};
- $('buyNow').onclick=()=>{const it=customItem();sendOrder(`¡Hola PIX·L! Quiero este mosaico:\n• ${it.name} (${it.detail}) · código ${it.code} · ${mx(it.price)}\nAhorita les mando mi foto.`);};
- $('secGrid').onclick=e=>{const b=e.target.closest('[data-sec]');if(!b)return;S.sec=+b.dataset.sec;paintGuide();};
- $('secPrev').onclick=()=>{const {W,H}=size(),n=W/SEC*H/SEC;S.sec=(S.sec-1+n)%n;paintGuide();};
- $('secNext').onclick=()=>{const {W,H}=size(),n=W/SEC*H/SEC;S.sec=(S.sec+1)%n;paintGuide();};
- $('secDone').onchange=e=>{e.target.checked?S.done.add(S.sec):S.done.delete(S.sec);paintGuide();if(e.target.checked)rain();};
- $('cartBtn').onclick=openCart;$('closeCart').onclick=closeCart;$('scrim').onclick=closeCart;
- document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('drawer').classList.contains('on'))closeCart();});
- $('drawer').addEventListener('click',e=>{
-  if(e.target.closest('[data-close]')){closeCart();return;}
-  const inc=e.target.closest('[data-inc]'),dec=e.target.closest('[data-dec]');
-  if(inc){S.cart[+inc.dataset.inc].qty++;saveCart();paintCart();return;}
-  if(dec){const k=+dec.dataset.dec;S.cart[k].qty--;if(S.cart[k].qty<=0)S.cart.splice(k,1);saveCart();paintCart();return;}
-  if(e.target.id==='checkout')sendOrder(cartText());
-  if(e.target.id==='copyCart')copy(cartText(),'Pedido copiado');});
- $('openOwner').onclick=()=>{location.hash='duena';openOwner();};
- $('closeOwner').onclick=()=>{$('duena').classList.add('hide');history.replaceState(null,'',location.pathname+location.search);};
- window.addEventListener('hashchange',()=>{if(location.hash==='#duena')openOwner();});
- const num=v=>Math.max(0,parseFloat(v)||0);
- for(const [id,k] of OF)$(id).addEventListener('input',e=>{S.o[k]=k==='wa'?e.target.value.trim():num(e.target.value);persist();paintCreator();paintGrid(false);paintCart();paintOwner();});
- let invT;$('inv').addEventListener('input',e=>{const inp=e.target.closest('[data-st]');if(!inp)return;S.stock[inp.dataset.st]=Math.max(0,parseInt(inp.value)||0);persist();clearTimeout(invT);invT=setTimeout(()=>{render();paintGrid(false);},500);});
- $('pending').onclick=e=>{const b=e.target.closest('[data-sub]');if(!b)return;S.subs[b.dataset.sub]=b.dataset.to;toast('Listo, mosaico actualizado');render('pop');};
- $('subs').onclick=e=>{const b=e.target.closest('[data-undo]');if(!b)return;delete S.subs[b.dataset.undo];render('pop');};
- $('fulfil').onclick=()=>{if(!S.confirmFulfil){S.confirmFulfil=true;paintOwner();setTimeout(()=>{S.confirmFulfil=false;if(!$('duena').classList.contains('hide'))paintOwner();},4000);return;}
-  S.confirmFulfil=false;for(const i of S.order)S.stock[PAL[i].g]=Math.max(0,S.stock[PAL[i].g]-need(i));persist();toast(`Pedido ${S.code} descontado del inventario`);rain();render();paintGrid(false);};
- $('cpPick').onclick=()=>copy(pickText(),'Lista de surtido copiada');
- $('dlPlan').onclick=async()=>save(`${S.code}-plano.png`,await blob(drawPlan(size().W>64?24:32)));
- $('dlSec').onclick=async()=>{const c=document.createElement('canvas');drawSection(c,S.sec,48);save(`${S.code}-seccion-${$('secTitle').textContent.split(' ')[1]}.png`,await blob(c));};
- $('dlPrev').onclick=async()=>{const c=document.createElement('canvas');const {W,H}=size();drawGrid(c,W,H,gridCols(),Math.max(8,Math.floor(1600/W)),null,S.finish);save(`${S.code}-vista-previa.png`,await blob(c));};
- let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(S.grid){const {W,H}=size(),cv=$('cvMain');drawGrid(cv,W,H,gridCols(),csFor(cv,W),null,S.finish);paintGuide();}},150);});
- if(location.hash==='#duena')setTimeout(openOwner,60);
- paintGrid(true);paintCart();demo();
- const dl=['dlPlan','dlSec','dlPrev'];
- if(window.claude&&typeof window.claude.use==='function'){dl.forEach(id=>$(id).classList.add('hide'));window.claude.use('downloads').then(d=>{if(d){DL=d;dl.forEach(id=>$(id).classList.remove('hide'));}}).catch(()=>{});}
- else DL={save:async({filename,data})=>{const b=data instanceof Blob?data:new Blob([data]);const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);}};
+/* ---------------- cuantización ---------------- */
+const idxDe = id => S.pal.findIndex(c => c.id === id);
+function cuantizar(d, W, H) {
+  const usable = [];
+  S.pal.forEach((c, i) => { if (!S.excluidos.has(c.id)) usable.push(i); });
+  if (!usable.length) return null;
+  const sub = {};
+  for (const [a, b] of Object.entries(S.subs)) { const ia = idxDe(a), ib = idxDe(b); if (ia >= 0 && ib >= 0) sub[ia] = ib; }
+  const resolver = k => { let n = 0; while (sub[k] !== undefined && n++ < 40) k = sub[k]; return k; };
+  const n = W * H, grid = new Uint16Array(n), cache = new Map(), buf = new Float32Array(n * 3);
+  for (let i = 0; i < n; i++) { buf[i * 3] = d[i * 4]; buf[i * 3 + 1] = d[i * 4 + 1]; buf[i * 3 + 2] = d[i * 4 + 2]; }
+  const cercano = (r, g, b) => {
+    const key = (r << 16) | (g << 8) | b; let k = cache.get(key);
+    if (k === undefined) {
+      const lab = rgb2lab(r, g, b); let best = Infinity;
+      for (const i of usable) { const e = de2000(lab, S.pal[i].lab); if (e < best) { best = e; k = i; } }
+      k = resolver(k); cache.set(key, k);
+    }
+    return k;
+  };
+  const suma = (x, y, er, eg, eb, w) => { if (x < 0 || x >= W || y >= H) return; const j = (y * W + x) * 3; buf[j] += er * w; buf[j + 1] += eg * w; buf[j + 2] += eb * w; };
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    const i = y * W + x;
+    const r = clamp(Math.round(buf[i * 3]), 0, 255), g = clamp(Math.round(buf[i * 3 + 1]), 0, 255), b = clamp(Math.round(buf[i * 3 + 2]), 0, 255);
+    const k = cercano(r, g, b); grid[i] = k;
+    if (S.dither) {
+      const p = S.pal[k].rgb, er = (r - p[0]) * .75, eg = (g - p[1]) * .75, eb = (b - p[2]) * .75;
+      suma(x + 1, y, er, eg, eb, 7 / 16); suma(x - 1, y + 1, er, eg, eb, 3 / 16); suma(x, y + 1, er, eg, eb, 5 / 16); suma(x + 1, y + 1, er, eg, eb, 1 / 16);
+    }
+  }
+  return grid;
 }
-init();
+const necesarias = cnt => cnt ? cnt + Math.max(S.cat.tienda.extraMin ?? 2, Math.ceil(cnt * (S.cat.tienda.extraPct ?? .03))) : 0;
+function revisarInventario() {
+  S.cuenta = new Uint32Array(S.pal.length);
+  for (let i = 0; i < S.grid.length; i++) S.cuenta[S.grid[i]]++;
+  S.problemas = [];
+  S.pal.forEach((c, k) => {
+    const cnt = S.cuenta[k]; if (!cnt) return;
+    const need = necesarias(cnt), st = stockDe(c);
+    if (need <= st) return;
+    const cands = [];
+    S.pal.forEach((d, j) => {
+      if (j === k || S.excluidos.has(d.id) || S.subs[d.id]) return;
+      if (necesarias(S.cuenta[j] + cnt) > stockDe(d)) return;
+      cands.push({ j, e: de2000(c.lab, d.lab) });
+    });
+    cands.sort((a, b) => a.e - b.e);
+    S.problemas.push({ k, need, st, cands: cands.slice(0, 6) });
+  });
+}
+
+/* ---------------- pipeline ---------------- */
+let cola = 0;
+function procesar(animar) {
+  if (!S.img || !S.cat) return;
+  cancelAnimationFrame(cola);
+  cola = requestAnimationFrame(() => {
+    S.W = S.pw * PLACA; S.H = S.ph * PLACA;
+    const datos = muestrear(S.W, S.H); ajustar(datos.data);
+    const g = cuantizar(datos.data, S.W, S.H);
+    if (!g) { toast('Necesitas al menos un color'); return; }
+    S.grid = g; revisarInventario();
+    render(animar); pintarMedidas(); pintarAlertas(); pintarPaleta(); pintarPedido();
+  });
+}
+
+/* ---------------- render ---------------- */
+const sprites = new Map();
+let anim = 0;
+function sprite(k, s) {
+  const key = k + '|' + s + '|' + S.pieza + '|' + S.base;
+  if (sprites.has(key)) return sprites.get(key);
+  const c = document.createElement('canvas'); c.width = c.height = s; const x = c.getContext('2d');
+  const rgb = S.pal[k].rgb, base = hex2rgb(baseActual().hex), col = `rgb(${rgb})`;
+  if (S.pieza === 'redondo') {
+    x.fillStyle = `rgb(${base})`; x.fillRect(0, 0, s, s);
+    if (s >= 6) { x.fillStyle = sombra(base, .7); x.beginPath(); x.arc(s / 2 + s * .04, s / 2 + s * .06, s * .46, 0, Math.PI * 2); x.fill(); }
+    x.fillStyle = col; x.beginPath(); x.arc(s / 2, s / 2, s * .46, 0, Math.PI * 2); x.fill();
+    if (s >= 6) {
+      const g = x.createRadialGradient(s * .36, s * .32, s * .02, s / 2, s / 2, s * .5);
+      g.addColorStop(0, 'rgba(255,255,255,.45)'); g.addColorStop(.45, 'rgba(255,255,255,0)'); g.addColorStop(1, 'rgba(0,0,0,.22)');
+      x.fillStyle = g; x.beginPath(); x.arc(s / 2, s / 2, s * .46, 0, Math.PI * 2); x.fill();
+    }
+  } else {
+    x.fillStyle = col; x.fillRect(0, 0, s, s);
+    if (s >= 6) {
+      const b = Math.max(1, s * .07);
+      x.fillStyle = aclara(rgb, .28); x.fillRect(0, 0, s, b); x.fillRect(0, 0, b, s);
+      x.fillStyle = sombra(rgb, .72); x.fillRect(0, s - b, s, b); x.fillRect(s - b, 0, b, s);
+      x.fillStyle = sombra(rgb, .78); x.beginPath(); x.arc(s / 2 + s * .04, s / 2 + s * .05, s * .3, 0, Math.PI * 2); x.fill();
+      x.fillStyle = col; x.beginPath(); x.arc(s / 2, s / 2, s * .3, 0, Math.PI * 2); x.fill();
+      x.fillStyle = aclara(rgb, .35); x.beginPath(); x.arc(s / 2, s / 2, s * .3, Math.PI * 1.05, Math.PI * 1.55); x.lineTo(s / 2, s / 2); x.fill();
+    }
+  }
+  sprites.set(key, c);
+  return c;
+}
+function render(animar) {
+  const cv = $('#mosaico'), wrap = $('#lienzo');
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const maxW = wrap.clientWidth - 20, maxH = Math.max(280, Math.min(window.innerHeight - 220, 900));
+  const s = Math.max(2, Math.floor(Math.min(maxW / S.W, maxH / S.H) * dpr));
+  cv.width = S.W * s; cv.height = S.H * s;
+  cv.style.width = (S.W * s / dpr) + 'px'; cv.style.height = (S.H * s / dpr) + 'px';
+  const x = cv.getContext('2d');
+  cancelAnimationFrame(anim);
+  if (sprites.size > 400) sprites.clear();
+  const pintar = i => { const px = i % S.W, py = (i / S.W) | 0; x.drawImage(sprite(S.grid[i], s), px * s, py * s); };
+  const final = () => {
+    if (S.original) { const r = recorte(S.W, S.H); x.drawImage(S.img, r.sx, r.sy, r.cw, r.ch, 0, 0, cv.width, cv.height); }
+    if (S.lineas && (S.pw > 1 || S.ph > 1)) {
+      x.save(); x.strokeStyle = 'rgba(255,255,255,.85)'; x.lineWidth = Math.max(1, dpr * 1.5); x.setLineDash([6 * dpr, 4 * dpr]);
+      x.beginPath();
+      for (let i = 1; i < S.pw; i++) { x.moveTo(i * PLACA * s, 0); x.lineTo(i * PLACA * s, cv.height); }
+      for (let j = 1; j < S.ph; j++) { x.moveTo(0, j * PLACA * s); x.lineTo(cv.width, j * PLACA * s); }
+      x.stroke(); x.restore();
+    }
+  };
+  const n = S.grid.length;
+  if (!animar || matchMedia('(prefers-reduced-motion: reduce)').matches) { for (let i = 0; i < n; i++) pintar(i); final(); return; }
+  // animación: las piezas "caen" en diagonal
+  x.fillStyle = baseActual().hex; x.fillRect(0, 0, cv.width, cv.height);
+  const orden = new Uint32Array(n); for (let i = 0; i < n; i++) orden[i] = i;
+  const peso = i => (i % S.W) + ((i / S.W) | 0) + Math.random() * 6;
+  const pesos = new Float32Array(n); for (let i = 0; i < n; i++) pesos[i] = peso(i);
+  orden.sort((a, b) => pesos[a] - pesos[b]);
+  const pasos = 28, lote = Math.ceil(n / pasos); let p = 0;
+  const frame = () => { const fin = Math.min(n, p + lote); for (; p < fin; p++) pintar(orden[p]); if (p < n) anim = requestAnimationFrame(frame); else final(); };
+  anim = requestAnimationFrame(frame);
+}
+function pintarMedidas() {
+  const pz = S.cat.piezas[S.pieza];
+  $('#medidas').innerHTML = `${S.W} × ${S.H} piezas<small>${(S.W * CM).toFixed(1)} × ${(S.H * CM).toFixed(1)} cm · ${fmtN(S.W * S.H)} piezas ${pz.nombre.toLowerCase()} · ${S.pw * S.ph} ${S.pw * S.ph === 1 ? 'base' : 'bases'}</small>`;
+}
+
+/* ---------------- UI: tamaños ---------------- */
+function pintarTamanos() {
+  $('#tamanos').innerHTML = TAMANOS.map(([w, h]) => {
+    const on = w === S.pw && h === S.ph, k = 30 / Math.max(w, h);
+    return `<button type="button" class="tam" data-w="${w}" data-h="${h}" aria-pressed="${on}"><div class="forma" style="width:${w * k}px;height:${h * k}px"></div><b>${w}×${h}</b>${Math.round(w * 25.6)}×${Math.round(h * 25.6)} cm</button>`;
+  }).join('');
+  $('#pw').value = S.pw; $('#ph').value = S.ph;
+}
+function setTamano(w, h) {
+  S.pw = clamp(w | 0 || 1, 1, 6); S.ph = clamp(h | 0 || 1, 1, 6);
+  pintarTamanos(); $('#n-bases').textContent = S.pw * S.ph; procesar(true);
+}
+
+/* ---------------- UI: colores ---------------- */
+function pintarAlertas() {
+  const el = $('#alertas');
+  if (!S.problemas.length) {
+    el.innerHTML = `<p class="ok">✓ Todos los colores de tu mosaico están en inventario.</p>`;
+  } else {
+    const varios = S.problemas.filter(p => p.cands.length).length > 1;
+    el.innerHTML = S.problemas.map(p => {
+      const c = S.pal[p.k], falta = p.need - p.st;
+      if (!p.cands.length) return `<div class="alerta sin"><div class="par"><span class="sw" style="background:${c.hex}"></span>${c.nombre}</div>
+        <p>Necesitas ${fmtN(p.need)} y ${p.st ? 'solo hay ' + fmtN(p.st) : 'está agotado'}. No hay un color parecido con suficientes piezas.</p>
+        <div class="btns"><button class="btn sec chico" data-quitar="${c.id}" type="button">Quitar este color</button></div></div>`;
+      const i = (S.opcion[c.id] || 0) % p.cands.length, d = S.pal[p.cands[i].j];
+      return `<div class="alerta"><p><b>${c.nombre}</b> — necesitas ${fmtN(p.need)}, ${p.st ? 'hay ' + fmtN(p.st) + ' (faltan ' + fmtN(falta) + ')' : 'está agotado'}.</p>
+        <div class="par"><span class="sw" style="background:${c.hex}"></span><span class="flecha">→</span><span class="sw" style="background:${d.hex}"></span>${d.nombre} <span class="parecido">${parecido(p.cands[i].e)}</span></div>
+        <div class="btns"><button class="btn verde chico" type="button" data-acepta="${c.id}" data-por="${d.id}">Sí, sustituir</button>
+        ${p.cands.length > 1 ? `<button class="btn sec chico" type="button" data-otra="${c.id}">Otra opción (${i + 1}/${p.cands.length})</button>` : ''}</div></div>`;
+    }).join('') + (varios ? `<button class="btn chico" id="aceptar-todas" type="button" style="margin-bottom:12px">Aceptar todas las sugerencias</button>` : '');
+  }
+  const subs = Object.entries(S.subs);
+  $('#subs').innerHTML = subs.map(([a, b]) => {
+    const A = S.pal[idxDe(a)], B = S.pal[idxDe(b)]; if (!A || !B) return '';
+    return `<div><span class="sw" style="background:${A.hex};width:16px;height:16px"></span>→<span class="sw" style="background:${B.hex};width:16px;height:16px"></span>${A.nombre} → ${B.nombre}<button type="button" data-deshacer="${a}">deshacer</button></div>`;
+  }).join('');
+}
+function pintarPaleta() {
+  $('#paleta').innerHTML = S.pal.map((c, k) => {
+    const usado = S.cuenta && S.cuenta[k] > 0, fuera = S.excluidos.has(c.id) || !!S.subs[c.id], agot = stockDe(c) <= 0;
+    const t = `${c.nombre}${agot ? ' · agotado' : ''}${usado ? ' · ' + fmtN(S.cuenta[k]) + ' piezas' : ''}`;
+    return `<button type="button" class="pc${usado ? ' usado' : ''}${fuera ? ' fuera' : ''}${agot ? ' agotado' : ''}" style="background:${c.hex};color:${lum(c.rgb) > 140 ? '#1E1B18' : '#fff'}" data-color="${c.id}" title="${t}" aria-label="${t}"></button>`;
+  }).join('');
+  if (ADMIN) {
+    $('#admin-pieza').textContent = S.cat.piezas[S.pieza].nombre;
+    $('#admin-stock').innerHTML = S.pal.map(c => `<span class="sw" style="background:${c.hex}"></span><span>${c.nombre}</span><input type="number" min="0" step="100" value="${stockDe(c)}" data-stock="${c.id}" aria-label="Inventario ${c.nombre}">`).join('');
+  }
+}
+
+/* ---------------- UI: pedido ---------------- */
+const baseActual = () => S.cat.bases.find(b => b.id === S.base) || S.cat.bases[0];
+function pintarBases() {
+  $('#bases-sel').innerHTML = S.cat.bases.map(b => `<button type="button" data-base="${b.id}" aria-pressed="${b.id === S.base}" ${b.stock <= 0 ? 'disabled title="Agotada"' : ''}><span class="sw sq" style="background:${b.hex}"></span>${b.nombre}</button>`).join('');
+}
+function usados() {
+  const u = []; S.pal.forEach((c, k) => { if (S.cuenta[k]) u.push(k); });
+  const num = new Map(); u.forEach((k, i) => num.set(k, i + 1));
+  return { u, num };
+}
+function calcular() {
+  const t = S.cat.tienda, { u } = usados();
+  const piezas = u.reduce((a, k) => a + necesarias(S.cuenta[k]), 0);
+  const nb = S.pw * S.ph, b = baseActual();
+  const sPiezas = Math.round(piezas * t.precioPieza), sBases = S.conBases ? nb * b.precio : 0;
+  const sub = sPiezas + sBases, envio = sub >= (t.envioGratisDesde ?? Infinity) ? 0 : t.envio;
+  return { piezas, colores: u.length, nb, sPiezas, sBases, envio, total: sub + envio, base: b };
+}
+function pintarPedido() {
+  const c = calcular(), { u, num } = usados();
+  $('#n-bases').textContent = c.nb;
+  $('#resumen').innerHTML = `<p class="mini">${fmtN(S.W * S.H)} piezas en el mosaico + ${fmtN(c.piezas - S.W * S.H)} de repuesto · ${c.colores} colores</p>`;
+  $('#totales').innerHTML = `
+    <div class="renglon"><span>Piezas <small>(${fmtN(c.piezas)})</small></span><span>${fmt(c.sPiezas)}</span></div>
+    <div class="renglon"><span>Bases <small>(${S.conBases ? c.nb + ' × ' + fmt(c.base.precio) : 'no incluidas'})</small></span><span>${fmt(c.sBases)}</span></div>
+    <div class="renglon"><span>Envío a todo México</span><span>${c.envio ? fmt(c.envio) : 'Gratis'}</span></div>
+    <div class="renglon total"><span>Total</span><span>${fmt(c.total)}</span></div>`;
+  const pend = S.problemas.length, baseSin = S.conBases && c.base.stock < c.nb;
+  const msg = pend ? `Hay ${pend} ${pend === 1 ? 'color' : 'colores'} sin piezas suficientes. Acepta una sustitución arriba para continuar.` : baseSin ? `Solo hay ${c.base.stock} bases ${c.base.nombre.toLowerCase()}. Elige otro color de base.` : '';
+  $('#bloquea').hidden = !msg; $('#bloquea').textContent = msg;
+  $('#ordenar').disabled = !!msg;
+  $('#lista').innerHTML = `<table class="tabla"><tr><th>#</th><th>Color</th><th class="num">Piezas</th><th class="num">Inventario</th></tr>${u.map(k => {
+    const col = S.pal[k], need = necesarias(S.cuenta[k]), st = stockDe(col);
+    return `<tr><td><b>${num.get(k)}</b></td><td><span class="sw" style="background:${col.hex};width:14px;height:14px;vertical-align:-2px"></span> ${col.nombre}</td><td class="num">${fmtN(need)}</td><td class="num">${st >= need ? '✓' : '⚠ ' + fmtN(st)}</td></tr>`;
+  }).join('')}</table>`;
+  if (ADMIN) pintarProveedor(u);
+  marcarPasos(pend ? 3 : 4);
+}
+function pintarProveedor(u) {
+  const p = S.cat.proveedor, lote = p.loteTamano, url = p.busqueda[S.pieza];
+  let tl = 0, tc = 0;
+  const filas = u.map(k => {
+    const c = S.pal[k], need = necesarias(S.cuenta[k]), lotes = Math.ceil(need / lote); tl += lotes; tc += lotes * p.costoLote;
+    return `<tr><td><span class="sw" style="background:${c.hex};width:14px;height:14px;vertical-align:-2px"></span> ${c.nombre}</td><td class="num">${fmtN(need)}</td><td class="num">${lotes}</td><td><a href="${url.replace('{color}', encodeURIComponent(c.en.replace(/ /g, '-')))}" target="_blank" rel="noopener">buscar</a></td></tr>`;
+  }).join('');
+  $('#lista-prov').innerHTML = `<p class="mini">${p.nombre}. Lotes de ${lote} piezas · ${fmt(p.costoLote)} c/u (estimado).</p>
+    <table class="tabla"><tr><th>Color</th><th class="num">Piezas</th><th class="num">Lotes</th><th></th></tr>${filas}
+    <tr><td><b>Total</b></td><td></td><td class="num"><b>${tl}</b></td><td><b>${fmt(tc)}</b></td></tr></table>
+    <button class="btn sec chico" id="csv-prov" type="button" style="margin-top:10px">Descargar CSV</button>`;
+}
+function marcarPasos(n) { document.querySelectorAll('.pasos span').forEach(s => s.classList.toggle('on', +s.dataset.paso <= n)); }
+
+/* ---------------- pedido ---------------- */
+function abrirPedido() {
+  const c = calcular();
+  $('#resumen-dlg').innerHTML = `<b>Mosaico ${S.W}×${S.H}</b> (${(S.W * CM).toFixed(1)} × ${(S.H * CM).toFixed(1)} cm) · ${c.colores} colores · ${S.cat.piezas[S.pieza].nombre}<br>${S.conBases ? c.nb + ' bases ' + c.base.nombre.toLowerCase() : 'Sin bases'} · <b>Total ${fmt(c.total)}</b>`;
+  $('#dlg-pedido').showModal();
+}
+function crearPedido(form) {
+  const f = Object.fromEntries(new FormData(form).entries()), c = calcular(), { u, num } = usados();
+  const folio = 'PXL-' + new Date().toISOString().slice(2, 10).replace(/-/g, '') + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
+  const filas = [];
+  for (let y = 0; y < S.H; y++) { const r = []; for (let x = 0; x < S.W; x++) r.push(num.get(S.grid[y * S.W + x])); filas.push(r.join(',')); }
+  const pedido = {
+    folio, fecha: new Date().toISOString(), cliente: f,
+    mosaico: {
+      piezasAncho: S.W, piezasAlto: S.H, bases: [S.pw, S.ph], pieza: S.pieza, ref: S.cat.piezas[S.pieza].ref,
+      colores: u.map(k => ({ numero: num.get(k), id: S.pal[k].id, nombre: S.pal[k].nombre, hex: S.pal[k].hex, enMosaico: S.cuenta[k], conRepuesto: necesarias(S.cuenta[k]) })),
+      sustituciones: S.subs, cuadricula: filas
+    },
+    bases: S.conBases ? { cantidad: c.nb, color: c.base.id } : null,
+    totales: { piezas: c.sPiezas, bases: c.sBases, envio: c.envio, total: c.total, moneda: 'MXN' }
+  };
+  const lista = leerLS(LS_PEDIDOS) || []; lista.push({ folio, fecha: pedido.fecha, total: c.total, cliente: f.nombre }); guardarLS(LS_PEDIDOS, lista.slice(-50));
+  S.pedido = pedido;
+  const txt = [`¡Hola! Quiero ordenar un mosaico PIX·L 🧱`, `Folio: ${folio}`, `Tamaño: ${S.W}×${S.H} piezas (${(S.W * CM).toFixed(1)}×${(S.H * CM).toFixed(1)} cm)`,
+    `Pieza: ${S.cat.piezas[S.pieza].nombre} · ${c.colores} colores · ${fmtN(c.piezas)} piezas`,
+    S.conBases ? `Bases: ${c.nb} ${c.base.nombre.toLowerCase()}` : 'Sin bases', `Total: ${fmt(c.total)}`, '',
+    `Nombre: ${f.nombre}`, `Tel: ${f.telefono}`, `Dirección: ${f.calle}, ${f.colonia}, CP ${f.cp}, ${f.ciudad}, ${f.estado}`, f.notas ? `Notas: ${f.notas}` : '',
+    '', 'Te adjunto el archivo del pedido.'].filter((l, i, a) => l !== '' || a[i - 1] !== '').join('\n');
+  const wa = (S.cat.tienda.whatsapp || '').replace(/\D/g, '');
+  $('#folio').textContent = folio;
+  $('#ok-wa').href = wa ? `https://wa.me/${wa}?text=${encodeURIComponent(txt)}` : `https://wa.me/?text=${encodeURIComponent(txt)}`;
+  $('#ok-txt').textContent = `Descarga el archivo del pedido y mándalo por WhatsApp junto con el mensaje: ahí va tu diseño exacto para que armemos tu kit. Te confirmamos el pago y el envío por ahí.`;
+  descargar(`${folio}.json`, JSON.stringify(pedido, null, 1), 'application/json');
+  $('#dlg-ok').showModal();
+}
+function descargar(nombre, contenido, tipo) {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([contenido], { type: tipo })); a.download = nombre;
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+
+/* ---------------- instrucciones ---------------- */
+function textoSobre(rgb) { return lum(rgb) > 150 ? '#1E1B18' : '#FFFFFF'; }
+function canvasPlaca(px, py, num) {
+  const cs = 26, m = 24, N = PLACA, c = document.createElement('canvas');
+  c.width = c.height = m + N * cs + 4; const x = c.getContext('2d');
+  x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+  x.font = '600 10px system-ui,sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillStyle = '#6B645C';
+  for (let i = 0; i < N; i++) { x.fillText(i + 1, m + i * cs + cs / 2, m / 2); x.fillText(i + 1, m / 2, m + i * cs + cs / 2); }
+  x.font = '800 12px system-ui,sans-serif';
+  for (let y = 0; y < N; y++) for (let xx = 0; xx < N; xx++) {
+    const k = S.grid[(py * N + y) * S.W + px * N + xx], col = S.pal[k];
+    const X = m + xx * cs, Y = m + y * cs;
+    x.fillStyle = col.hex; x.fillRect(X, Y, cs, cs);
+    x.fillStyle = textoSobre(col.rgb); x.fillText(num.get(k), X + cs / 2, Y + cs / 2 + 1);
+  }
+  x.strokeStyle = 'rgba(0,0,0,.22)'; x.lineWidth = 1; x.beginPath();
+  for (let i = 0; i <= N; i++) { x.moveTo(m + i * cs + .5, m); x.lineTo(m + i * cs + .5, m + N * cs); x.moveTo(m, m + i * cs + .5); x.lineTo(m + N * cs, m + i * cs + .5); }
+  x.stroke();
+  x.strokeStyle = '#1E1B18'; x.lineWidth = 2.5; x.beginPath();
+  for (let i = 0; i <= N; i += 8) { x.moveTo(m + i * cs, m); x.lineTo(m + i * cs, m + N * cs); x.moveTo(m, m + i * cs); x.lineTo(m + N * cs, m + i * cs); }
+  x.stroke();
+  return c;
+}
+function canvasMini(num) {
+  const s = Math.max(2, Math.floor(700 / S.W)), c = document.createElement('canvas'); c.width = S.W * s; c.height = S.H * s;
+  const x = c.getContext('2d');
+  for (let i = 0; i < S.grid.length; i++) { x.fillStyle = S.pal[S.grid[i]].hex; x.fillRect((i % S.W) * s, ((i / S.W) | 0) * s, s, s); }
+  x.strokeStyle = '#fff'; x.lineWidth = 3; x.font = `800 ${Math.round(PLACA * s / 5)}px system-ui`; x.textAlign = 'center'; x.textBaseline = 'middle';
+  for (let j = 0; j < S.ph; j++) for (let i = 0; i < S.pw; i++) {
+    x.strokeRect(i * PLACA * s, j * PLACA * s, PLACA * s, PLACA * s);
+    x.fillStyle = 'rgba(0,0,0,.55)'; x.fillText(nombrePlaca(i, j), (i + .5) * PLACA * s + 2, (j + .5) * PLACA * s + 2);
+    x.fillStyle = '#fff'; x.fillText(nombrePlaca(i, j), (i + .5) * PLACA * s, (j + .5) * PLACA * s);
+  }
+  return c;
+}
+const nombrePlaca = (i, j) => String.fromCharCode(65 + j) + (i + 1);
+function leyenda(lista, num, cuenta) {
+  return `<div class="leyenda">${lista.map(k => { const c = S.pal[k]; return `<div><span class="num" style="background:${c.hex};color:${textoSobre(c.rgb)}">${num.get(k)}</span>${c.nombre}<span class="cant">×${fmtN(cuenta(k))}</span></div>`; }).join('')}</div>`;
+}
+function abrirInstrucciones() {
+  if (!S.grid) return;
+  const { u, num } = usados(), sec = $('#instrucciones');
+  const folio = S.pedido ? ' · ' + S.pedido.folio : '';
+  sec.innerHTML = `<div class="instr-barra"><h2>Instrucciones${folio}</h2><button class="btn chico" id="imprimir" type="button">Imprimir / guardar PDF</button><button class="btn sec chico" id="cerrar-instr" type="button">Cerrar</button></div>`;
+  const portada = document.createElement('div'); portada.className = 'pagina';
+  portada.innerHTML = `<h2>Tu mosaico PIX·L</h2><p class="mini">${S.W} × ${S.H} piezas · ${(S.W * CM).toFixed(1)} × ${(S.H * CM).toFixed(1)} cm · ${S.pw * S.ph} ${S.pw * S.ph === 1 ? 'base' : 'bases'} 32×32 · ${S.cat.piezas[S.pieza].nombre}</p>`;
+  portada.appendChild(canvasMini(num));
+  portada.insertAdjacentHTML('beforeend', `<h3>Cómo armarlo</h3><ol class="pasos-armado">
+    <li>Separa las piezas por número: cada color tiene el suyo (abajo).</li>
+    <li>Acomoda las bases como en el mapa: la letra es la fila y el número la columna (A1 va arriba a la izquierda).</li>
+    <li>Arma una base a la vez. Empieza por la fila 1 y avanza de izquierda a derecha; las líneas gruesas marcan bloques de 8×8 para no perderte.</li>
+    <li>Presiona cada pieza hasta que haga clic. Te mandamos piezas de repuesto de cada color.</li></ol>
+    <h3>Colores</h3>${leyenda(u, num, k => S.cuenta[k])}`);
+  sec.appendChild(portada);
+  for (let j = 0; j < S.ph; j++) for (let i = 0; i < S.pw; i++) {
+    const pg = document.createElement('div'); pg.className = 'pagina';
+    const cnt = new Map();
+    for (let y = 0; y < PLACA; y++) for (let x = 0; x < PLACA; x++) { const k = S.grid[(j * PLACA + y) * S.W + i * PLACA + x]; cnt.set(k, (cnt.get(k) || 0) + 1); }
+    pg.innerHTML = `<h3>Base ${nombrePlaca(i, j)} <small>fila ${j + 1}, columna ${i + 1} · ${cnt.size} colores</small></h3>`;
+    pg.appendChild(canvasPlaca(i, j, num));
+    pg.insertAdjacentHTML('beforeend', leyenda(u.filter(k => cnt.has(k)), num, k => cnt.get(k)));
+    sec.appendChild(pg);
+  }
+  sec.hidden = false; sec.scrollTop = 0; document.body.style.overflow = 'hidden';
+}
+function cerrarInstrucciones() { $('#instrucciones').hidden = true; document.body.style.overflow = ''; }
+
+/* ---------------- toast ---------------- */
+let tt = 0;
+function toast(m) { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('on'), 2600); }
+
+/* ---------------- hero ---------------- */
+function hero() {
+  const P = ['............','...yy..yy...','..yyyyyyyy..','..yrryyrry..','..yrryyrry..','..yyyyyyyy..','..ybyyyyby..','..yybbbbyy..','...yyyyyy...','............','.g.g.g.g.g.g','g.g.g.g.g.g.'];
+  const C = { '.': '#2D5BFF', y: '#FFC72C', r: '#1E1B18', b: '#FF4D2E', g: '#1FA463' };
+  $('#caida').innerHTML = P.join('').split('').map((ch, i) => `<i style="background:${C[ch]};animation-delay:${(((i % 12) + ((i / 12) | 0)) * 0.05).toFixed(2)}s"></i>`).join('');
+}
+
+/* ---------------- eventos ---------------- */
+function eventos() {
+  $('#archivo').addEventListener('change', e => { cargarArchivo(e.target.files[0]); e.target.value = ''; });
+  $('#ejemplo').addEventListener('click', ejemplo);
+  let dd = 0;
+  addEventListener('dragenter', e => { e.preventDefault(); dd++; document.body.classList.add('arrastrando'); });
+  addEventListener('dragleave', () => { if (--dd <= 0) { dd = 0; document.body.classList.remove('arrastrando'); } });
+  addEventListener('dragover', e => e.preventDefault());
+  addEventListener('drop', e => { e.preventDefault(); dd = 0; document.body.classList.remove('arrastrando'); cargarArchivo(e.dataTransfer.files[0]); });
+
+  $('#tamanos').addEventListener('click', e => { const b = e.target.closest('.tam'); if (b) setTamano(+b.dataset.w, +b.dataset.h); });
+  $('#pw').addEventListener('change', () => setTamano(+$('#pw').value, S.ph));
+  $('#ph').addEventListener('change', () => setTamano(S.pw, +$('#ph').value));
+  $('#pieza').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return; S.pieza = b.dataset.v;
+    document.querySelectorAll('#pieza button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    S.subs = {}; S.opcion = {}; procesar(true);
+  });
+  for (const id of ['brillo', 'contraste', 'saturacion', 'zoom']) {
+    $('#' + id).addEventListener('input', e => { S[id] = +e.target.value; $('#o-' + id).textContent = id === 'zoom' ? (+e.target.value).toFixed(1) + '×' : e.target.value; procesar(false); });
+  }
+  $('#dither').addEventListener('change', e => { S.dither = e.target.checked; procesar(false); });
+  $('#reset').addEventListener('click', () => {
+    Object.assign(S, { zoom: 1, ox: .5, oy: .5, brillo: 0, contraste: 0, saturacion: 0, dither: false });
+    for (const id of ['brillo', 'contraste', 'saturacion']) { $('#' + id).value = 0; $('#o-' + id).textContent = 0; }
+    $('#zoom').value = 1; $('#o-zoom').textContent = '1×'; $('#dither').checked = false; procesar(true);
+  });
+  $('#btn-original').addEventListener('click', e => { S.original = !S.original; e.currentTarget.setAttribute('aria-pressed', S.original); render(false); });
+  $('#btn-lineas').addEventListener('click', e => { S.lineas = !S.lineas; e.currentTarget.setAttribute('aria-pressed', S.lineas); render(false); });
+
+  // arrastrar para encuadrar
+  const cv = $('#mosaico'); let drag = null;
+  cv.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY, ox: S.ox, oy: S.oy }; cv.setPointerCapture(e.pointerId); cv.classList.add('arrastrando'); $('#hint').hidden = true; });
+  cv.addEventListener('pointermove', e => {
+    if (!drag) return; const r = recorte(S.W, S.H), w = cv.clientWidth, h = cv.clientHeight;
+    const dx = (e.clientX - drag.x) / w * r.cw, dy = (e.clientY - drag.y) / h * r.ch;
+    S.ox = r.iw > r.cw ? clamp(drag.ox - dx / (r.iw - r.cw), 0, 1) : .5;
+    S.oy = r.ih > r.ch ? clamp(drag.oy - dy / (r.ih - r.ch), 0, 1) : .5;
+    procesar(false);
+  });
+  const fin = () => { drag = null; cv.classList.remove('arrastrando'); };
+  cv.addEventListener('pointerup', fin); cv.addEventListener('pointercancel', fin);
+
+  // colores
+  $('#b-colores').addEventListener('click', e => {
+    const t = e.target.closest('button'); if (!t) return;
+    if (t.dataset.acepta) { S.subs[t.dataset.acepta] = t.dataset.por; toast('Color sustituido'); procesar(false); }
+    else if (t.dataset.otra) { S.opcion[t.dataset.otra] = (S.opcion[t.dataset.otra] || 0) + 1; pintarAlertas(); }
+    else if (t.dataset.quitar) { S.excluidos.add(t.dataset.quitar); procesar(false); }
+    else if (t.dataset.deshacer) { delete S.subs[t.dataset.deshacer]; procesar(false); }
+    else if (t.id === 'aceptar-todas') {
+      for (const p of S.problemas) if (p.cands.length) { const c = S.pal[p.k]; S.subs[c.id] = S.pal[p.cands[(S.opcion[c.id] || 0) % p.cands.length].j].id; }
+      toast('Sugerencias aceptadas'); procesar(false);
+    } else if (t.dataset.color) {
+      const id = t.dataset.color;
+      if (S.subs[id]) delete S.subs[id];
+      else if (S.excluidos.has(id)) S.excluidos.delete(id);
+      else if (S.excluidos.size >= S.pal.length - 1) { toast('Deja al menos un color'); return; }
+      else S.excluidos.add(id);
+      procesar(false);
+    } else if (t.id === 'exportar-cat') {
+      const out = JSON.parse(JSON.stringify(S.cat)); out.actualizado = new Date().toISOString().slice(0, 10);
+      descargar('catalog.json', JSON.stringify(out, null, 2), 'application/json');
+    } else if (t.id === 'reset-cat') { localStorage.removeItem(LS_STOCK); cargarCatalogo(false); }
+  });
+  $('#admin-stock').addEventListener('change', e => {
+    const id = e.target.dataset.stock; if (!id) return;
+    const v = Math.max(0, +e.target.value || 0);
+    for (const c of [S.cat.colores.find(c => c.id === id), S.pal[idxDe(id)]]) {
+      if (!c) continue; if (typeof c.stock !== 'object') c.stock = { redondo: c.stock || 0, cuadrado: c.stock || 0 }; c.stock[S.pieza] = v;
+    }
+    const loc = {}; S.cat.colores.forEach(c => loc[c.id] = c.stock); guardarLS(LS_STOCK, loc);
+    S.firmaStock = JSON.stringify(S.cat.colores.map(c => [c.id, c.stock, c.activo]));
+    procesar(false);
+  });
+
+  // pedido
+  $('#con-bases').addEventListener('change', e => { S.conBases = e.target.checked; pintarPedido(); });
+  $('#bases-sel').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; S.base = b.dataset.base; pintarBases(); sprites.clear(); render(false); pintarPedido(); });
+  $('#ordenar').addEventListener('click', abrirPedido);
+  $('#ver-instr').addEventListener('click', abrirInstrucciones);
+  $('#b-pedido').addEventListener('click', e => {
+    if (e.target.id !== 'csv-prov') return;
+    const p = S.cat.proveedor, { u } = usados();
+    const csv = ['color,nombre,hex,piezas,lotes'].concat(u.map(k => { const c = S.pal[k], n = necesarias(S.cuenta[k]); return [c.id, c.nombre, c.hex, n, Math.ceil(n / p.loteTamano)].join(','); })).join('\n');
+    descargar('compra-proveedor.csv', csv, 'text/csv');
+  });
+  $('#sel-estado').innerHTML = '<option value="">Elige…</option>' + ESTADOS.map(e => `<option>${e}</option>`).join('');
+  $('#form-pedido').addEventListener('submit', e => {
+    if (e.submitter && e.submitter.value === 'cancel') return;
+    e.preventDefault(); if (!e.target.reportValidity()) return;
+    $('#dlg-pedido').close(); crearPedido(e.target);
+  });
+  $('#ok-json').addEventListener('click', () => S.pedido && descargar(`${S.pedido.folio}.json`, JSON.stringify(S.pedido, null, 1), 'application/json'));
+  $('#ok-instr').addEventListener('click', () => { $('#dlg-ok').close(); abrirInstrucciones(); });
+  $('#ok-cerrar').addEventListener('click', () => $('#dlg-ok').close());
+  $('#instrucciones').addEventListener('click', e => { if (e.target.id === 'imprimir') print(); if (e.target.id === 'cerrar-instr') cerrarInstrucciones(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#instrucciones').hidden) cerrarInstrucciones(); });
+
+  let rz = 0; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => S.grid && render(false), 150); });
+  // inventario en tiempo real
+  setInterval(() => cargarCatalogo(true), 60000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) cargarCatalogo(true); });
+}
+
+/* ---------------- inicio ---------------- */
+if (ADMIN) { $('#admin-badge').hidden = false; $('#admin-inv').hidden = false; $('#proveedor').hidden = false; }
+hero(); pintarTamanos(); eventos(); cargarCatalogo(true);
+})();
 </script>
 </body>
 </html>

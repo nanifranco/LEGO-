@@ -1,0 +1,438 @@
+{
+  "actualizado": "2026-11-19",
+  "tienda": {
+    "nombre": "PIX·L",
+    "whatsapp": "",
+    "moneda": "MXN",
+    "precioPieza": 0.35,
+    "envio": 149,
+    "envioGratisDesde": 1500,
+    "extraPct": 0.03,
+    "extraMin": 2
+  },
+  "proveedor": {
+    "nombre": "AliExpress · lotes MOC 1×1 compatibles",
+    "nota": "Lotes de piezas 1×1 por color (round tile 98138 o plate 3024) de vendedores MOC con envío a México. Ajusta costoLote con el precio real que pagues.",
+    "loteTamano": 100,
+    "costoLote": 25,
+    "busqueda": {
+      "redondo": "https://www.aliexpress.com/w/wholesale-1x1-round-tile-98138-{color}.html",
+      "cuadrado": "https://www.aliexpress.com/w/wholesale-1x1-plate-3024-{color}.html"
+    }
+  },
+  "piezas": {
+    "redondo": {
+      "nombre": "Redondo 1×1",
+      "ref": "98138"
+    },
+    "cuadrado": {
+      "nombre": "Cuadrado 1×1",
+      "ref": "3024"
+    }
+  },
+  "bases": [
+    {
+      "id": "negra",
+      "nombre": "Negra",
+      "hex": "#1E1E1E",
+      "precio": 79,
+      "stock": 40
+    },
+    {
+      "id": "gris",
+      "nombre": "Gris claro",
+      "hex": "#A0A5A9",
+      "precio": 79,
+      "stock": 25
+    },
+    {
+      "id": "blanca",
+      "nombre": "Blanca",
+      "hex": "#F2F2F2",
+      "precio": 79,
+      "stock": 12
+    }
+  ],
+  "colores": [
+    {
+      "id": "blanco",
+      "nombre": "Blanco",
+      "en": "white",
+      "hex": "#F4F4F4",
+      "stock": {
+        "redondo": 8000,
+        "cuadrado": 6000
+      }
+    },
+    {
+      "id": "gris-claro",
+      "nombre": "Gris claro",
+      "en": "light bluish gray",
+      "hex": "#A0A5A9",
+      "stock": {
+        "redondo": 6000,
+        "cuadrado": 5000
+      }
+    },
+    {
+      "id": "gris-oscuro",
+      "nombre": "Gris oscuro",
+      "en": "dark bluish gray",
+      "hex": "#6C6E68",
+      "stock": {
+        "redondo": 6000,
+        "cuadrado": 5000
+      }
+    },
+    {
+      "id": "negro",
+      "nombre": "Negro",
+      "en": "black",
+      "hex": "#1B2A34",
+      "stock": {
+        "redondo": 9000,
+        "cuadrado": 7000
+      }
+    },
+    {
+      "id": "rojo",
+      "nombre": "Rojo",
+      "en": "red",
+      "hex": "#C91A09",
+      "stock": {
+        "redondo": 4000,
+        "cuadrado": 3000
+      }
+    },
+    {
+      "id": "rojo-oscuro",
+      "nombre": "Rojo oscuro",
+      "en": "dark red",
+      "hex": "#720E0F",
+      "stock": {
+        "redondo": 2500,
+        "cuadrado": 2000
+      }
+    },
+    {
+      "id": "naranja",
+      "nombre": "Naranja",
+      "en": "orange",
+      "hex": "#FE8A18",
+      "stock": {
+        "redondo": 3000,
+        "cuadrado": 2500
+      }
+    },
+    {
+      "id": "naranja-claro",
+      "nombre": "Naranja claro",
+      "en": "bright light orange",
+      "hex": "#F8BB3D",
+      "stock": {
+        "redondo": 2500,
+        "cuadrado": 2000
+      }
+    },
+    {
+      "id": "amarillo",
+      "nombre": "Amarillo",
+      "en": "yellow",
+      "hex": "#F2CD37",
+      "stock": {
+        "redondo": 4000,
+        "cuadrado": 3000
+      }
+    },
+    {
+      "id": "amarillo-claro",
+      "nombre": "Amarillo claro",
+      "en": "bright light yellow",
+      "hex": "#FFF03A",
+      "stock": {
+        "redondo": 2000,
+        "cuadrado": 1500
+      }
+    },
+    {
+      "id": "beige",
+      "nombre": "Beige",
+      "en": "tan",
+      "hex": "#E4CD9E",
+      "stock": {
+        "redondo": 4000,
+        "cuadrado": 3000
+      }
+    },
+    {
+      "id": "beige-oscuro",
+      "nombre": "Beige oscuro",
+      "en": "dark tan",
+      "hex": "#958A73",
+      "stock": {
+        "redondo": 2500,
+        "cuadrado": 2000
+      }
+    },
+    {
+      "id": "piel-clara",
+      "nombre": "Piel clara",
+      "en": "light nougat",
+      "hex": "#F6D7B3",
+      "stock": {
+        "redondo": 3500,
+        "cuadrado": 2500
+      }
+    },
+    {
+      "id": "piel",
+      "nombre": "Piel",
+      "en": "nougat",
+      "hex": "#D09168",
+      "stock": {
+        "redondo": 3500,
+        "cuadrado": 2500
+      }
+    },
+    {
+      "id": "piel-media",
+      "nombre": "Piel media",
+      "en": "medium nougat",
+      "hex": "#AA7D55",
+      "stock": {
+        "redondo": 3000,
+        "cuadrado": 2500
+      }
+    },
+    {
+      "id": "cafe",
+      "nombre": "Café",
+      "en": "reddish brown",
+      "hex": "#582A12",
+      "stock": {
+        "redondo": 3500,
+        "cuadrado": 3000
+      }
+    },
+    {
+      "id": "cafe-oscuro",
+      "nombre": "Café oscuro",
+      "en": "dark brown",
+      "hex": "#352100",
+      "stock": {
+        "redondo": 2500,
+        "cuadrado": 2000
+      }
+    },
+    {
+      "id": "lima",
+      "nombre": "Lima",
+      "en": "lime",
+      "hex": "#BBE90B",
+      "stock": {
+        "redondo": 2000,
+        "cuadrado": 1500
+      }
+    },
+    {
+      "id": "verde-brillante",
+      "nombre": "Verde brillante",
+      "en": "bright green",
+      "hex": "#4B9F4A",
+      "stock": {
+        "redondo": 2500,
+        "cuadrado": 2000
+      }
+    },
+    {
+      "id": "verde",
+      "nombre": "Verde",
+      "en": "green",
+      "hex": "#237841",
+      "stock": {
+        "redondo": 3000,
+        "cuadrado": 2500
+      }
+    },
+    {
+      "id": "verde-oscuro",
+      "nombre": "Verde oscuro",
+      "en": "dark green",
+      "hex": "#184632",
+      "stock": {
+        "redondo": 2500,
+        "cuadrado": 2000
+      }
+    },
+    {
+      "id": "verde-olivo",
+      "nombre": "Verde olivo",
+      "en": "olive green",
+      "hex": "#9B9A5A",
+      "stock": {
+        "redondo": 0,
+        "cuadrado": 800
+      }
+    },
+    {
+      "id": "verde-arena",
+      "nombre": "Verde arena",
+      "en": "sand green",
+      "hex": "#A0BCAC",
+      "stock": {
+        "redondo": 1500,
+        "cuadrado": 1200
+      }
+    },
+    {
+      "id": "aqua-claro",
+      "nombre": "Aqua claro",
+      "en": "light aqua",
+      "hex": "#ADC3C0",
+      "stock": {
+        "redondo": 1200,
+        "cuadrado": 1000
+      }
+    },
+    {
+      "id": "turquesa",
+      "nombre": "Turquesa",
+      "en": "medium azure",
+      "hex": "#36AEBF",
+      "stock": {
+        "redondo": 2500,
+        "cuadrado": 2000
+      }
+    },
+    {
+      "id": "turquesa-oscuro",
+      "nombre": "Turquesa oscuro",
+      "en": "dark turquoise",
+      "hex": "#008F9B",
+      "stock": {
+        "redondo": 2000,
+        "cuadrado": 1500
+      }
+    },
+    {
+      "id": "azul-cielo",
+      "nombre": "Azul cielo",
+      "en": "bright light blue",
+      "hex": "#9FC3E9",
+      "stock": {
+        "redondo": 2500,
+        "cuadrado": 2000
+      }
+    },
+    {
+      "id": "azul-medio",
+      "nombre": "Azul medio",
+      "en": "medium blue",
+      "hex": "#5A93DB",
+      "stock": {
+        "redondo": 3000,
+        "cuadrado": 2500
+      }
+    },
+    {
+      "id": "azul",
+      "nombre": "Azul",
+      "en": "blue",
+      "hex": "#0055BF",
+      "stock": {
+        "redondo": 4000,
+        "cuadrado": 3000
+      }
+    },
+    {
+      "id": "azul-arena",
+      "nombre": "Azul arena",
+      "en": "sand blue",
+      "hex": "#6074A1",
+      "stock": {
+        "redondo": 1500,
+        "cuadrado": 1200
+      }
+    },
+    {
+      "id": "azul-marino",
+      "nombre": "Azul marino",
+      "en": "dark blue",
+      "hex": "#0A3463",
+      "stock": {
+        "redondo": 3000,
+        "cuadrado": 2500
+      }
+    },
+    {
+      "id": "lavanda",
+      "nombre": "Lavanda",
+      "en": "lavender",
+      "hex": "#E1D5ED",
+      "stock": {
+        "redondo": 150,
+        "cuadrado": 600
+      }
+    },
+    {
+      "id": "lila",
+      "nombre": "Lila",
+      "en": "medium lavender",
+      "hex": "#AC78BA",
+      "stock": {
+        "redondo": 1500,
+        "cuadrado": 1200
+      }
+    },
+    {
+      "id": "morado",
+      "nombre": "Morado",
+      "en": "dark purple",
+      "hex": "#3F3691",
+      "stock": {
+        "redondo": 5000,
+        "cuadrado": 4000
+      }
+    },
+    {
+      "id": "magenta",
+      "nombre": "Magenta",
+      "en": "magenta",
+      "hex": "#923978",
+      "stock": {
+        "redondo": 1500,
+        "cuadrado": 1200
+      }
+    },
+    {
+      "id": "rosa-oscuro",
+      "nombre": "Rosa oscuro",
+      "en": "dark pink",
+      "hex": "#C870A0",
+      "stock": {
+        "redondo": 2000,
+        "cuadrado": 1500
+      }
+    },
+    {
+      "id": "rosa-claro",
+      "nombre": "Rosa claro",
+      "en": "bright pink",
+      "hex": "#E4ADC8",
+      "stock": {
+        "redondo": 2000,
+        "cuadrado": 1500
+      }
+    },
+    {
+      "id": "coral",
+      "nombre": "Coral",
+      "en": "coral",
+      "hex": "#FF698F",
+      "stock": {
+        "redondo": 0,
+        "cuadrado": 0
+      }
+    }
+  ]
+}
