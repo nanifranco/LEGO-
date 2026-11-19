@@ -30,29 +30,75 @@
       "ref": "3024"
     }
   },
-  "bases": [
-    {
-      "id": "negra",
-      "nombre": "Negra",
-      "hex": "#1E1E1E",
-      "precio": 79,
-      "stock": 40
-    },
-    {
-      "id": "gris",
-      "nombre": "Gris claro",
-      "hex": "#A0A5A9",
-      "precio": 79,
-      "stock": 25
-    },
-    {
-      "id": "blanca",
-      "nombre": "Blanca",
-      "hex": "#F2F2F2",
-      "precio": 79,
-      "stock": 12
-    }
-  ],
+  "placas": {
+    "nota": "Bases (building plates) en las que se arma el mosaico. stock = piezas en inventario por tamaño.",
+    "tamanos": [
+      {
+        "id": "16",
+        "studs": 16,
+        "nombre": "16×16",
+        "nota": "Se unen entre sí con pines",
+        "precio": 22
+      },
+      {
+        "id": "24",
+        "studs": 24,
+        "nombre": "24×24",
+        "nota": "El tamaño más usado en mosaicos",
+        "precio": 45
+      },
+      {
+        "id": "32",
+        "studs": 32,
+        "nombre": "32×32",
+        "nota": "Base clásica",
+        "precio": 79
+      },
+      {
+        "id": "48",
+        "studs": 48,
+        "nombre": "48×48",
+        "nota": "Menos uniones, más rígida",
+        "precio": 149
+      }
+    ],
+    "porDefecto": "24",
+    "colores": [
+      {
+        "id": "negra",
+        "nombre": "Negra",
+        "hex": "#1E1E1E",
+        "stock": {
+          "16": 300,
+          "24": 150,
+          "32": 40,
+          "48": 15
+        }
+      },
+      {
+        "id": "gris",
+        "nombre": "Gris claro",
+        "hex": "#A0A5A9",
+        "stock": {
+          "16": 200,
+          "24": 100,
+          "32": 25,
+          "48": 10
+        }
+      },
+      {
+        "id": "blanca",
+        "nombre": "Blanca",
+        "hex": "#F2F2F2",
+        "stock": {
+          "16": 150,
+          "24": 60,
+          "32": 12,
+          "48": 0
+        }
+      }
+    ]
+  },
   "colores": [
     {
       "id": "blanco",

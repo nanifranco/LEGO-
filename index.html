@@ -86,6 +86,13 @@ body.arrastrando .drop-zona{opacity:1}
 .bloque .cont{padding:0 16px 16px}
 .n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--y);border:2px solid var(--ink);font-size:13px}
 .etq{font-size:13px;font-weight:600;color:var(--muted);margin:12px 0 6px;display:block}
+.placas{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.placa{cursor:pointer;border:2px solid var(--ink);border-radius:10px;background:var(--card);padding:8px 4px 7px;text-align:center;font-size:11px;line-height:1.2;color:var(--muted)}
+.placa b{display:block;font-size:15px;color:var(--ink)}
+.placa .studs{display:grid;gap:1px;width:36px;height:36px;margin:0 auto 6px;padding:2px;background:#1E1E1E;border-radius:3px}
+.placa .studs i{border-radius:50%;background:#6a6a6a}
+.placa[aria-pressed="true"]{background:var(--y);color:var(--ink);box-shadow:2px 2px 0 var(--ink)}
+.placa-nota{font-size:13px;color:var(--muted);margin:8px 0 0}
 .tamanos{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
 .tam{cursor:pointer;border:2px solid var(--ink);border-radius:10px;background:var(--card);padding:8px 4px;text-align:center;font-size:12px;line-height:1.2}
 .tam b{display:block;font-size:15px}
@@ -230,8 +237,8 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 16px 40p
     </div>
     <div class="datos">
       <div><b id="dato-colores">—</b>colores en inventario</div>
-      <div><b>25.6 cm</b>por cada base 32×32</div>
-      <div><b>1 a 6</b>bases por lado</div>
+      <div><b>4</b>tamaños de base</div>
+      <div><b>16 a 192</b>piezas por lado</div>
     </div>
   </div>
   <div aria-hidden="true"><div class="caida" id="caida"></div></div>
@@ -256,15 +263,18 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 16px 40p
 
   <aside class="panel">
     <details class="card bloque" open id="b-tamano">
-      <summary><span class="n">1</span> Tamaño y pieza</summary>
+      <summary><span class="n">1</span> Base y tamaño</summary>
       <div class="cont">
-        <span class="etq">Bases de 32×32 (ancho × alto)</span>
+        <span class="etq">Tipo de base (building plate)</span>
+        <div class="placas" id="placas"></div>
+        <p class="placa-nota" id="placa-nota"></p>
+        <span class="etq">Tamaño del mosaico</span>
         <div class="tamanos" id="tamanos"></div>
         <div class="personal">Personalizado:
-          <input type="number" id="pw" min="1" max="6" value="2" aria-label="Bases a lo ancho"> ×
-          <input type="number" id="ph" min="1" max="6" value="2" aria-label="Bases a lo alto">
+          <input type="number" id="pw" min="1" value="2" aria-label="Bases a lo ancho"> ×
+          <input type="number" id="ph" min="1" value="2" aria-label="Bases a lo alto"> bases
         </div>
-        <span class="etq">Tipo de pieza</span>
+        <span class="etq">Forma de la pieza 1×1</span>
         <div class="seg" id="pieza">
           <button type="button" data-v="redondo" aria-pressed="true">● Redonda 1×1</button>
           <button type="button" data-v="cuadrado" aria-pressed="false">■ Cuadrada 1×1</button>
@@ -306,7 +316,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 16px 40p
       <div class="cont">
         <h2><span class="n">4</span> Tu kit</h2>
         <div id="resumen"></div>
-        <span class="etq">Bases 32×32</span>
+        <span class="etq">Bases <span id="placa-nombre"></span></span>
         <label class="check"><input type="checkbox" id="con-bases" checked> Incluir <span id="n-bases"></span> bases</label>
         <div class="bases-sel" id="bases-sel"></div>
         <div id="totales"></div>
@@ -363,7 +373,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 16px 40p
 <div id="toast" role="status" aria-live="polite"></div>
 <footer>PIX·L · Mosaicos de bloques hechos en México · Piezas compatibles con las marcas principales de bloques de construcción.</footer>
 
-<script type="application/json" id="catalogo-embebido">{"actualizado":"2026-11-19","tienda":{"nombre":"PIX·L","whatsapp":"","moneda":"MXN","precioPieza":0.35,"envio":149,"envioGratisDesde":1500,"extraPct":0.03,"extraMin":2},"proveedor":{"nombre":"AliExpress · lotes MOC 1×1 compatibles","nota":"Lotes de piezas 1×1 por color (round tile 98138 o plate 3024) de vendedores MOC con envío a México. Ajusta costoLote con el precio real que pagues.","loteTamano":100,"costoLote":25,"busqueda":{"redondo":"https://www.aliexpress.com/w/wholesale-1x1-round-tile-98138-{color}.html","cuadrado":"https://www.aliexpress.com/w/wholesale-1x1-plate-3024-{color}.html"}},"piezas":{"redondo":{"nombre":"Redondo 1×1","ref":"98138"},"cuadrado":{"nombre":"Cuadrado 1×1","ref":"3024"}},"bases":[{"id":"negra","nombre":"Negra","hex":"#1E1E1E","precio":79,"stock":40},{"id":"gris","nombre":"Gris claro","hex":"#A0A5A9","precio":79,"stock":25},{"id":"blanca","nombre":"Blanca","hex":"#F2F2F2","precio":79,"stock":12}],"colores":[{"id":"blanco","nombre":"Blanco","en":"white","hex":"#F4F4F4","stock":{"redondo":8000,"cuadrado":6000}},{"id":"gris-claro","nombre":"Gris claro","en":"light bluish gray","hex":"#A0A5A9","stock":{"redondo":6000,"cuadrado":5000}},{"id":"gris-oscuro","nombre":"Gris oscuro","en":"dark bluish gray","hex":"#6C6E68","stock":{"redondo":6000,"cuadrado":5000}},{"id":"negro","nombre":"Negro","en":"black","hex":"#1B2A34","stock":{"redondo":9000,"cuadrado":7000}},{"id":"rojo","nombre":"Rojo","en":"red","hex":"#C91A09","stock":{"redondo":4000,"cuadrado":3000}},{"id":"rojo-oscuro","nombre":"Rojo oscuro","en":"dark red","hex":"#720E0F","stock":{"redondo":2500,"cuadrado":2000}},{"id":"naranja","nombre":"Naranja","en":"orange","hex":"#FE8A18","stock":{"redondo":3000,"cuadrado":2500}},{"id":"naranja-claro","nombre":"Naranja claro","en":"bright light orange","hex":"#F8BB3D","stock":{"redondo":2500,"cuadrado":2000}},{"id":"amarillo","nombre":"Amarillo","en":"yellow","hex":"#F2CD37","stock":{"redondo":4000,"cuadrado":3000}},{"id":"amarillo-claro","nombre":"Amarillo claro","en":"bright light yellow","hex":"#FFF03A","stock":{"redondo":2000,"cuadrado":1500}},{"id":"beige","nombre":"Beige","en":"tan","hex":"#E4CD9E","stock":{"redondo":4000,"cuadrado":3000}},{"id":"beige-oscuro","nombre":"Beige oscuro","en":"dark tan","hex":"#958A73","stock":{"redondo":2500,"cuadrado":2000}},{"id":"piel-clara","nombre":"Piel clara","en":"light nougat","hex":"#F6D7B3","stock":{"redondo":3500,"cuadrado":2500}},{"id":"piel","nombre":"Piel","en":"nougat","hex":"#D09168","stock":{"redondo":3500,"cuadrado":2500}},{"id":"piel-media","nombre":"Piel media","en":"medium nougat","hex":"#AA7D55","stock":{"redondo":3000,"cuadrado":2500}},{"id":"cafe","nombre":"Café","en":"reddish brown","hex":"#582A12","stock":{"redondo":3500,"cuadrado":3000}},{"id":"cafe-oscuro","nombre":"Café oscuro","en":"dark brown","hex":"#352100","stock":{"redondo":2500,"cuadrado":2000}},{"id":"lima","nombre":"Lima","en":"lime","hex":"#BBE90B","stock":{"redondo":2000,"cuadrado":1500}},{"id":"verde-brillante","nombre":"Verde brillante","en":"bright green","hex":"#4B9F4A","stock":{"redondo":2500,"cuadrado":2000}},{"id":"verde","nombre":"Verde","en":"green","hex":"#237841","stock":{"redondo":3000,"cuadrado":2500}},{"id":"verde-oscuro","nombre":"Verde oscuro","en":"dark green","hex":"#184632","stock":{"redondo":2500,"cuadrado":2000}},{"id":"verde-olivo","nombre":"Verde olivo","en":"olive green","hex":"#9B9A5A","stock":{"redondo":0,"cuadrado":800}},{"id":"verde-arena","nombre":"Verde arena","en":"sand green","hex":"#A0BCAC","stock":{"redondo":1500,"cuadrado":1200}},{"id":"aqua-claro","nombre":"Aqua claro","en":"light aqua","hex":"#ADC3C0","stock":{"redondo":1200,"cuadrado":1000}},{"id":"turquesa","nombre":"Turquesa","en":"medium azure","hex":"#36AEBF","stock":{"redondo":2500,"cuadrado":2000}},{"id":"turquesa-oscuro","nombre":"Turquesa oscuro","en":"dark turquoise","hex":"#008F9B","stock":{"redondo":2000,"cuadrado":1500}},{"id":"azul-cielo","nombre":"Azul cielo","en":"bright light blue","hex":"#9FC3E9","stock":{"redondo":2500,"cuadrado":2000}},{"id":"azul-medio","nombre":"Azul medio","en":"medium blue","hex":"#5A93DB","stock":{"redondo":3000,"cuadrado":2500}},{"id":"azul","nombre":"Azul","en":"blue","hex":"#0055BF","stock":{"redondo":4000,"cuadrado":3000}},{"id":"azul-arena","nombre":"Azul arena","en":"sand blue","hex":"#6074A1","stock":{"redondo":1500,"cuadrado":1200}},{"id":"azul-marino","nombre":"Azul marino","en":"dark blue","hex":"#0A3463","stock":{"redondo":3000,"cuadrado":2500}},{"id":"lavanda","nombre":"Lavanda","en":"lavender","hex":"#E1D5ED","stock":{"redondo":150,"cuadrado":600}},{"id":"lila","nombre":"Lila","en":"medium lavender","hex":"#AC78BA","stock":{"redondo":1500,"cuadrado":1200}},{"id":"morado","nombre":"Morado","en":"dark purple","hex":"#3F3691","stock":{"redondo":5000,"cuadrado":4000}},{"id":"magenta","nombre":"Magenta","en":"magenta","hex":"#923978","stock":{"redondo":1500,"cuadrado":1200}},{"id":"rosa-oscuro","nombre":"Rosa oscuro","en":"dark pink","hex":"#C870A0","stock":{"redondo":2000,"cuadrado":1500}},{"id":"rosa-claro","nombre":"Rosa claro","en":"bright pink","hex":"#E4ADC8","stock":{"redondo":2000,"cuadrado":1500}},{"id":"coral","nombre":"Coral","en":"coral","hex":"#FF698F","stock":{"redondo":0,"cuadrado":0}}]}</script>
+<script type="application/json" id="catalogo-embebido">{"actualizado":"2026-11-19","tienda":{"nombre":"PIX·L","whatsapp":"","moneda":"MXN","precioPieza":0.35,"envio":149,"envioGratisDesde":1500,"extraPct":0.03,"extraMin":2},"proveedor":{"nombre":"AliExpress · lotes MOC 1×1 compatibles","nota":"Lotes de piezas 1×1 por color (round tile 98138 o plate 3024) de vendedores MOC con envío a México. Ajusta costoLote con el precio real que pagues.","loteTamano":100,"costoLote":25,"busqueda":{"redondo":"https://www.aliexpress.com/w/wholesale-1x1-round-tile-98138-{color}.html","cuadrado":"https://www.aliexpress.com/w/wholesale-1x1-plate-3024-{color}.html"}},"piezas":{"redondo":{"nombre":"Redondo 1×1","ref":"98138"},"cuadrado":{"nombre":"Cuadrado 1×1","ref":"3024"}},"placas":{"nota":"Bases (building plates) en las que se arma el mosaico. stock = piezas en inventario por tamaño.","tamanos":[{"id":"16","studs":16,"nombre":"16×16","nota":"Se unen entre sí con pines","precio":22},{"id":"24","studs":24,"nombre":"24×24","nota":"El tamaño más usado en mosaicos","precio":45},{"id":"32","studs":32,"nombre":"32×32","nota":"Base clásica","precio":79},{"id":"48","studs":48,"nombre":"48×48","nota":"Menos uniones, más rígida","precio":149}],"porDefecto":"24","colores":[{"id":"negra","nombre":"Negra","hex":"#1E1E1E","stock":{"16":300,"24":150,"32":40,"48":15}},{"id":"gris","nombre":"Gris claro","hex":"#A0A5A9","stock":{"16":200,"24":100,"32":25,"48":10}},{"id":"blanca","nombre":"Blanca","hex":"#F2F2F2","stock":{"16":150,"24":60,"32":12,"48":0}}]},"colores":[{"id":"blanco","nombre":"Blanco","en":"white","hex":"#F4F4F4","stock":{"redondo":8000,"cuadrado":6000}},{"id":"gris-claro","nombre":"Gris claro","en":"light bluish gray","hex":"#A0A5A9","stock":{"redondo":6000,"cuadrado":5000}},{"id":"gris-oscuro","nombre":"Gris oscuro","en":"dark bluish gray","hex":"#6C6E68","stock":{"redondo":6000,"cuadrado":5000}},{"id":"negro","nombre":"Negro","en":"black","hex":"#1B2A34","stock":{"redondo":9000,"cuadrado":7000}},{"id":"rojo","nombre":"Rojo","en":"red","hex":"#C91A09","stock":{"redondo":4000,"cuadrado":3000}},{"id":"rojo-oscuro","nombre":"Rojo oscuro","en":"dark red","hex":"#720E0F","stock":{"redondo":2500,"cuadrado":2000}},{"id":"naranja","nombre":"Naranja","en":"orange","hex":"#FE8A18","stock":{"redondo":3000,"cuadrado":2500}},{"id":"naranja-claro","nombre":"Naranja claro","en":"bright light orange","hex":"#F8BB3D","stock":{"redondo":2500,"cuadrado":2000}},{"id":"amarillo","nombre":"Amarillo","en":"yellow","hex":"#F2CD37","stock":{"redondo":4000,"cuadrado":3000}},{"id":"amarillo-claro","nombre":"Amarillo claro","en":"bright light yellow","hex":"#FFF03A","stock":{"redondo":2000,"cuadrado":1500}},{"id":"beige","nombre":"Beige","en":"tan","hex":"#E4CD9E","stock":{"redondo":4000,"cuadrado":3000}},{"id":"beige-oscuro","nombre":"Beige oscuro","en":"dark tan","hex":"#958A73","stock":{"redondo":2500,"cuadrado":2000}},{"id":"piel-clara","nombre":"Piel clara","en":"light nougat","hex":"#F6D7B3","stock":{"redondo":3500,"cuadrado":2500}},{"id":"piel","nombre":"Piel","en":"nougat","hex":"#D09168","stock":{"redondo":3500,"cuadrado":2500}},{"id":"piel-media","nombre":"Piel media","en":"medium nougat","hex":"#AA7D55","stock":{"redondo":3000,"cuadrado":2500}},{"id":"cafe","nombre":"Café","en":"reddish brown","hex":"#582A12","stock":{"redondo":3500,"cuadrado":3000}},{"id":"cafe-oscuro","nombre":"Café oscuro","en":"dark brown","hex":"#352100","stock":{"redondo":2500,"cuadrado":2000}},{"id":"lima","nombre":"Lima","en":"lime","hex":"#BBE90B","stock":{"redondo":2000,"cuadrado":1500}},{"id":"verde-brillante","nombre":"Verde brillante","en":"bright green","hex":"#4B9F4A","stock":{"redondo":2500,"cuadrado":2000}},{"id":"verde","nombre":"Verde","en":"green","hex":"#237841","stock":{"redondo":3000,"cuadrado":2500}},{"id":"verde-oscuro","nombre":"Verde oscuro","en":"dark green","hex":"#184632","stock":{"redondo":2500,"cuadrado":2000}},{"id":"verde-olivo","nombre":"Verde olivo","en":"olive green","hex":"#9B9A5A","stock":{"redondo":0,"cuadrado":800}},{"id":"verde-arena","nombre":"Verde arena","en":"sand green","hex":"#A0BCAC","stock":{"redondo":1500,"cuadrado":1200}},{"id":"aqua-claro","nombre":"Aqua claro","en":"light aqua","hex":"#ADC3C0","stock":{"redondo":1200,"cuadrado":1000}},{"id":"turquesa","nombre":"Turquesa","en":"medium azure","hex":"#36AEBF","stock":{"redondo":2500,"cuadrado":2000}},{"id":"turquesa-oscuro","nombre":"Turquesa oscuro","en":"dark turquoise","hex":"#008F9B","stock":{"redondo":2000,"cuadrado":1500}},{"id":"azul-cielo","nombre":"Azul cielo","en":"bright light blue","hex":"#9FC3E9","stock":{"redondo":2500,"cuadrado":2000}},{"id":"azul-medio","nombre":"Azul medio","en":"medium blue","hex":"#5A93DB","stock":{"redondo":3000,"cuadrado":2500}},{"id":"azul","nombre":"Azul","en":"blue","hex":"#0055BF","stock":{"redondo":4000,"cuadrado":3000}},{"id":"azul-arena","nombre":"Azul arena","en":"sand blue","hex":"#6074A1","stock":{"redondo":1500,"cuadrado":1200}},{"id":"azul-marino","nombre":"Azul marino","en":"dark blue","hex":"#0A3463","stock":{"redondo":3000,"cuadrado":2500}},{"id":"lavanda","nombre":"Lavanda","en":"lavender","hex":"#E1D5ED","stock":{"redondo":150,"cuadrado":600}},{"id":"lila","nombre":"Lila","en":"medium lavender","hex":"#AC78BA","stock":{"redondo":1500,"cuadrado":1200}},{"id":"morado","nombre":"Morado","en":"dark purple","hex":"#3F3691","stock":{"redondo":5000,"cuadrado":4000}},{"id":"magenta","nombre":"Magenta","en":"magenta","hex":"#923978","stock":{"redondo":1500,"cuadrado":1200}},{"id":"rosa-oscuro","nombre":"Rosa oscuro","en":"dark pink","hex":"#C870A0","stock":{"redondo":2000,"cuadrado":1500}},{"id":"rosa-claro","nombre":"Rosa claro","en":"bright pink","hex":"#E4ADC8","stock":{"redondo":2000,"cuadrado":1500}},{"id":"coral","nombre":"Coral","en":"coral","hex":"#FF698F","stock":{"redondo":0,"cuadrado":0}}]}</script>
 <script>
 (() => {
 'use strict';
@@ -373,14 +383,16 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 16px 40p
    cada 60 s y al regresar a la pestaña). Modo tienda: ?admin
    ============================================================ */
 const $ = (s, el = document) => el.querySelector(s);
-const PLACA = 32, CM = 0.8;
+const CM = 0.8, MAX_STUDS = 192;
+const placaActual = () => S.cat.placas.tamanos.find(t => t.id === S.placa) || S.cat.placas.tamanos[0];
+const PL = () => placaActual().studs;
+const maxBases = () => Math.max(1, Math.floor(MAX_STUDS / PL()));
 const ADMIN = new URLSearchParams(location.search).has('admin');
 const LS_STOCK = 'pixl_stock_v1', LS_PEDIDOS = 'pixl_pedidos_v1';
 const fmt = n => n.toLocaleString('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
 const fmtN = n => n.toLocaleString('es-MX');
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 const ESTADOS = ['Aguascalientes','Baja California','Baja California Sur','Campeche','Chiapas','Chihuahua','Ciudad de México','Coahuila','Colima','Durango','Estado de México','Guanajuato','Guerrero','Hidalgo','Jalisco','Michoacán','Morelos','Nayarit','Nuevo León','Oaxaca','Puebla','Querétaro','Quintana Roo','San Luis Potosí','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz','Yucatán','Zacatecas'];
-const TAMANOS = [[1,1],[2,2],[3,3],[4,4],[2,3],[3,2],[3,4],[4,3]];
 
 const S = {
   cat: null, pal: [], fuente: '', img: null,
@@ -388,7 +400,7 @@ const S = {
   zoom: 1, ox: .5, oy: .5, brillo: 0, contraste: 0, saturacion: 0, dither: false,
   excluidos: new Set(), subs: {}, opcion: {},
   grid: null, W: 0, H: 0, cuenta: null, problemas: [],
-  original: false, lineas: true, base: null, conBases: true,
+  original: false, lineas: true, base: null, placa: null, conBases: true,
   firmaStock: '', pedido: null
 };
 
@@ -453,7 +465,10 @@ async function cargarCatalogo(silencioso) {
   const cambio = S.firmaStock && firma !== S.firmaStock;
   S.firmaStock = firma; S.cat = data; S.fuente = fuente; S.actualizado = new Date();
   S.pal = data.colores.filter(c => c.activo !== false).map(c => { const rgb = hex2rgb(c.hex); return { ...c, rgb, lab: rgb2lab(...rgb) }; });
-  if (!S.base || !data.bases.some(b => b.id === S.base)) S.base = data.bases[0].id;
+  const pl = data.placas;
+  if (!S.placa || !pl.tamanos.some(t => t.id === S.placa)) S.placa = pl.porDefecto || pl.tamanos[0].id;
+  if (!S.base || !pl.colores.some(b => b.id === S.base)) S.base = pl.colores[0].id;
+  pintarPlacas(); pintarTamanos();
   $('#dato-colores').textContent = S.pal.filter(c => stockDe(c) > 0).length;
   pintarBases();
   if (cambio && !silencioso) toast('Inventario actualizado');
@@ -592,7 +607,7 @@ function procesar(animar) {
   if (!S.img || !S.cat) return;
   cancelAnimationFrame(cola);
   cola = requestAnimationFrame(() => {
-    S.W = S.pw * PLACA; S.H = S.ph * PLACA;
+    S.W = S.pw * PL(); S.H = S.ph * PL();
     const datos = muestrear(S.W, S.H); ajustar(datos.data);
     const g = cuantizar(datos.data, S.W, S.H);
     if (!g) { toast('Necesitas al menos un color'); return; }
@@ -648,8 +663,8 @@ function render(animar) {
     if (S.lineas && (S.pw > 1 || S.ph > 1)) {
       x.save(); x.strokeStyle = 'rgba(255,255,255,.85)'; x.lineWidth = Math.max(1, dpr * 1.5); x.setLineDash([6 * dpr, 4 * dpr]);
       x.beginPath();
-      for (let i = 1; i < S.pw; i++) { x.moveTo(i * PLACA * s, 0); x.lineTo(i * PLACA * s, cv.height); }
-      for (let j = 1; j < S.ph; j++) { x.moveTo(0, j * PLACA * s); x.lineTo(cv.width, j * PLACA * s); }
+      for (let i = 1; i < S.pw; i++) { x.moveTo(i * PL() * s, 0); x.lineTo(i * PL() * s, cv.height); }
+      for (let j = 1; j < S.ph; j++) { x.moveTo(0, j * PL() * s); x.lineTo(cv.width, j * PL() * s); }
       x.stroke(); x.restore();
     }
   };
@@ -667,20 +682,51 @@ function render(animar) {
 }
 function pintarMedidas() {
   const pz = S.cat.piezas[S.pieza];
-  $('#medidas').innerHTML = `${S.W} × ${S.H} piezas<small>${(S.W * CM).toFixed(1)} × ${(S.H * CM).toFixed(1)} cm · ${fmtN(S.W * S.H)} piezas ${pz.nombre.toLowerCase()} · ${S.pw * S.ph} ${S.pw * S.ph === 1 ? 'base' : 'bases'}</small>`;
+  $('#medidas').innerHTML = `${S.W} × ${S.H} piezas<small>${(S.W * CM).toFixed(1)} × ${(S.H * CM).toFixed(1)} cm · ${fmtN(S.W * S.H)} piezas ${pz.nombre.toLowerCase()} · ${S.pw}×${S.ph} ${S.pw * S.ph === 1 ? 'base' : 'bases'} de ${placaActual().nombre}</small>`;
 }
 
 /* ---------------- UI: tamaños ---------------- */
-function pintarTamanos() {
-  $('#tamanos').innerHTML = TAMANOS.map(([w, h]) => {
-    const on = w === S.pw && h === S.ph, k = 30 / Math.max(w, h);
-    return `<button type="button" class="tam" data-w="${w}" data-h="${h}" aria-pressed="${on}"><div class="forma" style="width:${w * k}px;height:${h * k}px"></div><b>${w}×${h}</b>${Math.round(w * 25.6)}×${Math.round(h * 25.6)} cm</button>`;
+function presets() {
+  const s = PL(), mx = maxBases(), vistos = new Set(), out = [];
+  const add = (wcm, hcm) => {
+    const w = clamp(Math.round(wcm / (s * CM)), 1, mx), hh = clamp(Math.round(hcm / (s * CM)), 1, mx), k = w + 'x' + hh;
+    if (!vistos.has(k)) { vistos.add(k); out.push([w, hh]); }
+  };
+  for (const cm of [20, 38, 50, 75, 100]) add(cm, cm);
+  for (const [a, b] of [[38, 50], [50, 75], [75, 100]]) { add(a, b); add(b, a); }
+  return out.sort((a, b) => a[0] * a[1] - b[0] * b[1] || a[0] - b[0]).slice(0, 8);
+}
+function pintarPlacas() {
+  const t = placaActual();
+  $('#placas').innerHTML = S.cat.placas.tamanos.map(p => {
+    const g = Math.min(8, p.studs / 4);
+    return `<button type="button" class="placa" data-placa="${p.id}" aria-pressed="${p.id === S.placa}"><div class="studs" style="grid-template-columns:repeat(${g},1fr)">${'<i></i>'.repeat(g * g)}</div><b>${p.nombre}</b>${(p.studs * CM).toFixed(1)} cm</button>`;
   }).join('');
+  $('#placa-nota').textContent = `${t.nota || ''} · ${fmt(t.precio)} c/u`;
+}
+function pintarTamanos() {
+  if (!S.cat) return;
+  const s = PL();
+  $('#tamanos').innerHTML = presets().map(([w, h]) => {
+    const on = w === S.pw && h === S.ph, k = 30 / Math.max(w, h);
+    return `<button type="button" class="tam" data-w="${w}" data-h="${h}" aria-pressed="${on}"><div class="forma" style="width:${w * k}px;height:${h * k}px;background-image:linear-gradient(90deg,#0003 1px,transparent 1px),linear-gradient(#0003 1px,transparent 1px);background-size:${k}px ${k}px"></div><b>${Math.round(w * s * CM)}×${Math.round(h * s * CM)}</b>cm · ${w}×${h} ${w * h === 1 ? 'base' : 'bases'}</button>`;
+  }).join('');
+  const mx = maxBases();
+  for (const id of ['pw', 'ph']) $('#' + id).max = mx;
   $('#pw').value = S.pw; $('#ph').value = S.ph;
 }
 function setTamano(w, h) {
-  S.pw = clamp(w | 0 || 1, 1, 6); S.ph = clamp(h | 0 || 1, 1, 6);
-  pintarTamanos(); $('#n-bases').textContent = S.pw * S.ph; procesar(true);
+  const mx = maxBases();
+  S.pw = clamp(w | 0 || 1, 1, mx); S.ph = clamp(h | 0 || 1, 1, mx);
+  pintarTamanos(); pintarBases(); $('#n-bases').textContent = S.pw * S.ph; procesar(true);
+}
+function setPlaca(id) {
+  const antes = PL(), w = S.pw * antes, hh = S.ph * antes;
+  S.placa = id; const s = PL();
+  // conserva el tamaño físico lo más parecido posible
+  S.pw = clamp(Math.round(w / s), 1, maxBases()); S.ph = clamp(Math.round(hh / s), 1, maxBases());
+  const b = baseActual(); if (b.stock <= 0) { const otra = S.cat.placas.colores.find(c => (c.stock?.[id] ?? 0) > 0); if (otra) S.base = otra.id; }
+  sprites.clear(); pintarPlacas(); setTamano(S.pw, S.ph);
 }
 
 /* ---------------- UI: colores ---------------- */
@@ -721,9 +767,17 @@ function pintarPaleta() {
 }
 
 /* ---------------- UI: pedido ---------------- */
-const baseActual = () => S.cat.bases.find(b => b.id === S.base) || S.cat.bases[0];
+const baseActual = () => {
+  const c = S.cat.placas.colores.find(b => b.id === S.base) || S.cat.placas.colores[0], t = placaActual();
+  return { ...c, stock: (c.stock && typeof c.stock === 'object') ? (c.stock[t.id] ?? 0) : (c.stock ?? 0), precio: t.precio, tamano: t.nombre };
+};
 function pintarBases() {
-  $('#bases-sel').innerHTML = S.cat.bases.map(b => `<button type="button" data-base="${b.id}" aria-pressed="${b.id === S.base}" ${b.stock <= 0 ? 'disabled title="Agotada"' : ''}><span class="sw sq" style="background:${b.hex}"></span>${b.nombre}</button>`).join('');
+  const t = placaActual();
+  $('#placa-nombre').textContent = t.nombre;
+  $('#bases-sel').innerHTML = S.cat.placas.colores.map(b => {
+    const st = typeof b.stock === 'object' ? (b.stock[t.id] ?? 0) : b.stock;
+    return `<button type="button" data-base="${b.id}" aria-pressed="${b.id === S.base}" ${st <= 0 ? 'disabled title="Agotada en ' + t.nombre + '"' : ''}><span class="sw sq" style="background:${b.hex}"></span>${b.nombre}</button>`;
+  }).join('');
 }
 function usados() {
   const u = []; S.pal.forEach((c, k) => { if (S.cuenta[k]) u.push(k); });
@@ -744,11 +798,11 @@ function pintarPedido() {
   $('#resumen').innerHTML = `<p class="mini">${fmtN(S.W * S.H)} piezas en el mosaico + ${fmtN(c.piezas - S.W * S.H)} de repuesto · ${c.colores} colores</p>`;
   $('#totales').innerHTML = `
     <div class="renglon"><span>Piezas <small>(${fmtN(c.piezas)})</small></span><span>${fmt(c.sPiezas)}</span></div>
-    <div class="renglon"><span>Bases <small>(${S.conBases ? c.nb + ' × ' + fmt(c.base.precio) : 'no incluidas'})</small></span><span>${fmt(c.sBases)}</span></div>
+    <div class="renglon"><span>Bases <small>(${S.conBases ? c.nb + ' × ' + c.base.tamano + ' · ' + fmt(c.base.precio) : 'no incluidas'})</small></span><span>${fmt(c.sBases)}</span></div>
     <div class="renglon"><span>Envío a todo México</span><span>${c.envio ? fmt(c.envio) : 'Gratis'}</span></div>
     <div class="renglon total"><span>Total</span><span>${fmt(c.total)}</span></div>`;
   const pend = S.problemas.length, baseSin = S.conBases && c.base.stock < c.nb;
-  const msg = pend ? `Hay ${pend} ${pend === 1 ? 'color' : 'colores'} sin piezas suficientes. Acepta una sustitución arriba para continuar.` : baseSin ? `Solo hay ${c.base.stock} bases ${c.base.nombre.toLowerCase()}. Elige otro color de base.` : '';
+  const msg = pend ? `Hay ${pend} ${pend === 1 ? 'color' : 'colores'} sin piezas suficientes. Acepta una sustitución arriba para continuar.` : baseSin ? `Solo hay ${c.base.stock} bases ${c.base.tamano} ${c.base.nombre.toLowerCase()}. Elige otro color o tamaño de base.` : '';
   $('#bloquea').hidden = !msg; $('#bloquea').textContent = msg;
   $('#ordenar').disabled = !!msg;
   $('#lista').innerHTML = `<table class="tabla"><tr><th>#</th><th>Color</th><th class="num">Piezas</th><th class="num">Inventario</th></tr>${u.map(k => {
@@ -775,7 +829,7 @@ function marcarPasos(n) { document.querySelectorAll('.pasos span').forEach(s => 
 /* ---------------- pedido ---------------- */
 function abrirPedido() {
   const c = calcular();
-  $('#resumen-dlg').innerHTML = `<b>Mosaico ${S.W}×${S.H}</b> (${(S.W * CM).toFixed(1)} × ${(S.H * CM).toFixed(1)} cm) · ${c.colores} colores · ${S.cat.piezas[S.pieza].nombre}<br>${S.conBases ? c.nb + ' bases ' + c.base.nombre.toLowerCase() : 'Sin bases'} · <b>Total ${fmt(c.total)}</b>`;
+  $('#resumen-dlg').innerHTML = `<b>Mosaico ${S.W}×${S.H}</b> (${(S.W * CM).toFixed(1)} × ${(S.H * CM).toFixed(1)} cm) · ${c.colores} colores · ${S.cat.piezas[S.pieza].nombre}<br>${S.conBases ? c.nb + ' bases ' + c.base.tamano + ' ' + c.base.nombre.toLowerCase() : 'Sin bases'} · <b>Total ${fmt(c.total)}</b>`;
   $('#dlg-pedido').showModal();
 }
 function crearPedido(form) {
@@ -786,18 +840,18 @@ function crearPedido(form) {
   const pedido = {
     folio, fecha: new Date().toISOString(), cliente: f,
     mosaico: {
-      piezasAncho: S.W, piezasAlto: S.H, bases: [S.pw, S.ph], pieza: S.pieza, ref: S.cat.piezas[S.pieza].ref,
+      piezasAncho: S.W, piezasAlto: S.H, placa: placaActual().id, bases: [S.pw, S.ph], pieza: S.pieza, ref: S.cat.piezas[S.pieza].ref,
       colores: u.map(k => ({ numero: num.get(k), id: S.pal[k].id, nombre: S.pal[k].nombre, hex: S.pal[k].hex, enMosaico: S.cuenta[k], conRepuesto: necesarias(S.cuenta[k]) })),
       sustituciones: S.subs, cuadricula: filas
     },
-    bases: S.conBases ? { cantidad: c.nb, color: c.base.id } : null,
+    bases: S.conBases ? { cantidad: c.nb, tamano: placaActual().id, acomodo: [S.pw, S.ph], color: c.base.id } : null,
     totales: { piezas: c.sPiezas, bases: c.sBases, envio: c.envio, total: c.total, moneda: 'MXN' }
   };
   const lista = leerLS(LS_PEDIDOS) || []; lista.push({ folio, fecha: pedido.fecha, total: c.total, cliente: f.nombre }); guardarLS(LS_PEDIDOS, lista.slice(-50));
   S.pedido = pedido;
   const txt = [`¡Hola! Quiero ordenar un mosaico PIX·L 🧱`, `Folio: ${folio}`, `Tamaño: ${S.W}×${S.H} piezas (${(S.W * CM).toFixed(1)}×${(S.H * CM).toFixed(1)} cm)`,
     `Pieza: ${S.cat.piezas[S.pieza].nombre} · ${c.colores} colores · ${fmtN(c.piezas)} piezas`,
-    S.conBases ? `Bases: ${c.nb} ${c.base.nombre.toLowerCase()}` : 'Sin bases', `Total: ${fmt(c.total)}`, '',
+    S.conBases ? `Bases: ${c.nb} de ${c.base.tamano} ${c.base.nombre.toLowerCase()} (${S.pw}×${S.ph})` : 'Sin bases', `Total: ${fmt(c.total)}`, '',
     `Nombre: ${f.nombre}`, `Tel: ${f.telefono}`, `Dirección: ${f.calle}, ${f.colonia}, CP ${f.cp}, ${f.ciudad}, ${f.estado}`, f.notas ? `Notas: ${f.notas}` : '',
     '', 'Te adjunto el archivo del pedido.'].filter((l, i, a) => l !== '' || a[i - 1] !== '').join('\n');
   const wa = (S.cat.tienda.whatsapp || '').replace(/\D/g, '');
@@ -815,12 +869,12 @@ function descargar(nombre, contenido, tipo) {
 /* ---------------- instrucciones ---------------- */
 function textoSobre(rgb) { return lum(rgb) > 150 ? '#1E1B18' : '#FFFFFF'; }
 function canvasPlaca(px, py, num) {
-  const cs = 26, m = 24, N = PLACA, c = document.createElement('canvas');
+  const N = PL(), cs = Math.min(34, Math.max(17, Math.round(832 / N))), m = 24, c = document.createElement('canvas');
   c.width = c.height = m + N * cs + 4; const x = c.getContext('2d');
   x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
   x.font = '600 10px system-ui,sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillStyle = '#6B645C';
   for (let i = 0; i < N; i++) { x.fillText(i + 1, m + i * cs + cs / 2, m / 2); x.fillText(i + 1, m / 2, m + i * cs + cs / 2); }
-  x.font = '800 12px system-ui,sans-serif';
+  x.font = `800 ${Math.round(cs * .46)}px system-ui,sans-serif`;
   for (let y = 0; y < N; y++) for (let xx = 0; xx < N; xx++) {
     const k = S.grid[(py * N + y) * S.W + px * N + xx], col = S.pal[k];
     const X = m + xx * cs, Y = m + y * cs;
@@ -839,11 +893,11 @@ function canvasMini(num) {
   const s = Math.max(2, Math.floor(700 / S.W)), c = document.createElement('canvas'); c.width = S.W * s; c.height = S.H * s;
   const x = c.getContext('2d');
   for (let i = 0; i < S.grid.length; i++) { x.fillStyle = S.pal[S.grid[i]].hex; x.fillRect((i % S.W) * s, ((i / S.W) | 0) * s, s, s); }
-  x.strokeStyle = '#fff'; x.lineWidth = 3; x.font = `800 ${Math.round(PLACA * s / 5)}px system-ui`; x.textAlign = 'center'; x.textBaseline = 'middle';
+  x.strokeStyle = '#fff'; x.lineWidth = 3; x.font = `800 ${Math.round(PL() * s / 5)}px system-ui`; x.textAlign = 'center'; x.textBaseline = 'middle';
   for (let j = 0; j < S.ph; j++) for (let i = 0; i < S.pw; i++) {
-    x.strokeRect(i * PLACA * s, j * PLACA * s, PLACA * s, PLACA * s);
-    x.fillStyle = 'rgba(0,0,0,.55)'; x.fillText(nombrePlaca(i, j), (i + .5) * PLACA * s + 2, (j + .5) * PLACA * s + 2);
-    x.fillStyle = '#fff'; x.fillText(nombrePlaca(i, j), (i + .5) * PLACA * s, (j + .5) * PLACA * s);
+    x.strokeRect(i * PL() * s, j * PL() * s, PL() * s, PL() * s);
+    x.fillStyle = 'rgba(0,0,0,.55)'; x.fillText(nombrePlaca(i, j), (i + .5) * PL() * s + 2, (j + .5) * PL() * s + 2);
+    x.fillStyle = '#fff'; x.fillText(nombrePlaca(i, j), (i + .5) * PL() * s, (j + .5) * PL() * s);
   }
   return c;
 }
@@ -857,7 +911,7 @@ function abrirInstrucciones() {
   const folio = S.pedido ? ' · ' + S.pedido.folio : '';
   sec.innerHTML = `<div class="instr-barra"><h2>Instrucciones${folio}</h2><button class="btn chico" id="imprimir" type="button">Imprimir / guardar PDF</button><button class="btn sec chico" id="cerrar-instr" type="button">Cerrar</button></div>`;
   const portada = document.createElement('div'); portada.className = 'pagina';
-  portada.innerHTML = `<h2>Tu mosaico PIX·L</h2><p class="mini">${S.W} × ${S.H} piezas · ${(S.W * CM).toFixed(1)} × ${(S.H * CM).toFixed(1)} cm · ${S.pw * S.ph} ${S.pw * S.ph === 1 ? 'base' : 'bases'} 32×32 · ${S.cat.piezas[S.pieza].nombre}</p>`;
+  portada.innerHTML = `<h2>Tu mosaico PIX·L</h2><p class="mini">${S.W} × ${S.H} piezas · ${(S.W * CM).toFixed(1)} × ${(S.H * CM).toFixed(1)} cm · ${S.pw * S.ph} ${S.pw * S.ph === 1 ? 'base' : 'bases'} de ${placaActual().nombre} · ${S.cat.piezas[S.pieza].nombre}</p>`;
   portada.appendChild(canvasMini(num));
   portada.insertAdjacentHTML('beforeend', `<h3>Cómo armarlo</h3><ol class="pasos-armado">
     <li>Separa las piezas por número: cada color tiene el suyo (abajo).</li>
@@ -869,7 +923,7 @@ function abrirInstrucciones() {
   for (let j = 0; j < S.ph; j++) for (let i = 0; i < S.pw; i++) {
     const pg = document.createElement('div'); pg.className = 'pagina';
     const cnt = new Map();
-    for (let y = 0; y < PLACA; y++) for (let x = 0; x < PLACA; x++) { const k = S.grid[(j * PLACA + y) * S.W + i * PLACA + x]; cnt.set(k, (cnt.get(k) || 0) + 1); }
+    for (let y = 0; y < PL(); y++) for (let x = 0; x < PL(); x++) { const k = S.grid[(j * PL() + y) * S.W + i * PL() + x]; cnt.set(k, (cnt.get(k) || 0) + 1); }
     pg.innerHTML = `<h3>Base ${nombrePlaca(i, j)} <small>fila ${j + 1}, columna ${i + 1} · ${cnt.size} colores</small></h3>`;
     pg.appendChild(canvasPlaca(i, j, num));
     pg.insertAdjacentHTML('beforeend', leyenda(u.filter(k => cnt.has(k)), num, k => cnt.get(k)));
@@ -900,6 +954,7 @@ function eventos() {
   addEventListener('dragover', e => e.preventDefault());
   addEventListener('drop', e => { e.preventDefault(); dd = 0; document.body.classList.remove('arrastrando'); cargarArchivo(e.dataTransfer.files[0]); });
 
+  $('#placas').addEventListener('click', e => { const b = e.target.closest('.placa'); if (b && b.dataset.placa !== S.placa) setPlaca(b.dataset.placa); });
   $('#tamanos').addEventListener('click', e => { const b = e.target.closest('.tam'); if (b) setTamano(+b.dataset.w, +b.dataset.h); });
   $('#pw').addEventListener('change', () => setTamano(+$('#pw').value, S.ph));
   $('#ph').addEventListener('change', () => setTamano(S.pw, +$('#ph').value));
@@ -997,7 +1052,7 @@ function eventos() {
 
 /* ---------------- inicio ---------------- */
 if (ADMIN) { $('#admin-badge').hidden = false; $('#admin-inv').hidden = false; $('#proveedor').hidden = false; }
-hero(); pintarTamanos(); eventos(); cargarCatalogo(true);
+hero(); eventos(); cargarCatalogo(true);
 })();
 </script>
 </body>
