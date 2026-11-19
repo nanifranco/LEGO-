@@ -3,351 +3,378 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>pixela · tu foto en bloques</title>
+<title>PIX·L · tu foto, pieza por pieza</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* Todos los colores de esta página son colores reales del catálogo de piezas */
+/* Paleta: papel, tinta y colores reales de piezas */
 :root{
-  --lav:#E1D5ED;      /* Lavender 056 */
-  --lav2:#F1EBF8;
-  --ink:#0A3463;      /* Earth Blue 055 */
-  --sun:#FFF03A;      /* Cool Yellow 033 */
-  --pink:#E4ADC8;     /* Light Purple 011 */
-  --tq:#36AEBF;       /* Medium Azur 046 */
-  --paper:#FFFFFF;
-  --mut:#4a5f83;
-  --b:2.5px solid var(--ink);
-  --sh:5px 5px 0 var(--ink);
+  --paper:#F3EAD7; --paper2:#FBF6EA; --kraft:#E3D2AE;
+  --ink:#1d1b18; --ink2:#4a4136;
+  --red:#C91A09; --yel:#F2CD37; --navy:#0A3463; --tq:#36AEBF; --pink:#E4ADC8;
+  --b:3px solid var(--ink);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--lav2);color:var(--ink);font:16px/1.5 Onest,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-h1,h2,h3{font-family:"Bricolage Grotesque",Onest,sans-serif;margin:0;line-height:1}
+body{margin:0;color:var(--ink);font:16px/1.55 "Work Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+  background:var(--paper) repeating-linear-gradient(0deg,transparent 0 31px,rgba(74,65,54,.07) 31px 32px)}
+h1,h2,h3,.type{font-family:"Special Elite","Courier New",monospace;font-weight:400;margin:0;line-height:1.05}
 a{color:inherit}
-button,select,input{font:inherit;color:inherit}
-:focus-visible{outline:3px solid var(--tq);outline-offset:2px}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--tq);outline-offset:3px}
 .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+.mut{color:var(--ink2)}
+.hide{display:none!important}
 
-.bar{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
-.logo{display:flex;align-items:center;gap:10px;font:800 26px "Bricolage Grotesque";letter-spacing:-.03em;text-decoration:none}
-.logo i{display:grid;grid-template-columns:repeat(3,9px);gap:2px}
-.logo i b{width:9px;height:9px;border-radius:50%}
-.bar nav{display:flex;gap:6px}
-.bar nav a{text-decoration:none;font-weight:600;font-size:14px;padding:8px 12px;border-radius:999px}
-.bar nav a:hover{background:var(--lav)}
-@media(max-width:640px){.bar nav{display:none}}
+/* ---- marca ---- */
+.bar{display:flex;align-items:center;justify-content:space-between;padding:18px 0 8px}
+.mark{display:inline-flex;align-items:center;font-family:"Special Elite",monospace;font-size:34px;letter-spacing:.08em;text-decoration:none;line-height:1}
+.mark i{display:inline-block;width:.32em;height:.32em;border-radius:50%;background:var(--red);margin:0 .14em;box-shadow:0 0 0 2.5px var(--ink),inset -2px -2px 0 rgba(0,0,0,.25),inset 2px 2px 0 rgba(255,255,255,.4);transform:translateY(-.05em)}
+.bar nav{display:flex;gap:4px}
+.bar nav a{text-decoration:none;font-weight:600;font-size:14px;padding:8px 12px;border-radius:8px}
+.bar nav a:hover{background:var(--kraft)}
+@media(max-width:700px){.bar nav{display:none}}
 
-.hero{display:grid;gap:26px;padding:12px 0 40px;align-items:center}
-@media(min-width:900px){.hero{grid-template-columns:1fr 1.05fr;gap:44px;padding:20px 0 64px}}
-.hero h1{font-size:clamp(52px,9vw,112px);font-weight:800;letter-spacing:-.045em;line-height:.9}
-.hero p{font-size:19px;max-width:30ch;margin:18px 0 26px;color:var(--mut)}
-.cta{display:inline-flex;align-items:center;gap:10px;background:var(--sun);border:var(--b);box-shadow:var(--sh);border-radius:12px;padding:15px 22px;font-weight:700;font-size:18px;cursor:pointer;text-decoration:none;transition:transform .08s,box-shadow .08s}
-.cta:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
-.cta.alt{background:var(--paper)}
-.cta.sm{font-size:15px;padding:10px 15px;box-shadow:3px 3px 0 var(--ink);border-radius:10px}
-.cta[disabled]{opacity:.45;cursor:not-allowed}
-.hint{font-size:14px;color:var(--mut);margin-top:14px}
-.frame{position:relative;background:var(--ink);border-radius:18px;padding:14px;box-shadow:10px 10px 0 var(--pink)}
-.frame canvas{display:block;width:100%;height:auto;border-radius:6px}
-.frame .tag{position:absolute;top:-14px;right:18px;background:var(--sun);border:var(--b);border-radius:999px;padding:5px 12px;font-weight:700;font-size:14px}
-.drop-over .frame{box-shadow:10px 10px 0 var(--tq)}
-.compare{position:absolute;left:14px;bottom:14px;background:var(--paper);border:var(--b);border-radius:999px;padding:6px 12px;font-weight:600;font-size:13px;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none}
+/* ---- botón-pieza ---- */
+.brick{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--yel);border:var(--b);border-radius:7px;
+  padding:14px 24px;font-weight:800;font-size:18px;cursor:pointer;text-decoration:none;box-shadow:0 6px 0 var(--ink);margin-top:14px;
+  transition:transform .08s,box-shadow .08s;-webkit-tap-highlight-color:transparent}
+.brick::before,.brick::after{content:"";position:absolute;top:-14px;width:26px;height:11px;background:inherit;border:var(--b);border-bottom:0;border-radius:5px 5px 0 0}
+.brick::before{left:22%}.brick::after{right:22%}
+.brick:active{transform:translateY(5px);box-shadow:0 1px 0 var(--ink)}
+.brick.red{background:var(--red);color:#fff}
+.brick.white{background:var(--paper2)}
+.brick.sm{font-size:15px;padding:10px 16px;box-shadow:0 4px 0 var(--ink)}
+.brick.sm::before,.brick.sm::after{top:-11px;width:18px;height:8px}
+.brick[disabled]{opacity:.45;cursor:not-allowed}
 
-.builder{background:var(--paper);border:var(--b);border-radius:22px;padding:22px;display:grid;gap:26px}
-@media(min-width:900px){.builder{grid-template-columns:1.2fr 1fr;padding:30px}}
-.blk h2{font-size:28px;letter-spacing:-.02em;margin-bottom:6px}
-.blk > p{color:var(--mut);margin:0 0 14px}
-.step{display:flex;align-items:center;gap:10px;margin:22px 0 10px}
-.step b{font:800 15px "Bricolage Grotesque";background:var(--ink);color:var(--paper);width:26px;height:26px;border-radius:7px;display:inline-grid;place-items:center;flex:none}
-.step span{font:700 19px "Bricolage Grotesque"}
-.styles{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px}
-.sty{border:var(--b);border-radius:12px;background:var(--paper);padding:10px;cursor:pointer;text-align:left}
-.sty .sw{display:flex;gap:3px;margin-bottom:8px}
-.sty .sw i{flex:1;height:18px;border-radius:4px}
-.sty strong{display:block;font-size:15px}
-.sty small{color:var(--mut);font-size:12px}
-.sty[aria-pressed=true]{background:var(--sun);box-shadow:4px 4px 0 var(--ink)}
-.sizes{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.size{border:var(--b);border-radius:12px;background:var(--paper);padding:12px;cursor:pointer;text-align:left;display:grid;gap:2px}
-.size .shape{height:46px;display:flex;align-items:flex-end;margin-bottom:6px}
-.size .shape i{display:block;background:var(--lav);border:2px solid var(--ink);border-radius:3px}
-.size strong{font:700 17px "Bricolage Grotesque"}
-.size small{color:var(--mut);font-size:13px}
-.size em{font-style:normal;font-weight:700;font-size:15px;margin-top:4px}
-.size[aria-pressed=true]{background:var(--sun);box-shadow:4px 4px 0 var(--ink)}
-.size[aria-pressed=true] .shape i{background:var(--pink)}
-.seg{display:inline-flex;flex-wrap:wrap;border:var(--b);border-radius:12px;overflow:hidden;background:var(--paper)}
-.seg button{border:0;background:none;padding:10px 14px;font-weight:600;cursor:pointer;font-size:14px}
-.seg button+button{border-left:var(--b)}
-.seg button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+/* ---- héroe ---- */
+.hero{display:grid;gap:30px;padding:16px 0 50px;align-items:center}
+@media(min-width:920px){.hero{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:54px;padding:28px 0 76px}}
+.hero h1{font-size:clamp(44px,6.4vw,84px);letter-spacing:-.02em}
+.hero h1 .ul{position:relative;white-space:nowrap}
+.hero h1 .ul svg{position:absolute;left:-2%;bottom:-.16em;width:104%;height:.3em}
+.hero p.lead{font-size:19px;max-width:34ch;margin:22px 0 18px;color:var(--ink2)}
+.hint{font-size:14px;color:var(--ink2);margin-top:16px;max-width:42ch}
+.plate{position:relative;background:#6C6E68;border:var(--b);border-radius:12px;padding:14px;box-shadow:8px 8px 0 var(--ink)}
+.plate canvas{display:block;width:100%;height:auto;border-radius:3px;touch-action:none}
+.tape{position:absolute;width:110px;height:30px;background:rgba(242,205,55,.75);border:1px solid rgba(29,27,24,.15)}
+.tape.a{top:-14px;left:-18px;transform:rotate(-12deg)}
+.tape.b{bottom:-12px;right:-16px;transform:rotate(-8deg)}
+.stamp{position:absolute;top:-18px;right:24px;background:var(--paper2);border:var(--b);border-radius:999px;padding:4px 14px;font-family:"Special Elite",monospace;font-size:15px;transform:rotate(3deg)}
+.peek{position:absolute;left:14px;bottom:14px;background:var(--paper2);border:var(--b);border-radius:999px;padding:6px 12px;font-weight:600;font-size:13px;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none}
+.drop-over .plate{box-shadow:8px 8px 0 var(--tq)}
+
+/* ---- tarjetas ---- */
+.card{background:var(--paper2);border:var(--b);border-radius:14px;padding:22px}
+@media(min-width:920px){.card{padding:30px}}
+.sechead{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:14px;margin:70px 0 22px}
+.sechead h2{font-size:clamp(34px,5vw,58px)}
+.sechead p{max-width:46ch;margin:0;color:var(--ink2)}
+.stack{display:flex;gap:4px;margin-top:12px;height:16px}
+.stack i{width:26px;height:12px;border:2px solid var(--ink);border-radius:2px;opacity:0;transform:translateY(-30px)}
+.seen .stack i{animation:land .45s cubic-bezier(.3,1.6,.5,1) forwards}
+@keyframes land{to{opacity:1;transform:none}}
+
+/* ---- constructor ---- */
+.builder{display:grid;gap:28px}
+@media(min-width:920px){.builder{grid-template-columns:1.2fr 1fr}}
+.step{display:flex;align-items:center;gap:10px;margin:26px 0 12px}
+.step:first-child{margin-top:0}
+.step b{font-family:"Special Elite",monospace;font-weight:400;font-size:17px;width:30px;height:30px;border:2.5px solid var(--ink);border-radius:50%;display:inline-grid;place-items:center;flex:none}
+.step span{font:700 19px "Work Sans"}
+.opts{display:grid;gap:10px}
+.opts.styles{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+.opts.sizes{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.opt{border:2.5px solid var(--ink);border-radius:10px;background:#fff;padding:10px 12px;cursor:pointer;text-align:left;display:grid;gap:2px;transition:transform .1s}
+.opt:hover{transform:translateY(-2px)}
+.opt[aria-pressed=true]{background:var(--yel);box-shadow:4px 4px 0 var(--ink)}
+.opt .sw{display:flex;gap:3px;margin-bottom:6px}
+.opt .sw i{flex:1;height:16px;border-radius:3px;border:1px solid rgba(29,27,24,.25)}
+.opt strong{font-size:15px}
+.opt small{color:var(--ink2);font-size:13px}
+.opt em{font-style:normal;font-weight:800;font-size:16px;margin-top:4px}
+.opt .shape{height:44px;display:flex;align-items:flex-end;margin-bottom:6px}
+.opt .shape i{display:block;border:2px solid var(--ink);border-radius:2px;background:repeating-linear-gradient(90deg,#fff 0 5px,#ece2cc 5px 6px)}
+.opt[aria-pressed=true] .shape i{background:var(--red)}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button{border:2.5px solid var(--ink);border-radius:999px;background:#fff;padding:8px 14px;font-weight:600;font-size:14px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--paper2)}
+details.more summary{cursor:pointer;font-weight:700;margin-top:22px}
 .tweak{display:grid;gap:12px;margin-top:12px}
 .tweak label{display:grid;gap:4px;font-size:14px;font-weight:600}
-input[type=range]{width:100%;accent-color:var(--ink)}
-details.more summary{cursor:pointer;font-weight:700;margin-top:18px}
-.summary{background:var(--lav);border:var(--b);border-radius:18px;padding:20px;align-self:start;position:sticky;top:16px}
-.price{font:800 54px "Bricolage Grotesque";letter-spacing:-.03em;line-height:1;margin:6px 0 2px}
-.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
-.fact{background:var(--paper);border:2px solid var(--ink);border-radius:10px;padding:9px 11px}
-.fact b{display:block;font:700 20px "Bricolage Grotesque"}
-.fact span{font-size:13px;color:var(--mut)}
+input[type=range]{width:100%;accent-color:var(--red)}
+.ticket{background:#fff;border:var(--b);border-radius:14px;padding:22px;align-self:start;position:sticky;top:14px;
+  background-image:radial-gradient(circle at 0 50%,var(--paper2) 9px,transparent 10px),radial-gradient(circle at 100% 50%,var(--paper2) 9px,transparent 10px)}
+.ticket .t{font-family:"Special Elite",monospace;font-size:15px;color:var(--ink2)}
+.price{font:800 56px "Work Sans";letter-spacing:-.03em;line-height:1;margin:8px 0 2px}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0;border-top:2px dashed var(--ink);border-bottom:2px dashed var(--ink);padding:14px 0}
+.facts b{display:block;font:800 22px "Work Sans"}
+.facts span{font-size:13px;color:var(--ink2)}
 .chips{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0 16px}
-.chip{display:inline-flex;align-items:center;gap:6px;background:var(--paper);border:2px solid var(--ink);border-radius:999px;padding:3px 9px 3px 4px;font-size:12px;font-weight:600}
-.chip i{width:16px;height:16px;border-radius:50%;border:1px solid rgba(10,52,99,.3)}
-.incl{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:15px}
-.incl li{display:flex;gap:8px}
-.incl li::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--tq);border:2px solid var(--ink);margin-top:6px;flex:none}
-.buy{display:grid;gap:10px;margin-top:18px}
-.buy .cta{justify-content:center}
+.chip{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--ink);border-radius:999px;padding:2px 9px 2px 3px;font-size:12px;font-weight:600;background:#fff}
+.chip i{width:16px;height:16px;border-radius:50%;border:1px solid rgba(29,27,24,.3)}
+.incl{margin:0;padding:0;list-style:none;display:grid;gap:7px;font-size:15px}
+.incl li{display:flex;gap:9px}
+.incl li::before{content:"";flex:none;width:14px;height:10px;margin-top:6px;border:2px solid var(--ink);border-radius:2px;background:var(--tq)}
+.buy{display:grid;gap:18px;margin-top:22px}
+.buy .brick{margin-top:12px}
 
-.how{display:grid;gap:14px;margin-bottom:20px}
-@media(min-width:800px){.how{grid-template-columns:repeat(4,1fr)}}
-.hw{background:var(--paper);border:var(--b);border-radius:16px;padding:18px}
-.hw b{font:800 40px "Bricolage Grotesque";color:var(--tq);-webkit-text-stroke:1.5px var(--ink)}
-.hw h3{font-size:20px;margin:8px 0 6px}
-.hw p{margin:0;color:var(--mut);font-size:15px}
-.sechead{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px;margin:60px 0 18px}
-.sechead h2{font-size:clamp(34px,5vw,56px);letter-spacing:-.035em;font-weight:800}
-.sechead p{max-width:44ch;color:var(--mut);margin:0}
+/* ---- cómo ---- */
+.how{display:grid;gap:16px}
+@media(min-width:820px){.how{grid-template-columns:repeat(4,1fr)}}
+.hw{background:#fff;border:var(--b);border-radius:12px;padding:18px;position:relative}
+.hw .n{font-family:"Special Elite",monospace;font-size:46px;line-height:1;color:var(--red)}
+.hw h3{font:700 19px "Work Sans";margin:10px 0 6px}
+.hw p{margin:0;color:var(--ink2);font-size:15px}
 
-.guide{display:grid;gap:22px;background:var(--paper);border:var(--b);border-radius:22px;padding:22px}
-@media(min-width:900px){.guide{grid-template-columns:1.1fr 1fr;padding:30px}}
-.guide canvas{width:100%;height:auto;border:2px solid var(--ink);border-radius:10px;display:block}
+/* ---- instrucciones ---- */
+.guide{display:grid;gap:24px}
+@media(min-width:920px){.guide{grid-template-columns:1.1fr 1fr}}
+.guide canvas{width:100%;height:auto;border:2.5px solid var(--ink);border-radius:8px;display:block;background:#fff}
 .secgrid{display:grid;gap:5px;margin-top:10px}
-.secbtn{border:2px solid var(--ink);background:var(--paper);border-radius:8px;padding:7px 0;font-weight:700;font-size:13px;cursor:pointer}
+.secbtn{border:2px solid var(--ink);background:#fff;border-radius:6px;padding:7px 0;font-weight:700;font-size:13px;cursor:pointer}
 .secbtn.ok{background:var(--pink)}
-.secbtn[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.secbtn[aria-pressed=true]{background:var(--ink);color:#fff}
 .legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:10px}
-.lg{display:flex;align-items:center;gap:8px;font-size:14px;padding:5px 8px;border:2px solid var(--ink);border-radius:9px;background:var(--paper)}
-.lg .k{font:800 13px "Bricolage Grotesque";min-width:26px;text-align:center;border-radius:6px;padding:2px 3px;border:1px solid rgba(10,52,99,.25)}
+.lg{display:flex;align-items:center;gap:8px;font-size:14px;padding:5px 8px;border:2px solid var(--ink);border-radius:8px;background:#fff}
+.lg .k{font:800 13px "Work Sans";min-width:26px;text-align:center;border-radius:5px;padding:2px 3px;border:1px solid rgba(29,27,24,.25)}
 .lg .q{margin-left:auto;font-weight:700}
-.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.mut{color:var(--mut)}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 
-.owner{margin:60px 0 0;background:var(--ink);color:var(--paper);border-radius:22px;padding:22px}
-@media(min-width:900px){.owner{padding:30px}}
-.owner h2{font-size:36px;letter-spacing:-.03em}
-.owner .mut{color:#b6c3dc}
-.owner .cta{color:var(--ink)}
-.ogrid{display:grid;gap:18px;margin-top:18px}
-@media(min-width:900px){.ogrid{grid-template-columns:1fr 1fr}}
-.ocard{background:#123f73;border-radius:14px;padding:16px;min-width:0}
-.ocard h3{font-size:19px;margin-bottom:10px}
-.field{display:grid;gap:4px;font-size:13px;font-weight:600;color:#cfd9ec}
-.field input,.field select{background:var(--paper);color:var(--ink);border:0;border-radius:8px;padding:8px 10px;min-width:0;width:100%}
-.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+/* ---- panel dueña ---- */
+.owner{margin-top:70px;background:var(--navy);color:#fff;border:var(--b);border-radius:16px;padding:22px}
+@media(min-width:920px){.owner{padding:30px}}
+.owner h2{font-size:40px}
+.owner .mut{color:#c3cfe4}
+.owner .brick{color:var(--ink)}
+.owner .brick.red{color:#fff}
+.ogrid{display:grid;gap:18px;margin-top:20px}
+@media(min-width:920px){.ogrid{grid-template-columns:1fr 1fr}}
+.ocard{background:#123f73;border-radius:12px;padding:16px;min-width:0}
+.ocard.full{grid-column:1/-1}
+.ocard h3{font-family:"Work Sans";font-weight:700;font-size:19px;margin-bottom:10px}
+.field{display:grid;gap:4px;font-size:13px;font-weight:600;color:#d4ddee}
+.field input{background:#fff;color:var(--ink);border:0;border-radius:7px;padding:8px 10px;min-width:0;width:100%}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
 .otable{width:100%;border-collapse:collapse;font-size:14px}
-.otable td{padding:6px 4px;border-bottom:1px solid #2a5690}
-.otable td.n{text-align:right;font-variant-numeric:tabular-nums}
+.otable td,.otable th{padding:6px 4px;border-bottom:1px solid #2a5690;text-align:left}
+.otable th{font-size:12px;color:#c3cfe4;font-weight:600}
+.otable .n{text-align:right;font-variant-numeric:tabular-nums}
 .otable tr.t td{font-weight:700;border-bottom:0;padding-top:10px}
-.profit{font:800 34px "Bricolage Grotesque"}
-.pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:10px}
-.pc{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:9px;background:#0d3768;border:1px solid #2a5690;cursor:pointer;font-size:13px;text-align:left;color:var(--paper)}
-.pc i{width:20px;height:20px;border-radius:5px;flex:none;border:1px solid rgba(255,255,255,.3)}
-.pc span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pc small{font-weight:700}
-.pc[aria-pressed=false]{opacity:.5;text-decoration:line-through}
-.alert{background:var(--sun);color:var(--ink);border-radius:12px;padding:14px;margin-top:12px}
-.alert h3{font-size:17px;margin-bottom:4px}
+.otable tr.short td{color:var(--yel)}
+.profit{font:800 36px "Work Sans"}
+.inv{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px;margin-top:10px}
+.iv{display:grid;grid-template-columns:22px 1fr 82px;align-items:center;gap:8px;background:#0d3768;border:1px solid #2a5690;border-radius:8px;padding:6px 8px;font-size:13px}
+.iv i{width:22px;height:22px;border-radius:5px;border:1px solid rgba(255,255,255,.35)}
+.iv span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.iv span small{display:block;color:#c3cfe4;font-size:11px}
+.iv input{width:100%;border:0;border-radius:6px;padding:5px 6px;color:var(--ink);text-align:right}
+.iv.short{border-color:var(--yel)}
+.iv.zero{opacity:.55}
+.alert{background:var(--yel);color:var(--ink);border-radius:10px;padding:14px;margin-top:12px}
+.alert h3{font-family:"Work Sans";font-weight:700;font-size:16px;margin-bottom:4px}
 .subopts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.subopt{display:flex;align-items:center;gap:6px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:9px;padding:6px 10px;cursor:pointer;font-weight:600;font-size:13px}
+.subopt{display:flex;align-items:center;gap:6px;border:2px solid var(--ink);background:#fff;color:var(--ink);border-radius:8px;padding:6px 10px;cursor:pointer;font-weight:600;font-size:13px}
 .subopt i{width:16px;height:16px;border-radius:4px}
-.subopt em{font-style:normal;font-weight:500;color:var(--mut)}
-.done{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:#0d3768;border-radius:10px;padding:8px 10px;margin-top:8px;font-size:14px}
+.subopt em{font-style:normal;font-weight:500;color:var(--ink2)}
+.done{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:#0d3768;border-radius:8px;padding:8px 10px;margin-top:8px;font-size:14px}
 .done i{width:16px;height:16px;border-radius:4px;display:inline-block;vertical-align:middle}
 textarea{width:100%;min-height:110px;border:0;border-radius:8px;padding:8px;font:12px ui-monospace,monospace;color:var(--ink)}
-.toggle-owner{background:none;border:0;color:var(--mut);text-decoration:underline;cursor:pointer;font-size:14px}
-footer{padding:30px 0 50px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;font-size:14px;color:var(--mut)}
-.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);padding:11px 16px;border-radius:12px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:.2s;z-index:30;max-width:90vw}
+footer{padding:34px 0 60px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;font-size:14px;color:var(--ink2)}
+.linkbtn{background:none;border:0;color:var(--ink2);text-decoration:underline;cursor:pointer;font-size:14px}
+
+/* ---- efectos ---- */
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:11px 16px;border-radius:10px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:.2s;z-index:40;max-width:90vw}
 .toast.on{opacity:1;transform:translateX(-50%)}
-.hide{display:none!important}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+.rain{position:fixed;inset:0;pointer-events:none;z-index:35;overflow:hidden}
+.rain i{position:absolute;top:-30px;width:22px;height:14px;border:2px solid var(--ink);border-radius:2px;animation:fall 1.4s cubic-bezier(.4,.1,.7,1) forwards}
+.rain i::before{content:"";position:absolute;top:-7px;left:4px;width:8px;height:5px;background:inherit;border:2px solid var(--ink);border-bottom:0;border-radius:2px 2px 0 0}
+@keyframes fall{to{transform:translateY(110vh) rotate(var(--r))}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.stack i{opacity:1;transform:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="bar">
-    <a class="logo" href="#top" id="top"><i aria-hidden="true">
-      <b style="background:#C91A09"></b><b style="background:#FFF03A"></b><b style="background:#36AEBF"></b>
-      <b style="background:#E4ADC8"></b><b style="background:#0A3463"></b><b style="background:#BBE90B"></b>
-      <b style="background:#FE8A18"></b><b style="background:#AC78BA"></b><b style="background:#FFFFFF;outline:1px solid #0A3463"></b>
-    </i>pixela</a>
+    <a class="mark" href="#top" id="top" aria-label="PIX·L, inicio">PIX<i aria-hidden="true"></i>L</a>
     <nav><a href="#arma">Diseña el tuyo</a><a href="#como">Cómo funciona</a><a href="#instrucciones">Instrucciones</a></nav>
   </header>
 
   <section class="hero" id="dropzone">
     <div>
-      <h1>Tu foto, hecha de bloques.</h1>
-      <p>Súbela y mírala convertida en mosaico al instante. Te mandamos las piezas y las instrucciones para armarlo en casa.</p>
-      <button class="cta" id="upBtn" type="button">Subir mi foto</button>
+      <h1>Tu foto, hecha de <span class="ul">bloques.<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 13 C 60 4, 120 18, 180 9 S 270 6, 297 12" fill="none" stroke="#C91A09" stroke-width="5" stroke-linecap="round"/></svg></span></h1>
+      <p class="lead">Súbela y mírala convertida en mosaico de bloques al instante. Te mandamos las piezas a tu casa con instrucciones para armarlo.</p>
+      <button class="brick" id="upBtn" type="button">Subir mi foto</button>
       <input type="file" id="file" accept="image/*" class="hide">
-      <div class="hint">Tu foto se procesa en tu celular; no se sube a ningún lado hasta que haces tu pedido.</div>
+      <div class="hint">Tu foto se procesa aquí mismo, en tu celular o compu; solo nos la mandas si haces tu pedido.</div>
     </div>
-    <div class="frame">
-      <span class="tag" id="heroTag">Ejemplo</span>
+    <div class="plate">
+      <span class="tape a" aria-hidden="true"></span><span class="tape b" aria-hidden="true"></span>
+      <span class="stamp" id="stamp">ejemplo</span>
       <canvas id="cvHero" width="10" height="10" aria-label="Vista previa del mosaico"></canvas>
-      <span class="compare hide" id="compare">Mantén presionado para ver la foto</span>
+      <span class="peek hide" id="peek">Mantén presionado para ver tu foto</span>
     </div>
   </section>
 
-  <section id="arma" class="builder">
-    <div class="blk">
-      <h2>Diseña el tuyo</h2>
-      <p>Cada punto es una pieza real de 8 mm. Cambia el estilo y el tamaño y mira el precio al momento.</p>
-      <div class="step"><b>1</b><span>Estilo</span></div>
-      <div class="styles" id="styles"></div>
-      <div class="step"><b>2</b><span>Tamaño</span></div>
-      <div class="sizes" id="sizes"></div>
-      <div class="step"><b>3</b><span>Acabado de las piezas</span></div>
-      <div class="seg" id="finish">
-        <button type="button" data-p="3024">Con botón</button>
-        <button type="button" data-p="98138">Redondas lisas</button>
-        <button type="button" data-p="3070b">Cuadradas lisas</button>
-      </div>
-      <details class="more">
-        <summary>Ajustar encuadre y color</summary>
-        <div class="tweak">
-          <label>Acercar<input type="range" id="zoom" min="1" max="3" step="0.05" value="1"></label>
-          <label>Mover a los lados<input type="range" id="cropX" min="0" max="1" step="0.01" value="0.5"></label>
-          <label>Mover arriba y abajo<input type="range" id="cropY" min="0" max="1" step="0.01" value="0.5"></label>
-          <label>Brillo<input type="range" id="bri" min="-60" max="60" value="0"></label>
-          <label>Contraste<input type="range" id="con" min="-60" max="60" value="0"></label>
-          <label>Intensidad del color<input type="range" id="sat" min="0" max="200" value="110"></label>
-          <label style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" id="dither"> Más detalle (mezcla colores por puntos)</label>
+  <section id="arma">
+    <div class="sechead"><div><h2>Diseña el tuyo</h2><div class="stack" aria-hidden="true"></div></div><p>Cada punto es una pieza real de 8 mm. Cambia estilo y tamaño, y el precio se actualiza solo.</p></div>
+    <div class="builder">
+      <div class="card">
+        <div class="step"><b>1</b><span>Estilo</span></div>
+        <div class="opts styles" id="styles"></div>
+        <div class="step"><b>2</b><span>Tamaño</span></div>
+        <div class="opts sizes" id="sizes"></div>
+        <div class="step"><b>3</b><span>Piezas</span></div>
+        <div class="seg" id="finish">
+          <button type="button" data-p="3024">Con botón</button>
+          <button type="button" data-p="98138">Redondas lisas</button>
+          <button type="button" data-p="3070b">Cuadradas lisas</button>
         </div>
-      </details>
+        <details class="more">
+          <summary>Ajustar encuadre y color</summary>
+          <div class="tweak">
+            <label>Acercar<input type="range" id="zoom" min="1" max="3" step="0.05" value="1"></label>
+            <label>Mover a los lados<input type="range" id="cropX" min="0" max="1" step="0.01" value="0.5"></label>
+            <label>Mover arriba y abajo<input type="range" id="cropY" min="0" max="1" step="0.01" value="0.5"></label>
+            <label>Brillo<input type="range" id="bri" min="-60" max="60" value="0"></label>
+            <label>Contraste<input type="range" id="con" min="-60" max="60" value="0"></label>
+            <label>Intensidad del color<input type="range" id="sat" min="0" max="200" value="110"></label>
+            <label style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" id="dither"> Más detalle (mezcla colores por puntos)</label>
+          </div>
+        </details>
+      </div>
+      <aside class="ticket" aria-live="polite">
+        <div class="t" id="sumTitle"></div>
+        <div class="price" id="price">$0</div>
+        <div class="mut" style="font-size:14px">MXN, envío incluido a todo México</div>
+        <div class="facts">
+          <div><b id="fPieces">0</b><span>piezas</span></div>
+          <div><b id="fColors">0</b><span>colores</span></div>
+          <div><b id="fBases">0</b><span id="fBasesL">bases</span></div>
+          <div><b id="fTime">0 h</b><span>para armarlo</span></div>
+        </div>
+        <div class="mut" style="font-size:14px;font-weight:600">Colores de tu mosaico</div>
+        <div class="chips" id="chips"></div>
+        <ul class="incl">
+          <li>Piezas separadas por color, con unas extra por si se pierde alguna</li>
+          <li id="inclBase">Base para armarlo</li>
+          <li>Instrucciones numeradas, cuadrito por cuadrito</li>
+          <li>Sale de nuestro taller y llega en 3 a 6 días</li>
+        </ul>
+        <div class="buy">
+          <a class="brick red" id="waBtn" href="#" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+          <button class="brick white sm" id="copyOrder" type="button">Copiar resumen del pedido</button>
+        </div>
+        <div class="hint" id="orderCode"></div>
+      </aside>
     </div>
-    <aside class="summary" aria-live="polite">
-      <div class="mut" id="sumTitle"></div>
-      <div class="price" id="price">$0</div>
-      <div class="mut" style="font-size:14px">MXN, envío incluido</div>
-      <div class="facts">
-        <div class="fact"><b id="fPieces">0</b><span>piezas</span></div>
-        <div class="fact"><b id="fColors">0</b><span>colores</span></div>
-        <div class="fact"><b id="fBases">0</b><span id="fBasesL">bases</span></div>
-        <div class="fact"><b id="fTime">0 h</b><span>para armarlo</span></div>
-      </div>
-      <div class="mut" style="font-size:14px;font-weight:600">Colores de tu mosaico</div>
-      <div class="chips" id="chips"></div>
-      <ul class="incl">
-        <li>Todas las piezas, más unas extra por si se pierde alguna</li>
-        <li id="inclBase">Base para armarlo</li>
-        <li>Instrucciones por secciones, cuadrito por cuadrito</li>
-        <li>Llega a tu casa en 2 a 3 semanas</li>
-      </ul>
-      <div class="buy">
-        <a class="cta" id="waBtn" href="#" target="_blank" rel="noopener">Pedir por WhatsApp</a>
-        <button class="cta alt sm" id="copyOrder" type="button">Copiar resumen del pedido</button>
-      </div>
-      <div class="hint" id="orderCode"></div>
-    </aside>
   </section>
 
   <section id="como">
-    <div class="sechead"><h2>Así funciona</h2><p>Sin pegamento ni herramientas. Las piezas son compatibles con las marcas de bloques más conocidas.</p></div>
+    <div class="sechead"><div><h2>Así funciona</h2><div class="stack" aria-hidden="true"></div></div><p>Sin pegamento ni herramientas. Piezas compatibles con las principales marcas de bloques.</p></div>
     <div class="how">
-      <div class="hw"><b>1</b><h3>Sube tu foto</h3><p>Funciona mejor con una cara o un objeto de cerca y un fondo sencillo.</p></div>
-      <div class="hw"><b>2</b><h3>Elige estilo y tamaño</h3><p>Desde un mini de 13 cm hasta un mural de 77 cm para la pared.</p></div>
-      <div class="hw"><b>3</b><h3>Haz tu pedido</h3><p>Nos mandas tu foto por WhatsApp y confirmamos tu diseño antes de enviarlo.</p></div>
-      <div class="hw"><b>4</b><h3>Ármalo</h3><p>Sigue los números por secciones de 16 × 16. Unos 45 minutos por sección.</p></div>
+      <div class="hw"><div class="n">1</div><h3>Sube tu foto</h3><p>Sale mejor una cara o un objeto de cerca, con fondo sencillo.</p></div>
+      <div class="hw"><div class="n">2</div><h3>Elige estilo y tamaño</h3><p>Desde un mini de 13 cm hasta un mural de 77 cm para la pared.</p></div>
+      <div class="hw"><div class="n">3</div><h3>Pide por WhatsApp</h3><p>Nos mandas tu foto, revisamos tu diseño contigo y lo preparamos.</p></div>
+      <div class="hw"><div class="n">4</div><h3>Ármalo</h3><p>Sigue los números por secciones de 16 × 16. Unos 45 minutos cada una.</p></div>
     </div>
   </section>
 
   <section id="instrucciones">
-    <div class="sechead"><h2>Tus instrucciones</h2><p>Así se ven las tuyas: cada cuadrito lleva el número de su color. Arma una fila a la vez, de izquierda a derecha.</p></div>
-    <div class="guide">
+    <div class="sechead"><div><h2>Tus instrucciones</h2><div class="stack" aria-hidden="true"></div></div><p>Así se ven las tuyas: cada cuadrito lleva el número de su color. Arma una fila a la vez, de izquierda a derecha.</p></div>
+    <div class="card guide">
       <div>
-        <div class="row" style="justify-content:space-between;margin-bottom:10px">
-          <div><strong id="secTitle" style="font:800 22px 'Bricolage Grotesque'"></strong> <span class="mut" id="secSub"></span></div>
-          <div class="row">
-            <button class="cta alt sm" id="secPrev" type="button" aria-label="Sección anterior">‹</button>
-            <button class="cta alt sm" id="secNext" type="button" aria-label="Sección siguiente">›</button>
+        <div class="row" style="justify-content:space-between;margin-bottom:12px">
+          <div><strong id="secTitle" class="type" style="font-size:24px"></strong> <span class="mut" id="secSub"></span></div>
+          <div class="row" style="gap:16px">
+            <button class="brick white sm" id="secPrev" type="button" aria-label="Sección anterior" style="margin-top:8px">‹</button>
+            <button class="brick white sm" id="secNext" type="button" aria-label="Sección siguiente" style="margin-top:8px">›</button>
           </div>
         </div>
         <canvas id="cvSection" width="10" height="10"></canvas>
-        <label class="row" style="margin-top:12px;font-weight:600"><input type="checkbox" id="secDone"> Ya terminé esta sección</label>
+        <label class="row" style="margin-top:12px;font-weight:600;gap:8px"><input type="checkbox" id="secDone"> Ya terminé esta sección</label>
       </div>
       <div>
         <div class="mut" style="font-weight:600">Elige una sección</div>
         <div class="secgrid" id="secGrid"></div>
-        <h3 style="font-size:20px;margin-top:18px">Piezas de esta sección</h3>
+        <h3 style="font:700 19px 'Work Sans';margin-top:20px">Piezas de esta sección</h3>
         <div class="legend" id="secLegend"></div>
       </div>
     </div>
   </section>
 
+  <!-- ===================== PANEL DE LA DUEÑA ===================== -->
   <section class="owner hide" id="duena" aria-label="Panel de la dueña">
     <div class="row" style="justify-content:space-between">
       <h2>Panel de la dueña</h2>
-      <button class="cta sm" id="closeOwner" type="button">Cerrar panel</button>
+      <button class="brick sm" id="closeOwner" type="button">Cerrar panel</button>
     </div>
-    <p class="mut" style="margin:8px 0 0;max-width:70ch">Esto no lo ven tus clientes. Aquí calculas costos y margen, marcas colores agotados, eliges sustitutos y sacas la lista de piezas para el proveedor.</p>
+    <p class="mut" style="margin:10px 0 0;max-width:72ch">Esto no lo ven tus clientes y se guarda solo en este dispositivo. Aquí llevas tu inventario, costos y margen, surtes pedidos y sacas las instrucciones para mandar.</p>
     <div class="ogrid">
       <div class="ocard">
-        <h3>Proveedor y costos</h3>
+        <h3>Costos</h3>
         <div class="fgrid">
-          <label class="field">Proveedor<select id="oSupplier">
-            <option value="webrick">Webrick (fábrica Gobricks)</option>
-            <option value="moc">MOC Brick Store (Gobricks)</option>
-          </select></label>
-          <label class="field">US$ por pieza<input type="number" id="oPiece" step="0.005" min="0"></label>
+          <label class="field">US$ por bolsa de 1,000 piezas<input type="number" id="oBag" step="0.1" min="0"></label>
           <label class="field">US$ base 32×32<input type="number" id="oBase32" step="0.1" min="0"></label>
           <label class="field">US$ placa 16×16<input type="number" id="oBase16" step="0.1" min="0"></label>
-          <label class="field">US$ envío por pedido<input type="number" id="oShip" step="0.5" min="0"></label>
+          <label class="field">Impuesto de importación %<input type="number" id="oTax" step="0.5" min="0"></label>
           <label class="field">Pesos por dólar<input type="number" id="oFx" step="0.1" min="1"></label>
+          <label class="field">Empaque por pedido (MXN)<input type="number" id="oPack" step="5" min="0"></label>
+          <label class="field">Envío nacional (MXN)<input type="number" id="oShip" step="5" min="0"></label>
           <label class="field">Tu margen %<input type="number" id="oMargin" step="5" min="0"></label>
           <label class="field">Piezas extra %<input type="number" id="oSpare" step="1" min="0"></label>
+          <label class="field">Gramos por 100 piezas<input type="number" id="oGrams" step="0.1" min="0" placeholder="pésalas una vez"></label>
           <label class="field">Tu WhatsApp (con lada)<input type="tel" id="oWa" placeholder="5215512345678"></label>
         </div>
-        <p class="mut" id="supNote" style="font-size:13px;margin:12px 0 0"></p>
+        <p class="mut" style="font-size:13px;margin:12px 0 0">Valores iniciales de referencia: bolsas de 1,000 piezas 1×1 en AliExpress, impuesto de 33.5% a paquetes desde China y base 32×32 compatible. Cámbialos por lo que pagues de verdad.</p>
       </div>
       <div class="ocard">
-        <h3>Este pedido</h3>
+        <h3>Este diseño</h3>
         <table class="otable" id="oTable"></table>
-        <div class="row" style="justify-content:space-between;margin-top:12px">
-          <span class="mut">Tu ganancia</span><span class="profit" id="oProfit"></span>
-        </div>
+        <div class="row" style="justify-content:space-between;margin-top:12px"><span class="mut">Tu ganancia</span><span class="profit" id="oProfit"></span></div>
       </div>
-      <div class="ocard" style="grid-column:1/-1">
-        <h3>Existencias y sustitutos</h3>
-        <p class="mut" style="margin:0;font-size:14px">Toca un color si el proveedor lo tiene agotado. Si este mosaico lo usa, te propongo el más parecido y tú decides.</p>
+      <div class="ocard full">
+        <h3>Inventario por color</h3>
+        <p class="mut" style="margin:0;font-size:14px">Pon cuántas piezas tienes de cada color. Los clientes solo ven colores con existencia. Si un diseño necesita más de lo que tienes, abajo te aparece el sustituto más parecido.</p>
         <div id="pending"></div>
         <div id="subs"></div>
-        <div class="pal" id="pal"></div>
+        <div class="inv" id="inv"></div>
       </div>
       <div class="ocard">
-        <h3>Lista para el proveedor</h3>
-        <p class="mut" style="margin:0 0 10px;font-size:14px" id="csvHelp"></p>
-        <textarea id="csv" readonly></textarea>
-        <div class="row" style="margin-top:10px">
-          <button class="cta sm" id="dlCsv" type="button">Descargar CSV</button>
-          <button class="cta alt sm" id="cpCsv" type="button">Copiar</button>
-          <a class="cta alt sm" id="supLink" href="#" target="_blank" rel="noopener">Abrir proveedor</a>
+        <h3>Surtir este pedido</h3>
+        <table class="otable" id="pick"></table>
+        <div class="row" style="margin-top:16px;gap:16px">
+          <button class="brick sm" id="fulfil" type="button">Descontar del inventario</button>
+          <button class="brick white sm" id="cpPick" type="button">Copiar lista</button>
         </div>
       </div>
       <div class="ocard">
-        <h3>Archivos para tu cliente</h3>
-        <p class="mut" style="margin:0 0 10px;font-size:14px">Mándale el plano completo y cada sección por WhatsApp o correo.</p>
-        <div class="row">
-          <button class="cta sm" id="dlPlan" type="button">Plano completo (PNG)</button>
-          <button class="cta alt sm" id="dlSec" type="button">Sección actual (PNG)</button>
-          <button class="cta alt sm" id="dlPrev" type="button">Vista previa (PNG)</button>
+        <h3>Para resurtir</h3>
+        <p class="mut" style="margin:0 0 8px;font-size:14px">Colores con menos de 300 piezas. Compra bolsas de 1,000.</p>
+        <table class="otable" id="restock"></table>
+        <h3 style="margin-top:18px">Archivos para tu cliente</h3>
+        <div class="row" style="gap:16px">
+          <button class="brick sm" id="dlPlan" type="button">Plano completo</button>
+          <button class="brick white sm" id="dlSec" type="button">Sección actual</button>
+          <button class="brick white sm" id="dlPrev" type="button">Vista previa</button>
         </div>
       </div>
     </div>
   </section>
 
   <footer>
-    <span>pixela · mosaicos de bloques hechos con tu foto</span>
-    <button class="toggle-owner" id="openOwner" type="button">Panel de la dueña</button>
+    <span>PIX·L · mosaicos de bloques hechos con tu foto · Piezas compatibles con las principales marcas de bloques.</span>
+    <button class="linkbtn" id="openOwner" type="button">Panel de la dueña</button>
   </footer>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
 "use strict";
-/* Catálogo real de colores Gobricks: [#, nombre, nombre LEGO, BrickLink, Rebrickable, hex] */
+/* ============ Catálogo de colores (Gobricks) ============
+   [#, nombre, nombre LEGO equivalente, BrickLink, Rebrickable, hex] */
 const PAL=[
  ['090','Blanco','White',1,15,'FFFFFF'],['080','Negro','Black',11,0,'05131D'],
  ['010','Rojo','Bright Red',5,4,'C91A09'],['014','Rojo vino','New Dark Red',59,320,'720E0F'],
@@ -372,9 +399,11 @@ const PAL=[
 ].map(([g,n,lego,bl,rb,hex])=>{const rgb=[parseInt(hex.slice(0,2),16),parseInt(hex.slice(2,4),16),parseInt(hex.slice(4,6),16)];
   return {g,n,lego,bl,rb,hex:'#'+hex,rgb,lab:rgb2lab(...rgb),lum:.299*rgb[0]+.587*rgb[1]+.114*rgb[2]};});
 const IDX=Object.fromEntries(PAL.map((p,i)=>[p.g,i]));
+// inventario inicial de ejemplo: 28 colores básicos con una bolsa de 1,000
+const STARTER=['090','080','010','014','021','083','036','030','033','031','034','032','084','081','082','071','072','040','043','042','046','050','052','055','056','062','011','012'];
 
 const STYLES=[
- {k:'color',n:'A todo color',d:'Lo más fiel a tu foto',g:null,sat:110},
+ {k:'color',n:'A todo color',d:'Fiel a tu foto',g:null,sat:110},
  {k:'pop',n:'Pop',d:'Colores fuertes',g:['090','080','010','021','033','030','050','046','042','043','011','012','060'],sat:150},
  {k:'pastel',n:'Pastel',d:'Suave y tierno',g:['090','056','011','062','053','045','044','032','031','048','054','055'],sat:90},
  {k:'sepia',n:'Vintage',d:'Tonos cálidos',g:['090','032','031','084','034','083','081','082','080'],sat:60},
@@ -385,12 +414,6 @@ const SIZES=[
  {k:'retrato',n:'Retrato',W:48,H:64},{k:'paisaje',n:'Paisaje',W:64,H:48},{k:'pared',n:'Pared',W:64,H:64},{k:'mural',n:'Mural',W:96,H:96},
 ];
 const FINISH={'3024':{n:'con botón',shape:'sq',stud:true},'98138':{n:'redondas lisas',shape:'rd',stud:false},'3070b':{n:'cuadradas lisas',shape:'sq',stud:false}};
-const SUPPLIERS={
- webrick:{n:'Webrick',url:'https://www.webrick.com/',help:'En Webrick agrega las piezas por color (o sube la lista si te lo permite) y en el pago pon la dirección de tu cliente.',
-  note:'Webrick es el canal oficial de la fábrica Gobricks: más de 30,000 piezas, sin pedido mínimo para negocios y envío en 3 a 12 días. Si un color se atrasa, te ofrecen cambiarlo o reembolsarlo. Confirma con ellos que envíen a México y su precio real por pieza.'},
- moc:{n:'MOC Brick Store',url:'https://toolbox.mocbrickstore.com/',help:'Sube este CSV (formato Rebrickable) en el Toolbox; ahí ves existencias en tiempo real. En el pago pon la dirección de tu cliente.',
-  note:'MOC Brick Store vende piezas Gobricks sueltas desde la fábrica en China, con envío aéreo gratis en pedidos de más de US$20 (7 a 20 días). Las piezas llegan en bolsas, sin caja ni marca.'},
-};
 const SEC=16;
 
 function rgb2lab(r,g,b){const f=c=>{c/=255;return c<=.04045?c/12.92:Math.pow((c+.055)/1.055,2.4)};let R=f(r),G=f(g),B=f(b);
@@ -405,23 +428,25 @@ function dE(a,b){const[L1,a1,b1]=a,[L2,a2,b2]=b,r=Math.PI/180;const C1=Math.hypo
  const RC=2*Math.sqrt(Math.pow(Cbp,7)/(Math.pow(Cbp,7)+p7));const SL=1+.015*Math.pow(Lb-50,2)/Math.sqrt(20+Math.pow(Lb-50,2)),SC=1+.045*Cbp,SH=1+.015*Cbp*T;
  const RT=-Math.sin(2*dT*r)*RC;return Math.sqrt((dL/SL)**2+(dC/SC)**2+(dH/SH)**2+RT*(dC/SC)*(dH/SH));}
 
-const DEF_OWNER={supplier:'webrick',piece:0.05,base32:4.7,base16:1.5,ship:0,fx:18.5,margin:70,spare:5,wa:''};
-const S={img:null,style:'color',size:'cuadro',finish:'3024',zoom:1,cx:.5,cy:.5,bri:0,con:0,sat:110,dither:false,
- avail:Object.fromEntries(PAL.map(p=>[p.g,true])),pending:new Set(),subs:{},grid:null,counts:null,order:[],sec:0,done:new Set(),
- owner:{...DEF_OWNER},anim:0,code:''};
-try{const o=JSON.parse(localStorage.getItem('pixela-owner')||'null');if(o){Object.assign(S.owner,o.owner||{});if(o.avail)Object.assign(S.avail,o.avail);}}catch(e){}
-function persist(){try{localStorage.setItem('pixela-owner',JSON.stringify({owner:S.owner,avail:S.avail}));}catch(e){}}
+/* ============ Estado ============ */
+const DEF={bag:7.23,base32:4.69,base16:1.6,tax:33.5,fx:18.5,pack:50,ship:120,margin:110,spare:5,grams:0,wa:''};
+const S={img:null,demo:true,style:'color',size:'cuadro',finish:'3024',zoom:1,cx:.5,cy:.5,bri:0,con:0,sat:110,dither:false,
+ stock:Object.fromEntries(PAL.map(p=>[p.g,STARTER.includes(p.g)?1000:0])),
+ subs:{},grid:null,counts:null,order:[],sec:0,done:new Set(),o:{...DEF},code:'',anim:null,confirmFulfil:false};
+try{const s=JSON.parse(localStorage.getItem('pixl-owner')||'null');if(s){Object.assign(S.o,s.o||{});if(s.stock)Object.assign(S.stock,s.stock);}}catch(e){}
+const persist=()=>{try{localStorage.setItem('pixl-owner',JSON.stringify({o:S.o,stock:S.stock}));}catch(e){}};
 const $=id=>document.getElementById(id);
 const size=()=>SIZES.find(s=>s.k===S.size);
+const reduce=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 function newCode(){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='PX-';for(let i=0;i<5;i++)s+=a[Math.floor(Math.random()*a.length)];return s;}
 S.code=newCode();
 
-/* Imagen de ejemplo: un perrito ilustrado */
-function demo(){
+/* ============ Imagen ============ */
+function demo(){ // ilustración original: perrito en sus colores
  const c=document.createElement('canvas');c.width=c.height=640;const x=c.getContext('2d');
- const g=x.createLinearGradient(0,0,640,640);g.addColorStop(0,'#ffd2e6');g.addColorStop(1,'#bfe3ff');x.fillStyle=g;x.fillRect(0,0,640,640);
- x.fillStyle='#ffe96b';for(let i=0;i<9;i++){x.beginPath();x.arc(70+i*70,570+(i%2)*30,26,0,7);x.fill();}
- x.fillStyle='#6b3a1c';x.beginPath();x.ellipse(165,270,70,135,-.45,0,7);x.fill();x.beginPath();x.ellipse(475,270,70,135,.45,0,7);x.fill();
+ const g=x.createLinearGradient(0,0,640,640);g.addColorStop(0,'#ffd8b0');g.addColorStop(1,'#9fd4e6');x.fillStyle=g;x.fillRect(0,0,640,640);
+ x.fillStyle='#fff3a6';for(let i=0;i<9;i++){x.beginPath();x.arc(70+i*70,575+(i%2)*28,24,0,7);x.fill();}
+ x.fillStyle='#5a2e14';x.beginPath();x.ellipse(165,270,70,135,-.45,0,7);x.fill();x.beginPath();x.ellipse(475,270,70,135,.45,0,7);x.fill();
  x.fillStyle='#c27c3e';x.beginPath();x.ellipse(320,340,185,175,0,0,7);x.fill();
  x.fillStyle='#f6dcb8';x.beginPath();x.ellipse(320,420,115,88,0,0,7);x.fill();
  x.fillStyle='#1c1410';x.beginPath();x.arc(250,315,24,0,7);x.fill();x.beginPath();x.arc(390,315,24,0,7);x.fill();
@@ -429,17 +454,17 @@ function demo(){
  x.fillStyle='#fff';x.beginPath();x.arc(259,306,8,0,7);x.fill();x.beginPath();x.arc(399,306,8,0,7);x.fill();
  x.fillStyle='#e8507a';x.beginPath();x.ellipse(320,462,28,36,0,0,Math.PI);x.fill();
  x.strokeStyle='#1c1410';x.lineWidth=8;x.lineCap='round';x.beginPath();x.moveTo(320,412);x.lineTo(320,440);x.moveTo(278,444);x.quadraticCurveTo(320,472,362,444);x.stroke();
- x.fillStyle='#2e7bd6';x.fillRect(200,505,240,34);x.fillStyle='#ffe96b';x.beginPath();x.arc(320,545,22,0,7);x.fill();
- const im=new Image();im.onload=()=>{S.img=im;S.demo=true;S.anim=performance.now();render();};im.src=c.toDataURL();
+ x.fillStyle='#c91a09';x.fillRect(200,505,240,34);x.fillStyle='#ffe96b';x.beginPath();x.arc(320,545,22,0,7);x.fill();
+ const im=new Image();im.onload=()=>{S.img=im;S.demo=true;render('drop');};im.src=c.toDataURL();
 }
 function loadFile(f){
  if(!f)return;if(!f.type||!f.type.startsWith('image/')){toast('Elige una imagen JPG o PNG.');return;}
  const im=new Image();im.onload=()=>{S.img=im;S.demo=false;Object.assign(S,{zoom:1,cx:.5,cy:.5});$('zoom').value=1;$('cropX').value=.5;$('cropY').value=.5;
-  S.pending.clear();S.done.clear();S.anim=performance.now();S.code=newCode();render();$('dropzone').scrollIntoView({block:'start'});};
+  S.done.clear();S.code=newCode();$('dropzone').scrollIntoView({block:'start'});render('drop');};
  im.onerror=()=>toast('No pudimos abrir esa imagen. Prueba con una JPG o PNG.');im.src=URL.createObjectURL(f);
 }
 
-/* Proceso: recorte → reducción → ajustes → color más cercano del catálogo */
+/* ============ Proceso ============ */
 function sample(){
  const {W,H}=size(),img=S.img,iw=img.naturalWidth,ih=img.naturalHeight,ta=W/H;let sw,sh;if(iw/ih>ta){sh=ih;sw=ih*ta;}else{sw=iw;sh=iw/ta;}
  sw/=S.zoom;sh/=S.zoom;const sx=(iw-sw)*S.cx,sy=(ih-sh)*S.cy;
@@ -467,59 +492,81 @@ function quantize(px,allowed){
   add(x+1,y,7/16);add(x-1,y+1,3/16);add(x,y+1,5/16);add(x+1,y+1,1/16);}
  return out;
 }
+const inStock=i=>S.stock[PAL[i].g]>0;
 function allowed(){
- const st=STYLES.find(s=>s.k===S.style);const base=st.g?st.g.map(g=>IDX[g]):PAL.map((p,i)=>i);
- return base.filter(i=>{const g=PAL[i].g;if(S.avail[g])return true;if(S.subs[g]==='drop')return false;return S.pending.has(g)||!!S.subs[g];});
+ const st=STYLES.find(s=>s.k===S.style);let al=(st.g?st.g.map(g=>IDX[g]):PAL.map((p,i)=>i)).filter(i=>inStock(i)&&S.subs[PAL[i].g]!=='drop');
+ if(al.length<2)al=PAL.map((p,i)=>i).filter(i=>inStock(i)&&S.subs[PAL[i].g]!=='drop');
+ if(al.length<2)al=[IDX['080'],IDX['090']];
+ return al;
 }
 function compute(){
- let al=allowed();if(al.length<2)al=PAL.map((p,i)=>i).filter(i=>S.avail[PAL[i].g]);
- const grid=quantize(sample(),al);
+ const grid=quantize(sample(),allowed());
  for(let p=0;p<grid.length;p++){const t=S.subs[PAL[grid[p]].g];if(t&&t!=='drop')grid[p]=IDX[t];}
  S.grid=grid;S.counts=new Array(PAL.length).fill(0);for(const v of grid)S.counts[v]++;
- for(const g of [...S.pending])if(!S.counts[IDX[g]])S.pending.delete(g);
  S.order=PAL.map((p,i)=>i).filter(i=>S.counts[i]).sort((a,b)=>S.counts[b]-S.counts[a]);
 }
+const need=i=>Math.ceil(S.counts[i]*(1+S.o.spare/100));
+const shortages=()=>S.order.filter(i=>need(i)>S.stock[PAL[i].g]);
 
-/* Dibujo */
+/* ============ Dibujo ============ */
 function piece(x,px,py,cs,col,f){
- if(f.shape==='rd'){x.fillStyle='#0f1a26';x.fillRect(px,py,cs,cs);x.fillStyle=col;x.beginPath();x.arc(px+cs/2,py+cs/2,cs*.46,0,7);x.fill();
-  if(cs>=7){x.fillStyle='rgba(255,255,255,.18)';x.beginPath();x.arc(px+cs*.38,py+cs*.36,cs*.16,0,7);x.fill();}}
- else{x.fillStyle=col;x.fillRect(px,py,cs,cs);const e=Math.max(1,cs*.06);x.fillStyle='rgba(0,0,0,.18)';x.fillRect(px,py+cs-e,cs,e);x.fillRect(px+cs-e,py,e,cs);
+ if(f.shape==='rd'){x.fillStyle='#55574f';x.fillRect(px,py,cs,cs);x.fillStyle=col;x.beginPath();x.arc(px+cs/2,py+cs/2,cs*.46,0,7);x.fill();
+  if(cs>=7){x.fillStyle='rgba(255,255,255,.2)';x.beginPath();x.arc(px+cs*.38,py+cs*.36,cs*.15,0,7);x.fill();}}
+ else{x.fillStyle=col;x.fillRect(px,py,cs,cs);const e=Math.max(1,cs*.06);x.fillStyle='rgba(0,0,0,.2)';x.fillRect(px,py+cs-e,cs,e);x.fillRect(px+cs-e,py,e,cs);
   x.fillStyle='rgba(255,255,255,.14)';x.fillRect(px,py,cs,e);}
  if(f.stud&&cs>=6){const r=cs*.3,cx=px+cs/2,cy=py+cs/2;x.fillStyle='rgba(0,0,0,.25)';x.beginPath();x.arc(cx+cs*.04,cy+cs*.05,r,0,7);x.fill();
-  x.fillStyle=col;x.beginPath();x.arc(cx,cy,r,0,7);x.fill();const g=x.createRadialGradient(cx-r*.4,cy-r*.4,r*.1,cx,cy,r);
-  g.addColorStop(0,'rgba(255,255,255,.4)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.beginPath();x.arc(cx,cy,r,0,7);x.fill();}
+  x.fillStyle=col;x.beginPath();x.arc(cx,cy,r,0,7);x.fill();x.fillStyle='rgba(255,255,255,.28)';x.beginPath();x.arc(cx-r*.3,cy-r*.3,r*.45,0,7);x.fill();}
 }
-function drawMosaic(cv,cs,rows){
- const {W,H}=size(),f=FINISH[S.finish];cv.width=W*cs;cv.height=H*cs;const x=cv.getContext('2d');x.fillStyle='#0f1a26';x.fillRect(0,0,cv.width,cv.height);
- const R=rows==null?H:Math.min(H,rows);
- for(let y=0;y<R;y++)for(let q=0;q<W;q++)piece(x,q*cs,y*cs,cs,PAL[S.grid[y*W+q]].hex,f);
- if(R<H){x.fillStyle='rgba(255,255,255,.07)';for(let y=R;y<H;y++)for(let q=0;q<W;q++){x.beginPath();x.arc(q*cs+cs/2,y*cs+cs/2,cs*.3,0,7);x.fill();}}
+function emptyStud(x,px,py,cs){x.fillStyle='#6C6E68';x.fillRect(px,py,cs,cs);if(cs>=6){x.fillStyle='#7d7f78';x.beginPath();x.arc(px+cs/2,py+cs/2,cs*.3,0,7);x.fill();}}
+function drawMosaic(cv,cs){const {W,H}=size(),f=FINISH[S.finish];cv.width=W*cs;cv.height=H*cs;const x=cv.getContext('2d');
+ for(let y=0;y<H;y++)for(let q=0;q<W;q++)piece(x,q*cs,y*cs,cs,PAL[S.grid[y*W+q]].hex,f);}
+/* Animación: las piezas caen y encajan sobre la base */
+function animateHero(kind){
+ const cv=$('cvHero'),{W,H}=size(),f=FINISH[S.finish];const w=(cv.parentElement.clientWidth-28)*(window.devicePixelRatio||1);const cs=Math.max(4,Math.floor(w/W));
+ cv.width=W*cs;cv.height=H*cs;const x=cv.getContext('2d');
+ if(reduce()||!kind){drawMosaic(cv,cs);return;}
+ const N=W*H,delay=new Float32Array(N),fallDur=kind==='drop'?420:260,spread=kind==='drop'?1300:520;
+ const cxm=(W-1)/2,cym=(H-1)/2,maxd=Math.hypot(cxm,cym);
+ for(let y=0;y<H;y++)for(let q=0;q<W;q++){const p=y*W+q;
+  delay[p]=kind==='drop'?((H-1-y)/H*.75+Math.random()*.25)*spread:(Math.hypot(q-cxm,y-cym)/maxd)*spread+Math.random()*60;}
+ const t0=performance.now();const tok=S.anim={};
+ const ease=t=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2);};
+ const step=now=>{if(S.anim!==tok)return;const t=now-t0;let doneAll=true;
+  x.clearRect(0,0,cv.width,cv.height);
+  for(let y=0;y<H;y++)for(let q=0;q<W;q++)emptyStud(x,q*cs,y*cs,cs);
+  for(let y=0;y<H;y++)for(let q=0;q<W;q++){const p=y*W+q,k=(t-delay[p])/fallDur;
+   if(k<=0){doneAll=false;continue;}
+   if(k>=1){piece(x,q*cs,y*cs,cs,PAL[S.grid[p]].hex,f);continue;}
+   doneAll=false;const e=ease(k);
+   if(kind==='drop'){const off=(1-e)*cs*4;x.globalAlpha=Math.min(1,k*2);piece(x,q*cs,y*cs-off,cs,PAL[S.grid[p]].hex,f);x.globalAlpha=1;}
+   else{const s=.4+.6*e,c=cs*s,o=(cs-c)/2;x.save();x.translate(q*cs+o,y*cs+o);piece(x,0,0,c,PAL[S.grid[p]].hex,f);x.restore();}}
+  if(!doneAll)requestAnimationFrame(step);};
+ requestAnimationFrame(step);
 }
-const numCol=i=>PAL[i].lum>140?'#0A3463':'#ffffff';
+const numCol=i=>PAL[i].lum>140?'#1d1b18':'#ffffff';
 function drawSection(cv,si,cs){
  const {W}=size(),cols=W/SEC,sr=Math.floor(si/cols),sc=si%cols,ox=sc*SEC,oy=sr*SEC,head=Math.round(cs*.9);
  cv.width=head+SEC*cs+2;cv.height=head+SEC*cs+2;const x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,cv.width,cv.height);
  const rk=Object.fromEntries(S.order.map((i,k)=>[i,k+1]));
- x.textAlign='center';x.textBaseline='middle';x.font=`600 ${Math.round(cs*.4)}px Onest,sans-serif`;x.fillStyle='#4a5f83';
+ x.textAlign='center';x.textBaseline='middle';x.font=`600 ${Math.round(cs*.4)}px "Work Sans",sans-serif`;x.fillStyle='#4a4136';
  for(let c=0;c<SEC;c++)x.fillText(String(c+1),head+c*cs+cs/2,head/2);
  for(let r=0;r<SEC;r++)x.fillText(String.fromCharCode(65+r),head/2,head+r*cs+cs/2);
- x.font=`800 ${Math.round(cs*.44)}px "Bricolage Grotesque",sans-serif`;
+ x.font=`800 ${Math.round(cs*.42)}px "Work Sans",sans-serif`;
  for(let r=0;r<SEC;r++)for(let c=0;c<SEC;c++){const i=S.grid[(oy+r)*W+ox+c],px=head+c*cs,py=head+r*cs;x.fillStyle=PAL[i].hex;x.fillRect(px,py,cs,cs);
   x.fillStyle=numCol(i);x.fillText(String(rk[i]),px+cs/2,py+cs/2+1);}
- x.strokeStyle='rgba(10,52,99,.2)';x.lineWidth=1;
+ x.strokeStyle='rgba(29,27,24,.2)';x.lineWidth=1;
  for(let k=0;k<=SEC;k++){x.beginPath();x.moveTo(head+k*cs+.5,head);x.lineTo(head+k*cs+.5,head+SEC*cs);x.stroke();x.beginPath();x.moveTo(head,head+k*cs+.5);x.lineTo(head+SEC*cs,head+k*cs+.5);x.stroke();}
- x.strokeStyle='#0A3463';x.lineWidth=2;
+ x.strokeStyle='#1d1b18';x.lineWidth=2;
  for(let k=0;k<=SEC;k+=4){x.beginPath();x.moveTo(head+k*cs,head);x.lineTo(head+k*cs,head+SEC*cs);x.stroke();x.beginPath();x.moveTo(head,head+k*cs);x.lineTo(head+SEC*cs,head+k*cs);x.stroke();}
 }
 function drawPlan(cs){
  const {W,H}=size(),head=Math.round(cs*1.1),c=document.createElement('canvas');c.width=head+W*cs+2;c.height=head+H*cs+2;const x=c.getContext('2d');
  x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);const rk=Object.fromEntries(S.order.map((i,k)=>[i,k+1]));x.textAlign='center';x.textBaseline='middle';
- x.font=`600 ${Math.round(cs*.36)}px Onest,sans-serif`;x.fillStyle='#4a5f83';
+ x.font=`600 ${Math.round(cs*.36)}px "Work Sans",sans-serif`;x.fillStyle='#4a4136';
  for(let k=0;k<W;k++)x.fillText(String(k+1),head+k*cs+cs/2,head/2);for(let k=0;k<H;k++)x.fillText(String(k+1),head/2,head+k*cs+cs/2);
- x.font=`800 ${Math.round(cs*.42)}px "Bricolage Grotesque",sans-serif`;
+ x.font=`800 ${Math.round(cs*.42)}px "Work Sans",sans-serif`;
  for(let r=0;r<H;r++)for(let q=0;q<W;q++){const i=S.grid[r*W+q];x.fillStyle=PAL[i].hex;x.fillRect(head+q*cs,head+r*cs,cs,cs);x.fillStyle=numCol(i);x.fillText(String(rk[i]),head+q*cs+cs/2,head+r*cs+cs/2+1);}
- x.strokeStyle='rgba(10,52,99,.15)';x.lineWidth=1;
+ x.strokeStyle='rgba(29,27,24,.15)';x.lineWidth=1;
  for(let k=0;k<=W;k++){x.beginPath();x.moveTo(head+k*cs+.5,head);x.lineTo(head+k*cs+.5,head+H*cs);x.stroke();}
  for(let k=0;k<=H;k++){x.beginPath();x.moveTo(head,head+k*cs+.5);x.lineTo(head+W*cs,head+k*cs+.5);x.stroke();}
  x.strokeStyle='#C91A09';x.lineWidth=3;
@@ -528,51 +575,45 @@ function drawPlan(cs){
  return c;
 }
 
-/* Precios */
-function bases(sz=size()){const {W,H}=sz;if(W%32===0&&H%32===0)return{n:(W/32)*(H/32),size:32,part:'3811',name:'Base 32×32'};return{n:(W/16)*(H/16),size:16,part:'91405',name:'Placa 16×16'};}
-function costFor(sz){const o=S.owner,b=bases(sz),pieces=sz.W*sz.H,qty=Math.ceil(pieces*(1+o.spare/100));
- const usd=qty*o.piece+b.n*(b.size===32?o.base32:o.base16)+(+o.ship||0);return{qty,usd,b};}
-function retail(usd){const v=usd*S.owner.fx*(1+S.owner.margin/100);return Math.max(99,Math.ceil(v/50)*50-1);}
+/* ============ Costos y precio ============ */
+function bases(sz=size()){const {W,H}=sz;if(W%32===0&&H%32===0)return{n:(W/32)*(H/32),size:32,name:'Base 32×32'};return{n:(W/16)*(H/16),size:16,name:'Placa 16×16'};}
+function costFor(sz){
+ const o=S.o,b=bases(sz),qty=Math.ceil(sz.W*sz.H*(1+o.spare/100)),imp=1+o.tax/100;
+ const pieces=qty*o.bag/1000*o.fx*imp,base=b.n*(b.size===32?o.base32:o.base16)*o.fx*imp;
+ return{qty,b,pieces,base,pack:+o.pack,ship:+o.ship,total:pieces+base+(+o.pack)+(+o.ship)};
+}
+const retail=total=>Math.max(149,Math.ceil(total*(1+S.o.margin/100)/50)*50-1);
 const mx=n=>'$'+Math.round(n).toLocaleString('es-MX');
 
-/* Interfaz */
+/* ============ Interfaz ============ */
 let raf=0;
-function render(){if(!S.img)return;cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{compute();paint();});}
-function paint(){paintHero();paintStyles();paintSizes();paintSummary();paintGuide();if(!$('duena').classList.contains('hide'))paintOwner();}
-function paintHero(){
- const cv=$('cvHero'),{W,H}=size();const w=(cv.parentElement.clientWidth-28)*(window.devicePixelRatio||1);const cs=Math.max(4,Math.floor(w/W));
- const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
- if(S.anim&&!reduce){const t0=S.anim;S.anim=0;const dur=900;const step=now=>{const k=Math.min(1,(now-t0)/dur);drawMosaic(cv,cs,Math.ceil(k*H));if(k<1)requestAnimationFrame(step);};requestAnimationFrame(step);}
- else{S.anim=0;drawMosaic(cv,cs);}
- $('heroTag').textContent=S.demo?'Ejemplo':'Tu foto en bloques';
- $('compare').classList.toggle('hide',!S.img||S.demo);
-}
-function showOriginal(on){if(!on){paintHero();return;}const cv=$('cvHero'),{W,H}=size(),img=S.img,iw=img.naturalWidth,ih=img.naturalHeight,ta=W/H;
- let sw,sh;if(iw/ih>ta){sh=ih;sw=ih*ta;}else{sw=iw;sh=iw/ta;}sw/=S.zoom;sh/=S.zoom;cv.getContext('2d').drawImage(img,(iw-sw)*S.cx,(ih-sh)*S.cy,sw,sh,0,0,cv.width,cv.height);}
+function render(kind){if(!S.img)return;cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{compute();paint(kind);});}
+function paint(kind){animateHero(kind);paintStyles();paintSizes();paintTicket();paintGuide();if(!$('duena').classList.contains('hide'))paintOwner();
+ $('stamp').textContent=S.demo?'ejemplo':'tu foto';$('peek').classList.toggle('hide',S.demo);}
+function showOriginal(on){if(!on){animateHero();return;}const cv=$('cvHero'),{W,H}=size(),img=S.img,iw=img.naturalWidth,ih=img.naturalHeight,ta=W/H;
+ let sw,sh;if(iw/ih>ta){sh=ih;sw=ih*ta;}else{sw=iw;sh=iw/ta;}sw/=S.zoom;sh/=S.zoom;S.anim=null;cv.getContext('2d').drawImage(img,(iw-sw)*S.cx,(ih-sh)*S.cy,sw,sh,0,0,cv.width,cv.height);}
 function paintStyles(){
  $('styles').innerHTML=STYLES.map(s=>{const sw=(s.g||['010','030','050','043','012','080']).slice(0,6).map(g=>`<i style="background:${PAL[IDX[g]].hex}"></i>`).join('');
-  return `<button class="sty" type="button" data-s="${s.k}" aria-pressed="${s.k===S.style}"><div class="sw">${sw}</div><strong>${s.n}</strong><small>${s.d}</small></button>`;}).join('');
+  return `<button class="opt" type="button" data-s="${s.k}" aria-pressed="${s.k===S.style}"><div class="sw">${sw}</div><strong>${s.n}</strong><small>${s.d}</small></button>`;}).join('');
 }
 function paintSizes(){
- $('sizes').innerHTML=SIZES.map(s=>{const w=Math.round(s.W/96*64)+8,h=Math.round(s.H/96*40)+6;
-  return `<button class="size" type="button" data-z="${s.k}" aria-pressed="${s.k===S.size}"><div class="shape"><i style="width:${w}px;height:${h}px"></i></div>
-   <strong>${s.n}</strong><small>${(s.W*.8).toFixed(0)} × ${(s.H*.8).toFixed(0)} cm</small><em>${mx(retail(costFor(s).usd))}</em></button>`;}).join('');
+ $('sizes').innerHTML=SIZES.map(s=>{const w=Math.round(s.W/96*70)+8,h=Math.round(s.H/96*38)+6;
+  return `<button class="opt" type="button" data-z="${s.k}" aria-pressed="${s.k===S.size}"><div class="shape"><i style="width:${w}px;height:${h}px"></i></div>
+   <strong>${s.n}</strong><small>${(s.W*.8).toFixed(0)} × ${(s.H*.8).toFixed(0)} cm</small><em>${mx(retail(costFor(s).total))}</em></button>`;}).join('');
  document.querySelectorAll('#finish button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.p===S.finish));
 }
-function orderText(){const sz=size();return `¡Hola! Quiero mi mosaico pixela\nCódigo: ${S.code}\nTamaño: ${sz.n} (${(sz.W*.8).toFixed(0)}×${(sz.H*.8).toFixed(0)} cm, ${sz.W}×${sz.H} piezas)\nEstilo: ${STYLES.find(s=>s.k===S.style).n}\nPiezas: ${FINISH[S.finish].n}\nPrecio: ${mx(retail(costFor(sz).usd))} MXN\nAhorita te mando mi foto.`;}
-function paintSummary(){
+function orderText(){const sz=size();return `¡Hola PIX·L! Quiero mi mosaico\nCódigo: ${S.code}\nTamaño: ${sz.n} (${(sz.W*.8).toFixed(0)}×${(sz.H*.8).toFixed(0)} cm, ${sz.W}×${sz.H} piezas)\nEstilo: ${STYLES.find(s=>s.k===S.style).n}\nPiezas: ${FINISH[S.finish].n}\nPrecio: ${mx(retail(costFor(sz).total))} MXN\nAhorita te mando mi foto.`;}
+function paintTicket(){
  const sz=size(),N=sz.W*sz.H,c=costFor(sz);
- $('sumTitle').textContent=`${sz.n}, ${(sz.W*.8).toFixed(0)} × ${(sz.H*.8).toFixed(0)} cm, estilo ${STYLES.find(s=>s.k===S.style).n.toLowerCase()}`;
- $('price').textContent=mx(retail(c.usd));
+ $('sumTitle').textContent=`${sz.n} · ${(sz.W*.8).toFixed(0)} × ${(sz.H*.8).toFixed(0)} cm · ${STYLES.find(s=>s.k===S.style).n.toLowerCase()}`;
+ $('price').textContent=mx(retail(c.total));
  $('fPieces').textContent=N.toLocaleString('es-MX');$('fColors').textContent=S.order.length;
  $('fBases').textContent=c.b.n;$('fBasesL').textContent=c.b.size===32?(c.b.n===1?'base':'bases'):(c.b.n===1?'placa base':'placas base');
  const hrs=N/256*.75;$('fTime').textContent=hrs<1?Math.round(hrs*60)+' min':(Math.round(hrs*2)/2).toLocaleString('es-MX')+' h';
  $('chips').innerHTML=S.order.map(i=>`<span class="chip"><i style="background:${PAL[i].hex}"></i>${PAL[i].n}</span>`).join('');
  $('inclBase').textContent=`${c.b.n} ${c.b.size===32?(c.b.n>1?'bases de 32 × 32':'base de 32 × 32'):(c.b.n>1?'placas base de 16 × 16':'placa base de 16 × 16')} para armarlo`;
  $('orderCode').textContent=`Código de tu diseño: ${S.code}`;
- const wa=(S.owner.wa||'').replace(/\D/g,'');
- $('waBtn').href=wa?`https://wa.me/${wa}?text=${encodeURIComponent(orderText())}`:'#';
- $('waBtn').toggleAttribute('data-nowa',!wa);
+ const wa=(S.o.wa||'').replace(/\D/g,'');$('waBtn').href=wa?`https://wa.me/${wa}?text=${encodeURIComponent(orderText())}`:'#';$('waBtn').toggleAttribute('data-nowa',!wa);
 }
 function paintGuide(){
  const {W,H}=size(),cols=W/SEC,rows=H/SEC,n=cols*rows;if(S.sec>=n)S.sec=0;const sr=Math.floor(S.sec/cols),sc=S.sec%cols;
@@ -586,86 +627,92 @@ function paintGuide(){
  for(let r=0;r<SEC;r++)for(let c=0;c<SEC;c++){const i=S.grid[(sr*SEC+r)*W+sc*SEC+c];cnt[i]=(cnt[i]||0)+1;}
  $('secLegend').innerHTML=Object.keys(cnt).map(Number).sort((a,b)=>rk[a]-rk[b]).map(i=>`<div class="lg"><span class="k" style="background:${PAL[i].hex};color:${numCol(i)}">${rk[i]}</span><span>${PAL[i].n}</span><span class="q">${cnt[i]}</span></div>`).join('');
 }
-function suggest(g){const L=PAL[IDX[g]].lab;return PAL.filter(p=>S.avail[p.g]&&p.g!==g).map(p=>({p,d:dE(L,p.lab)})).sort((a,b)=>a.d-b.d).slice(0,4);}
-function csvText(){const o=S.owner,b=bases(),out=['Part,Color,Quantity'];
- for(const i of S.order)out.push(`${S.finish},${PAL[i].rb},${Math.ceil(S.counts[i]*(1+o.spare/100))}`);out.push(`${b.part},0,${b.n}`);return out.join('\n');}
+/* ---- panel ---- */
+function suggest(g){const L=PAL[IDX[g]].lab,n=need(IDX[g]);
+ return PAL.filter(p=>p.g!==g&&S.stock[p.g]-(S.counts[IDX[p.g]]?need(IDX[p.g]):0)>=n).map(p=>({p,d:dE(L,p.lab)})).sort((a,b)=>a.d-b.d).slice(0,4);}
+function pickText(){const o=S.o,b=bases();return `Pedido ${S.code}\n`+S.order.map(i=>`${PAL[i].n} (#${PAL[i].g}): ${need(i)} piezas${o.grams>0?` ≈ ${(need(i)*o.grams/100).toFixed(1)} g`:''}`).join('\n')+`\n${b.n} × ${b.name}`;}
 function paintOwner(){
- const o=S.owner,sup=SUPPLIERS[o.supplier];
- for(const [id,k] of [['oSupplier','supplier'],['oPiece','piece'],['oBase32','base32'],['oBase16','base16'],['oShip','ship'],['oFx','fx'],['oMargin','margin'],['oSpare','spare'],['oWa','wa']])
-  if(document.activeElement!==$(id))$(id).value=o[k];
- $('supNote').textContent=sup.note;$('csvHelp').textContent=sup.help;$('supLink').href=sup.url;$('supLink').textContent=`Abrir ${sup.n}`;
- const sz=size(),c=costFor(sz),price=retail(c.usd),costMx=c.usd*o.fx,pz=c.qty*o.piece,bz=c.b.n*(c.b.size===32?o.base32:o.base16);
- $('oTable').innerHTML=`<tr><td>${c.qty.toLocaleString('es-MX')} piezas (${o.spare}% extra)</td><td class="n">US$${pz.toFixed(2)}</td></tr>
-  <tr><td>${c.b.n} × ${c.b.name}</td><td class="n">US$${bz.toFixed(2)}</td></tr>
-  <tr><td>Envío</td><td class="n">US$${(+o.ship).toFixed(2)}</td></tr>
-  <tr class="t"><td>Costo total</td><td class="n">US$${c.usd.toFixed(2)} (${mx(costMx)})</td></tr>
-  <tr class="t"><td>Precio al cliente</td><td class="n">${mx(price)}</td></tr>`;
- $('oProfit').textContent=mx(price-costMx);
- let h='';for(const g of S.pending){const p=PAL[IDX[g]];
-  h+=`<div class="alert"><h3>${p.n} está agotado y este mosaico usa ${S.counts[IDX[g]]} piezas</h3><div style="font-size:14px">¿Lo cambio por el más parecido?</div><div class="subopts">${
-   suggest(g).map((s,k)=>`<button class="subopt" type="button" data-sub="${g}" data-to="${s.p.g}"><i style="background:${s.p.hex}"></i>${k?'Usar':'Sí, usar'} ${s.p.n} <em>${s.d<5?'casi igual':s.d<12?'parecido':'distinto'}</em></button>`).join('')
-  }<button class="subopt" type="button" data-sub="${g}" data-to="drop">Recalcular sin este color</button></div></div>`;}
- $('pending').innerHTML=h;
- $('subs').innerHTML=Object.entries(S.subs).map(([g,t])=>{const a=PAL[IDX[g]];return `<div class="done"><i style="background:${a.hex}"></i><s>${a.n}</s> cambiado por ${t==='drop'?'otros colores del catálogo':`<i style="background:${PAL[IDX[t]].hex}"></i> ${PAL[IDX[t]].n}`}<button class="subopt" type="button" data-undo="${g}" style="margin-left:auto">Deshacer</button></div>`;}).join('');
- $('pal').innerHTML=[...PAL].sort((a,b)=>(S.counts[IDX[b.g]]||0)-(S.counts[IDX[a.g]]||0)).map(p=>{const c=S.counts[IDX[p.g]];
-  return `<button class="pc" type="button" data-g="${p.g}" aria-pressed="${S.avail[p.g]}" title="${p.lego}, Gobricks ${p.g}"><i style="background:${p.hex}"></i><span>${p.n}</span>${c?`<small>${c}</small>`:''}</button>`;}).join('');
- $('csv').value=csvText();
- const blocked=S.pending.size>0;$('dlCsv').disabled=blocked;$('cpCsv').disabled=blocked;
+ const o=S.o;
+ for(const [id,k] of [['oBag','bag'],['oBase32','base32'],['oBase16','base16'],['oTax','tax'],['oFx','fx'],['oPack','pack'],['oShip','ship'],['oMargin','margin'],['oSpare','spare'],['oGrams','grams'],['oWa','wa']])
+  if(document.activeElement!==$(id))$(id).value=o[k]||(k==='grams'||k==='wa'?'':o[k]);
+ const sz=size(),c=costFor(sz),price=retail(c.total);
+ $('oTable').innerHTML=`<tr><td>${c.qty.toLocaleString('es-MX')} piezas (con impuesto)</td><td class="n">${mx(c.pieces)}</td></tr>
+  <tr><td>${c.b.n} × ${c.b.name} (con impuesto)</td><td class="n">${mx(c.base)}</td></tr>
+  <tr><td>Empaque</td><td class="n">${mx(c.pack)}</td></tr><tr><td>Envío</td><td class="n">${mx(c.ship)}</td></tr>
+  <tr class="t"><td>Costo total</td><td class="n">${mx(c.total)}</td></tr><tr class="t"><td>Precio al cliente</td><td class="n">${mx(price)}</td></tr>`;
+ $('oProfit').textContent=mx(price-c.total);
+ const sh=shortages();
+ $('pending').innerHTML=sh.map(i=>{const p=PAL[i],sg=suggest(p.g);return `<div class="alert"><h3>Te faltan piezas de ${p.n}: necesitas ${need(i)} y tienes ${S.stock[p.g]}</h3><div style="font-size:14px">¿Lo cambio por el más parecido que sí tienes?</div><div class="subopts">${
+  sg.map((s,k)=>`<button class="subopt" type="button" data-sub="${p.g}" data-to="${s.p.g}"><i style="background:${s.p.hex}"></i>${k?'Usar':'Sí, usar'} ${s.p.n} <em>${s.d<5?'casi igual':s.d<12?'parecido':'distinto'}</em></button>`).join('')||'<em>No tienes otro color con suficientes piezas.</em>'
+ }<button class="subopt" type="button" data-sub="${p.g}" data-to="drop">Recalcular sin este color</button></div></div>`;}).join('');
+ $('subs').innerHTML=Object.entries(S.subs).map(([g,t])=>{const a=PAL[IDX[g]];return `<div class="done"><i style="background:${a.hex}"></i><s>${a.n}</s> cambiado por ${t==='drop'?'otros colores':`<i style="background:${PAL[IDX[t]].hex}"></i> ${PAL[IDX[t]].n}`}<button class="subopt" type="button" data-undo="${g}" style="margin-left:auto">Deshacer</button></div>`;}).join('');
+ $('inv').innerHTML=[...PAL].sort((a,b)=>(S.counts[IDX[b.g]]||0)-(S.counts[IDX[a.g]]||0)||S.stock[b.g]-S.stock[a.g]).map(p=>{const i=IDX[p.g],n=S.counts[i]?need(i):0;
+  return `<label class="iv${n>S.stock[p.g]?' short':''}${S.stock[p.g]?'':' zero'}"><i style="background:${p.hex}"></i><span>${p.n}<small>#${p.g}${n?` · usa ${n}`:''}</small></span><input type="number" min="0" step="100" data-st="${p.g}" value="${S.stock[p.g]}" aria-label="Piezas de ${p.n} en inventario"></label>`;}).join('');
+ $('pick').innerHTML=`<tr><th>Color</th><th class="n">Piezas</th>${o.grams>0?'<th class="n">Gramos</th>':''}</tr>`+S.order.map(i=>`<tr class="${need(i)>S.stock[PAL[i].g]?'short':''}"><td>${PAL[i].n} #${PAL[i].g}</td><td class="n">${need(i)}</td>${o.grams>0?`<td class="n">${(need(i)*o.grams/100).toFixed(1)}</td>`:''}</tr>`).join('')+`<tr class="t"><td>${bases().n} × ${bases().name}</td><td class="n"></td>${o.grams>0?'<td></td>':''}</tr>`;
+ const low=PAL.filter(p=>S.stock[p.g]>0&&S.stock[p.g]<300);
+ $('restock').innerHTML=low.length?low.map(p=>`<tr><td>${p.n} #${p.g}</td><td class="n">quedan ${S.stock[p.g]}</td></tr>`).join(''):'<tr><td>Todo bien por ahora.</td></tr>';
+ $('fulfil').disabled=sh.length>0;$('fulfil').textContent=S.confirmFulfil?'¿Seguro? Toca otra vez':'Descontar del inventario';
 }
 
+/* ============ Utilidades ============ */
 let DL=null;
 async function save(name,data){if(!DL){toast('Las descargas no están disponibles aquí.');return;}try{await DL.save({filename:name,data});}catch(e){if(e&&e.code==='declined')return;toast('No se pudo descargar el archivo.');}}
 const blob=c=>new Promise(r=>c.toBlob(r,'image/png'));
 function toast(t){const el=$('toast');el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('on'),2400);}
 async function copy(t,ok){try{await navigator.clipboard.writeText(t);toast(ok);}catch(e){toast('Tu navegador no dejó copiar. Selecciona el texto y cópialo.');}}
+function rain(){if(reduce())return;const r=document.createElement('div');r.className='rain';const cols=['#C91A09','#F2CD37','#0055BF','#4B9F4A','#FE8A18','#E4ADC8','#36AEBF'];
+ for(let i=0;i<34;i++){const b=document.createElement('i');b.style.left=(Math.random()*100)+'vw';b.style.background=cols[i%cols.length];b.style.animationDelay=(Math.random()*.5)+'s';
+  b.style.setProperty('--r',(Math.random()*720-360)+'deg');r.appendChild(b);}document.body.appendChild(r);setTimeout(()=>r.remove(),2200);}
 function openOwner(){$('duena').classList.remove('hide');paintOwner();$('duena').scrollIntoView({block:'start'});}
 
+/* ============ Eventos ============ */
 function init(){
+ // bloquecitos que caen al ver cada sección
+ const bc=['#C91A09','#F2CD37','#0055BF','#4B9F4A','#FE8A18','#E4ADC8','#36AEBF','#0A3463'];
+ document.querySelectorAll('.stack').forEach(s=>{s.innerHTML=bc.map((c,k)=>`<i style="background:${c};animation-delay:${k*70}ms"></i>`).join('');});
+ if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('seen');io.unobserve(e.target);}}),{threshold:.4});
+  document.querySelectorAll('.sechead').forEach(el=>io.observe(el));}else document.querySelectorAll('.sechead').forEach(el=>el.classList.add('seen'));
+
  $('upBtn').onclick=()=>$('file').click();$('file').onchange=e=>loadFile(e.target.files[0]);
  document.body.addEventListener('dragover',e=>{e.preventDefault();$('dropzone').classList.add('drop-over');});
  document.body.addEventListener('dragleave',e=>{if(!e.relatedTarget)$('dropzone').classList.remove('drop-over');});
  document.body.addEventListener('drop',e=>{e.preventDefault();$('dropzone').classList.remove('drop-over');loadFile(e.dataTransfer.files[0]);});
- const cmp=$('compare');cmp.addEventListener('pointerdown',()=>showOriginal(true));
- ['pointerup','pointerleave','pointercancel'].forEach(ev=>cmp.addEventListener(ev,()=>showOriginal(false)));
- $('styles').onclick=e=>{const b=e.target.closest('[data-s]');if(!b)return;S.style=b.dataset.s;S.sat=STYLES.find(s=>s.k===S.style).sat;$('sat').value=S.sat;render();};
- $('sizes').onclick=e=>{const b=e.target.closest('[data-z]');if(!b)return;S.size=b.dataset.z;S.sec=0;S.done.clear();render();};
- $('finish').onclick=e=>{const b=e.target.closest('[data-p]');if(!b)return;S.finish=b.dataset.p;render();};
+ const pk=$('peek');pk.addEventListener('pointerdown',()=>showOriginal(true));['pointerup','pointerleave','pointercancel'].forEach(ev=>pk.addEventListener(ev,()=>showOriginal(false)));
+ $('styles').onclick=e=>{const b=e.target.closest('[data-s]');if(!b)return;S.style=b.dataset.s;S.sat=STYLES.find(s=>s.k===S.style).sat;$('sat').value=S.sat;render('pop');};
+ $('sizes').onclick=e=>{const b=e.target.closest('[data-z]');if(!b)return;S.size=b.dataset.z;S.sec=0;S.done.clear();render('pop');};
+ $('finish').onclick=e=>{const b=e.target.closest('[data-p]');if(!b)return;S.finish=b.dataset.p;render('pop');};
  for(const [id,k] of [['zoom','zoom'],['cropX','cx'],['cropY','cy'],['bri','bri'],['con','con'],['sat','sat']])$(id).oninput=e=>{S[k]=+e.target.value;render();};
- $('dither').onchange=e=>{S.dither=e.target.checked;render();};
- $('waBtn').onclick=e=>{if($('waBtn').hasAttribute('data-nowa')){e.preventDefault();copy(orderText(),'Resumen copiado. Pégalo en el chat de la tienda.');}};
+ $('dither').onchange=e=>{S.dither=e.target.checked;render('pop');};
+ $('waBtn').onclick=e=>{rain();if($('waBtn').hasAttribute('data-nowa')){e.preventDefault();copy(orderText(),'Resumen copiado. Pégalo en el chat de PIX·L.');}};
  $('copyOrder').onclick=()=>copy(orderText(),'Resumen del pedido copiado');
  $('secGrid').onclick=e=>{const b=e.target.closest('[data-sec]');if(!b)return;S.sec=+b.dataset.sec;paintGuide();};
  $('secPrev').onclick=()=>{const {W,H}=size(),n=W/SEC*H/SEC;S.sec=(S.sec-1+n)%n;paintGuide();};
  $('secNext').onclick=()=>{const {W,H}=size(),n=W/SEC*H/SEC;S.sec=(S.sec+1)%n;paintGuide();};
- $('secDone').onchange=e=>{e.target.checked?S.done.add(S.sec):S.done.delete(S.sec);paintGuide();};
+ $('secDone').onchange=e=>{e.target.checked?S.done.add(S.sec):S.done.delete(S.sec);paintGuide();if(e.target.checked)rain();};
+ // dueña
  $('openOwner').onclick=()=>{location.hash='duena';openOwner();};
  $('closeOwner').onclick=()=>{$('duena').classList.add('hide');history.replaceState(null,'',location.pathname+location.search);};
  window.addEventListener('hashchange',()=>{if(location.hash==='#duena')openOwner();});
  const num=v=>Math.max(0,parseFloat(v)||0);
- for(const [id,k,fn] of [['oSupplier','supplier',v=>v],['oPiece','piece',num],['oBase32','base32',num],['oBase16','base16',num],['oShip','ship',num],['oFx','fx',num],['oMargin','margin',num],['oSpare','spare',num],['oWa','wa',v=>v.trim()]])
-  $(id).addEventListener(id==='oSupplier'?'change':'input',e=>{S.owner[k]=fn(e.target.value);persist();paintSizes();paintSummary();paintOwner();});
- $('pal').onclick=e=>{const b=e.target.closest('[data-g]');if(!b)return;const g=b.dataset.g;
-  if(S.avail[g]){S.avail[g]=false;if(S.counts[IDX[g]]){S.pending.add(g);toast(`${PAL[IDX[g]].n} agotado: elige un sustituto arriba`);}}
-  else{S.avail[g]=true;S.pending.delete(g);delete S.subs[g];}
-  for(const [k,v] of Object.entries(S.subs))if(v!=='drop'&&!S.avail[v]){delete S.subs[k];S.pending.add(k);}
-  persist();render();};
- $('pending').onclick=e=>{const b=e.target.closest('[data-sub]');if(!b)return;S.subs[b.dataset.sub]=b.dataset.to;S.pending.delete(b.dataset.sub);toast('Listo, mosaico actualizado');render();};
- $('subs').onclick=e=>{const b=e.target.closest('[data-undo]');if(!b)return;const g=b.dataset.undo;delete S.subs[g];if(!S.avail[g])S.pending.add(g);render();};
- $('dlCsv').onclick=()=>save(`${S.code}-piezas.csv`,csvText());
- $('cpCsv').onclick=()=>copy(csvText(),'Lista copiada');
+ for(const [id,k,fn] of [['oBag','bag',num],['oBase32','base32',num],['oBase16','base16',num],['oTax','tax',num],['oFx','fx',num],['oPack','pack',num],['oShip','ship',num],['oMargin','margin',num],['oSpare','spare',num],['oGrams','grams',num],['oWa','wa',v=>v.trim()]])
+  $(id).addEventListener('input',e=>{S.o[k]=fn(e.target.value);persist();paintSizes();paintTicket();paintOwner();});
+ let invT;$('inv').addEventListener('input',e=>{const inp=e.target.closest('[data-st]');if(!inp)return;S.stock[inp.dataset.st]=Math.max(0,parseInt(inp.value)||0);persist();
+  clearTimeout(invT);invT=setTimeout(()=>render(),500);});
+ $('pending').onclick=e=>{const b=e.target.closest('[data-sub]');if(!b)return;S.subs[b.dataset.sub]=b.dataset.to;toast('Listo, mosaico actualizado');render('pop');};
+ $('subs').onclick=e=>{const b=e.target.closest('[data-undo]');if(!b)return;delete S.subs[b.dataset.undo];render('pop');};
+ $('fulfil').onclick=()=>{if(!S.confirmFulfil){S.confirmFulfil=true;paintOwner();setTimeout(()=>{S.confirmFulfil=false;if(!$('duena').classList.contains('hide'))paintOwner();},4000);return;}
+  S.confirmFulfil=false;for(const i of S.order)S.stock[PAL[i].g]=Math.max(0,S.stock[PAL[i].g]-need(i));persist();toast(`Pedido ${S.code} descontado del inventario`);rain();render();};
+ $('cpPick').onclick=()=>copy(pickText(),'Lista de surtido copiada');
  $('dlPlan').onclick=async()=>save(`${S.code}-plano.png`,await blob(drawPlan(size().W>64?24:32)));
  $('dlSec').onclick=async()=>{const c=document.createElement('canvas');drawSection(c,S.sec,48);save(`${S.code}-seccion-${$('secTitle').textContent.split(' ')[1]}.png`,await blob(c));};
  $('dlPrev').onclick=async()=>{const c=document.createElement('canvas');drawMosaic(c,Math.max(8,Math.floor(1600/size().W)));save(`${S.code}-vista-previa.png`,await blob(c));};
- let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>S.grid&&paint(),150);});
+ let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(S.grid){animateHero();paintGuide();}},150);});
  if(location.hash==='#duena')setTimeout(openOwner,60);
  demo();
- const dlIds=['dlCsv','dlPlan','dlSec','dlPrev'];
- if(window.claude&&typeof window.claude.use==='function'){
-  dlIds.forEach(id=>$(id).classList.add('hide'));
-  window.claude.use('downloads').then(d=>{if(d){DL=d;dlIds.forEach(id=>$(id).classList.remove('hide'));}}).catch(()=>{});
- }else{
-  DL={save:async({filename,data})=>{const b=data instanceof Blob?data:new Blob([data]);const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);}};
- }
+ const dl=['dlPlan','dlSec','dlPrev'];
+ if(window.claude&&typeof window.claude.use==='function'){dl.forEach(id=>$(id).classList.add('hide'));
+  window.claude.use('downloads').then(d=>{if(d){DL=d;dl.forEach(id=>$(id).classList.remove('hide'));}}).catch(()=>{});}
+ else DL={save:async({filename,data})=>{const b=data instanceof Blob?data:new Blob([data]);const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);}};
 }
 init();
 </script>
