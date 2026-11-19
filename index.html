@@ -3,168 +3,231 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PIX·L · tu foto, pieza por pieza</title>
+<title>PIX·L · mosaicos de bloques con tu foto</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-/* Paleta: papel, tinta y colores reales de piezas */
 :root{
-  --paper:#F3EAD7; --paper2:#FBF6EA; --kraft:#E3D2AE;
-  --ink:#1d1b18; --ink2:#4a4136;
-  --red:#C91A09; --yel:#F2CD37; --navy:#0A3463; --tq:#36AEBF; --pink:#E4ADC8;
-  --b:3px solid var(--ink);
+  --bg:#FFFFFF; --soft:#F5F3EE; --line:#E6E2D9; --ink:#141414; --mut:#5d5a54;
+  --red:#C91A09; --yel:#F2CD37; --blue:#0055BF; --navy:#0A3463; --grn:#237841; --tq:#36AEBF;
+  --r:14px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;color:var(--ink);font:16px/1.55 "Work Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased;
-  background:var(--paper) repeating-linear-gradient(0deg,transparent 0 31px,rgba(74,65,54,.07) 31px 32px)}
-h1,h2,h3,.type{font-family:"Special Elite","Courier New",monospace;font-weight:400;margin:0;line-height:1.05}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Rubik,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;line-height:1.05;letter-spacing:-.02em}
 a{color:inherit}
 button,input,select{font:inherit;color:inherit}
-:focus-visible{outline:3px solid var(--tq);outline-offset:3px}
-.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
-.mut{color:var(--ink2)}
+:focus-visible{outline:3px solid var(--tq);outline-offset:2px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 18px}
+.mut{color:var(--mut)}
 .hide{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
-/* ---- marca ---- */
-.bar{display:flex;align-items:center;justify-content:space-between;padding:18px 0 8px}
-.mark{display:inline-flex;align-items:center;font-family:"Special Elite",monospace;font-size:34px;letter-spacing:.08em;text-decoration:none;line-height:1}
-.mark i{display:inline-block;width:.32em;height:.32em;border-radius:50%;background:var(--red);margin:0 .14em;box-shadow:0 0 0 2.5px var(--ink),inset -2px -2px 0 rgba(0,0,0,.25),inset 2px 2px 0 rgba(255,255,255,.4);transform:translateY(-.05em)}
-.bar nav{display:flex;gap:4px}
-.bar nav a{text-decoration:none;font-weight:600;font-size:14px;padding:8px 12px;border-radius:8px}
-.bar nav a:hover{background:var(--kraft)}
-@media(max-width:700px){.bar nav{display:none}}
+.notice{background:var(--yel);font-size:14px;font-weight:600;text-align:center;padding:8px 12px}
+.notice span+span::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ink);margin:0 12px;vertical-align:middle}
+@media(max-width:640px){.notice span:nth-child(n+2){display:none}}
 
-/* ---- botón-pieza ---- */
-.brick{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--yel);border:var(--b);border-radius:7px;
-  padding:14px 24px;font-weight:800;font-size:18px;cursor:pointer;text-decoration:none;box-shadow:0 6px 0 var(--ink);margin-top:14px;
-  transition:transform .08s,box-shadow .08s;-webkit-tap-highlight-color:transparent}
-.brick::before,.brick::after{content:"";position:absolute;top:-14px;width:26px;height:11px;background:inherit;border:var(--b);border-bottom:0;border-radius:5px 5px 0 0}
-.brick::before{left:22%}.brick::after{right:22%}
-.brick:active{transform:translateY(5px);box-shadow:0 1px 0 var(--ink)}
-.brick.red{background:var(--red);color:#fff}
-.brick.white{background:var(--paper2)}
-.brick.sm{font-size:15px;padding:10px 16px;box-shadow:0 4px 0 var(--ink)}
-.brick.sm::before,.brick.sm::after{top:-11px;width:18px;height:8px}
-.brick[disabled]{opacity:.45;cursor:not-allowed}
+header.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.hrow{display:flex;align-items:center;gap:18px;padding:14px 0}
+.logo{display:inline-flex;align-items:center;font:900 30px Rubik;letter-spacing:-.03em;text-decoration:none;line-height:1;flex:none}
+.logo i{display:inline-block;width:.34em;height:.34em;border-radius:50%;background:var(--red);margin:0 .1em;box-shadow:inset -2px -2px 0 rgba(0,0,0,.25),inset 2px 2px 0 rgba(255,255,255,.45);transform:translateY(.02em)}
+.search{flex:1;display:flex;align-items:center;gap:8px;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:0 14px;max-width:520px}
+.search input{border:0;background:none;padding:10px 0;width:100%;outline:none}
+.search svg{flex:none}
+.hbtns{display:flex;align-items:center;gap:6px;margin-left:auto}
+.ibtn{position:relative;display:inline-grid;place-items:center;width:44px;height:44px;border-radius:12px;border:0;background:none;cursor:pointer}
+.ibtn:hover{background:var(--soft)}
+.badge{position:absolute;top:4px;right:2px;min-width:20px;height:20px;border-radius:999px;background:var(--red);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center;padding:0 5px}
+.badge.bump{animation:bump .4s}
+@keyframes bump{40%{transform:scale(1.35)}}
+nav.main{display:flex;gap:4px;padding:0 0 10px;overflow-x:auto;scrollbar-width:none}
+nav.main a{flex:none;text-decoration:none;font-weight:600;font-size:15px;padding:7px 12px;border-radius:9px}
+nav.main a:hover{background:var(--soft)}
+@media(max-width:700px){.search{display:none}}
 
-/* ---- héroe ---- */
-.hero{display:grid;gap:30px;padding:16px 0 50px;align-items:center}
-@media(min-width:920px){.hero{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:54px;padding:28px 0 76px}}
-.hero h1{font-size:clamp(44px,6.4vw,84px);letter-spacing:-.02em}
-.hero h1 .ul{position:relative;white-space:nowrap}
-.hero h1 .ul svg{position:absolute;left:-2%;bottom:-.16em;width:104%;height:.3em}
-.hero p.lead{font-size:19px;max-width:34ch;margin:22px 0 18px;color:var(--ink2)}
-.hint{font-size:14px;color:var(--ink2);margin-top:16px;max-width:42ch}
-.plate{position:relative;background:#6C6E68;border:var(--b);border-radius:12px;padding:14px;box-shadow:8px 8px 0 var(--ink)}
-.plate canvas{display:block;width:100%;height:auto;border-radius:3px;touch-action:none}
-.tape{position:absolute;width:110px;height:30px;background:rgba(242,205,55,.75);border:1px solid rgba(29,27,24,.15)}
-.tape.a{top:-14px;left:-18px;transform:rotate(-12deg)}
-.tape.b{bottom:-12px;right:-16px;transform:rotate(-8deg)}
-.stamp{position:absolute;top:-18px;right:24px;background:var(--paper2);border:var(--b);border-radius:999px;padding:4px 14px;font-family:"Special Elite",monospace;font-size:15px;transform:rotate(3deg)}
-.peek{position:absolute;left:14px;bottom:14px;background:var(--paper2);border:var(--b);border-radius:999px;padding:6px 12px;font-weight:600;font-size:13px;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none}
-.drop-over .plate{box-shadow:8px 8px 0 var(--tq)}
+.quick{display:flex;gap:8px;overflow-x:auto;padding:16px 0 4px;scrollbar-width:none}
+.qchip{flex:none;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 14px 7px 8px;font-weight:600;font-size:14px;text-decoration:none;cursor:pointer}
+.qchip:hover{border-color:var(--ink)}
+.stud{display:inline-block;width:18px;height:18px;border-radius:50%;box-shadow:inset -2px -2px 0 rgba(0,0,0,.22),inset 2px 2px 0 rgba(255,255,255,.4);flex:none}
 
-/* ---- tarjetas ---- */
-.card{background:var(--paper2);border:var(--b);border-radius:14px;padding:22px}
-@media(min-width:920px){.card{padding:30px}}
-.sechead{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:14px;margin:70px 0 22px}
-.sechead h2{font-size:clamp(34px,5vw,58px)}
-.sechead p{max-width:46ch;margin:0;color:var(--ink2)}
-.stack{display:flex;gap:4px;margin-top:12px;height:16px}
-.stack i{width:26px;height:12px;border:2px solid var(--ink);border-radius:2px;opacity:0;transform:translateY(-30px)}
-.seen .stack i{animation:land .45s cubic-bezier(.3,1.6,.5,1) forwards}
-@keyframes land{to{opacity:1;transform:none}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:13px 22px;font-weight:700;font-size:16px;cursor:pointer;text-decoration:none;background:var(--ink);color:#fff;transition:transform .08s}
+.btn:active{transform:scale(.97)}
+.btn.red{background:var(--red)}
+.btn.yel{background:var(--yel);color:var(--ink)}
+.btn.ghost{background:var(--bg);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.btn.line{background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px #fff}
+.btn.sm{padding:9px 15px;font-size:14px}
+.btn.wide{width:100%}
+.btn.added{background:var(--grn)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
 
-/* ---- constructor ---- */
-.builder{display:grid;gap:28px}
-@media(min-width:920px){.builder{grid-template-columns:1.2fr 1fr}}
-.step{display:flex;align-items:center;gap:10px;margin:26px 0 12px}
-.step:first-child{margin-top:0}
-.step b{font-family:"Special Elite",monospace;font-weight:400;font-size:17px;width:30px;height:30px;border:2.5px solid var(--ink);border-radius:50%;display:inline-grid;place-items:center;flex:none}
-.step span{font:700 19px "Work Sans"}
-.opts{display:grid;gap:10px}
-.opts.styles{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
-.opts.sizes{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
-.opt{border:2.5px solid var(--ink);border-radius:10px;background:#fff;padding:10px 12px;cursor:pointer;text-align:left;display:grid;gap:2px;transition:transform .1s}
-.opt:hover{transform:translateY(-2px)}
-.opt[aria-pressed=true]{background:var(--yel);box-shadow:4px 4px 0 var(--ink)}
+.hero{margin-top:14px;background:var(--navy);color:#fff;border-radius:22px;overflow:hidden;display:grid;align-items:center}
+@media(min-width:920px){.hero{grid-template-columns:1fr 1fr}}
+.hero .txt{padding:34px 26px}
+@media(min-width:920px){.hero .txt{padding:56px 52px}}
+.hero h1{font-size:clamp(42px,6vw,76px);font-weight:900;letter-spacing:-.04em}
+.hero h1 span{color:var(--yel)}
+.hero p{font-size:18px;color:#c9d6ec;max-width:36ch;margin:18px 0 26px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:10px}
+.hero .art{padding:0 22px 26px;display:grid;place-items:center}
+@media(min-width:920px){.hero .art{padding:40px 44px}}
+.base{background:#6C6E68;border-radius:14px;padding:12px;width:100%;max-width:470px;box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.base canvas{display:block;width:100%;height:auto;border-radius:3px}
+.props{display:grid;gap:10px;margin:18px 0 0}
+@media(min-width:760px){.props{grid-template-columns:repeat(3,1fr)}}
+.prop{display:flex;gap:12px;align-items:center;background:var(--soft);border-radius:var(--r);padding:14px 16px;font-size:15px}
+.prop b{display:block}
+.prop .ico{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;flex:none}
+
+.sec{margin-top:64px;scroll-margin-top:120px}
+.sechead{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px;margin-bottom:18px}
+.sechead h2{font-size:clamp(30px,4vw,44px);font-weight:800}
+.sechead p{margin:6px 0 0;max-width:52ch}
+.crumbs{font-size:14px;color:var(--mut);margin-bottom:8px}
+
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px}
+.fchips{display:flex;flex-wrap:wrap;gap:8px}
+.fchip{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 14px;font-weight:600;font-size:14px;cursor:pointer}
+.fchip[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.sort{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600}
+.sort select{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg)}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(min-width:760px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:1060px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.pcard{display:flex;flex-direction:column;gap:8px}
+.pimg{position:relative;background:var(--soft);border-radius:var(--r);aspect-ratio:1;display:grid;place-items:center;overflow:hidden}
+.pimg canvas{width:72%;height:auto;border-radius:3px;box-shadow:0 8px 18px rgba(0,0,0,.18);transition:transform .25s}
+.pcard:hover .pimg canvas{transform:rotate(-2deg) scale(1.03)}
+.tag{position:absolute;top:10px;left:10px;background:var(--red);color:#fff;font-size:12px;font-weight:700;border-radius:999px;padding:3px 9px}
+.tag.out{background:var(--ink)}
+.pcard h3{font-size:16px;font-weight:600;letter-spacing:0}
+.price{font-weight:800;font-size:17px}
+.vpills{display:flex;flex-wrap:wrap;gap:6px}
+.vpill{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:4px 9px;font-size:13px;font-weight:600;cursor:pointer}
+.vpill[aria-pressed=true]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.empty{grid-column:1/-1;text-align:center;padding:40px 10px;background:var(--soft);border-radius:var(--r);display:grid;gap:10px;justify-items:center}
+.empty p{margin:0}
+.gift{width:72%;aspect-ratio:1.6;border-radius:12px;display:flex;flex-direction:column;justify-content:space-between;padding:12px 14px;color:#fff;box-shadow:0 8px 18px rgba(0,0,0,.18);
+  background-image:radial-gradient(circle at 12px 12px,rgba(255,255,255,.22) 6px,transparent 7px);background-size:24px 24px}
+.gift b{font:900 24px Rubik;letter-spacing:-.03em}
+.gift small{font-weight:700;font-size:12px}
+
+.creator{display:grid;gap:22px}
+@media(min-width:960px){.creator{grid-template-columns:1.05fr 1fr}}
+.cbox{background:var(--soft);border-radius:20px;padding:18px;position:relative}
+@media(min-width:960px){.cbox{padding:26px;position:sticky;top:130px;align-self:start}}
+.cbox .base{max-width:none;box-shadow:none}
+.peek{position:absolute;left:30px;top:30px;background:#fff;border-radius:999px;padding:6px 12px;font-weight:600;font-size:13px;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.upl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+.panel h3{font-size:16px;font-weight:700;margin:22px 0 10px;letter-spacing:0}
+.panel h3:first-child{margin-top:0}
+.optgrid{display:grid;gap:8px}
+.optgrid.st{grid-template-columns:repeat(auto-fill,minmax(112px,1fr))}
+.optgrid.sz{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+.opt{border:1.5px solid var(--line);border-radius:12px;background:var(--bg);padding:10px 12px;cursor:pointer;text-align:left;display:grid;gap:1px}
+.opt:hover{border-color:#bdb6a8}
+.opt[aria-pressed=true]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
 .opt .sw{display:flex;gap:3px;margin-bottom:6px}
-.opt .sw i{flex:1;height:16px;border-radius:3px;border:1px solid rgba(29,27,24,.25)}
-.opt strong{font-size:15px}
-.opt small{color:var(--ink2);font-size:13px}
-.opt em{font-style:normal;font-weight:800;font-size:16px;margin-top:4px}
-.opt .shape{height:44px;display:flex;align-items:flex-end;margin-bottom:6px}
-.opt .shape i{display:block;border:2px solid var(--ink);border-radius:2px;background:repeating-linear-gradient(90deg,#fff 0 5px,#ece2cc 5px 6px)}
-.opt[aria-pressed=true] .shape i{background:var(--red)}
+.opt .sw i{flex:1;height:14px;border-radius:3px;border:1px solid rgba(0,0,0,.12)}
+.opt strong{font-size:15px;font-weight:600}
+.opt small{font-size:13px;color:var(--mut)}
+.opt em{font-style:normal;font-weight:800;margin-top:3px}
 .seg{display:flex;flex-wrap:wrap;gap:8px}
-.seg button{border:2.5px solid var(--ink);border-radius:999px;background:#fff;padding:8px 14px;font-weight:600;font-size:14px;cursor:pointer}
-.seg button[aria-pressed=true]{background:var(--ink);color:var(--paper2)}
-details.more summary{cursor:pointer;font-weight:700;margin-top:22px}
+.seg button{border:1.5px solid var(--line);border-radius:999px;background:var(--bg);padding:8px 14px;font-weight:600;font-size:14px;cursor:pointer}
+.seg button[aria-pressed=true]{border-color:var(--ink);background:var(--ink);color:#fff}
+details.more{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+details.more summary{cursor:pointer;font-weight:700}
 .tweak{display:grid;gap:12px;margin-top:12px}
 .tweak label{display:grid;gap:4px;font-size:14px;font-weight:600}
 input[type=range]{width:100%;accent-color:var(--red)}
-.ticket{background:#fff;border:var(--b);border-radius:14px;padding:22px;align-self:start;position:sticky;top:14px;
-  background-image:radial-gradient(circle at 0 50%,var(--paper2) 9px,transparent 10px),radial-gradient(circle at 100% 50%,var(--paper2) 9px,transparent 10px)}
-.ticket .t{font-family:"Special Elite",monospace;font-size:15px;color:var(--ink2)}
-.price{font:800 56px "Work Sans";letter-spacing:-.03em;line-height:1;margin:8px 0 2px}
-.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0;border-top:2px dashed var(--ink);border-bottom:2px dashed var(--ink);padding:14px 0}
-.facts b{display:block;font:800 22px "Work Sans"}
-.facts span{font-size:13px;color:var(--ink2)}
-.chips{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0 16px}
-.chip{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--ink);border-radius:999px;padding:2px 9px 2px 3px;font-size:12px;font-weight:600;background:#fff}
-.chip i{width:16px;height:16px;border-radius:50%;border:1px solid rgba(29,27,24,.3)}
-.incl{margin:0;padding:0;list-style:none;display:grid;gap:7px;font-size:15px}
-.incl li{display:flex;gap:9px}
-.incl li::before{content:"";flex:none;width:14px;height:10px;margin-top:6px;border:2px solid var(--ink);border-radius:2px;background:var(--tq)}
-.buy{display:grid;gap:18px;margin-top:22px}
-.buy .brick{margin-top:12px}
+.sumbox{margin-top:22px;border-top:1px solid var(--line);padding-top:18px}
+.bigprice{font:900 44px Rubik;letter-spacing:-.03em;line-height:1;margin-top:4px}
+.facts{display:flex;flex-wrap:wrap;gap:8px 18px;margin:12px 0;font-size:14px;color:var(--mut)}
+.facts b{color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 14px}
+.chip{display:inline-flex;align-items:center;gap:5px;background:var(--soft);border-radius:999px;padding:2px 9px 2px 3px;font-size:12px;font-weight:600}
+.chip i{width:15px;height:15px;border-radius:50%;border:1px solid rgba(0,0,0,.15)}
+.cta2{display:grid;gap:8px;grid-template-columns:1fr 1fr}
 
-/* ---- cómo ---- */
-.how{display:grid;gap:16px}
+.how{display:grid;gap:14px}
 @media(min-width:820px){.how{grid-template-columns:repeat(4,1fr)}}
-.hw{background:#fff;border:var(--b);border-radius:12px;padding:18px;position:relative}
-.hw .n{font-family:"Special Elite",monospace;font-size:46px;line-height:1;color:var(--red)}
-.hw h3{font:700 19px "Work Sans";margin:10px 0 6px}
-.hw p{margin:0;color:var(--ink2);font-size:15px}
-
-/* ---- instrucciones ---- */
-.guide{display:grid;gap:24px}
-@media(min-width:920px){.guide{grid-template-columns:1.1fr 1fr}}
-.guide canvas{width:100%;height:auto;border:2.5px solid var(--ink);border-radius:8px;display:block;background:#fff}
+.hw{background:var(--soft);border-radius:var(--r);padding:20px}
+.hw .n{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:800;margin-bottom:12px}
+.hw h3{font-size:18px;font-weight:700;letter-spacing:0;margin-bottom:6px}
+.hw p{margin:0;color:var(--mut);font-size:15px}
+.guide{display:grid;gap:20px;background:var(--soft);border-radius:20px;padding:18px}
+@media(min-width:920px){.guide{grid-template-columns:1.1fr 1fr;padding:26px}}
+.guide canvas{width:100%;height:auto;border-radius:10px;display:block;background:#fff}
 .secgrid{display:grid;gap:5px;margin-top:10px}
-.secbtn{border:2px solid var(--ink);background:#fff;border-radius:6px;padding:7px 0;font-weight:700;font-size:13px;cursor:pointer}
-.secbtn.ok{background:var(--pink)}
-.secbtn[aria-pressed=true]{background:var(--ink);color:#fff}
+.secbtn{border:1.5px solid var(--line);background:#fff;border-radius:8px;padding:7px 0;font-weight:700;font-size:13px;cursor:pointer}
+.secbtn.ok{background:#d9f0df}
+.secbtn[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
 .legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:10px}
-.lg{display:flex;align-items:center;gap:8px;font-size:14px;padding:5px 8px;border:2px solid var(--ink);border-radius:8px;background:#fff}
-.lg .k{font:800 13px "Work Sans";min-width:26px;text-align:center;border-radius:5px;padding:2px 3px;border:1px solid rgba(29,27,24,.25)}
+.lg{display:flex;align-items:center;gap:8px;font-size:14px;padding:5px 8px;border-radius:8px;background:#fff}
+.lg .k{font-weight:800;font-size:13px;min-width:26px;text-align:center;border-radius:5px;padding:2px 3px;border:1px solid rgba(0,0,0,.15)}
 .lg .q{margin-left:auto;font-weight:700}
-.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.faq{display:grid;gap:10px;max-width:860px}
+.faq details{background:var(--soft);border-radius:12px;padding:14px 18px}
+.faq summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:10px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:22px;line-height:1}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin:10px 0 0;color:var(--mut)}
 
-/* ---- panel dueña ---- */
-.owner{margin-top:70px;background:var(--navy);color:#fff;border:var(--b);border-radius:16px;padding:22px}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:50;opacity:0;pointer-events:none;transition:.2s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100vw);background:#fff;z-index:51;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;visibility:hidden}
+.drawer.on{transform:none;visibility:visible}
+.dhead{display:flex;align-items:center;justify-content:space-between;padding:18px;border-bottom:1px solid var(--line)}
+.dhead h2{font-size:22px}
+.ditems{flex:1;overflow:auto;padding:12px 18px;display:grid;gap:12px;align-content:start}
+.ditem{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center}
+.ditem .thumb{width:64px;height:64px;border-radius:10px;background:var(--soft);display:grid;place-items:center;overflow:hidden}
+.ditem .thumb canvas{width:48px;height:auto}
+.ditem b{font-weight:600;font-size:15px;display:block}
+.ditem small{color:var(--mut);font-size:13px}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;margin-top:6px}
+.qty button{border:0;background:none;width:30px;height:30px;cursor:pointer;font-weight:700}
+.qty span{min-width:22px;text-align:center;font-weight:600;font-size:14px}
+.dfoot{border-top:1px solid var(--line);padding:16px 18px;display:grid;gap:10px}
+.dl{display:flex;justify-content:space-between;font-size:15px}
+.dl.t{font-weight:800;font-size:19px}
+.freebar{height:8px;background:var(--soft);border-radius:999px;overflow:hidden}
+.freebar i{display:block;height:100%;background:var(--grn);border-radius:999px;transition:width .3s}
+
+footer.ft{margin-top:80px;background:var(--ink);color:#e9e6df}
+.ftgrid{display:grid;gap:28px;padding:44px 0 26px}
+@media(min-width:860px){.ftgrid{grid-template-columns:1.4fr 1fr 1fr 1fr}}
+.ft .logo{color:#fff;font-size:34px}
+.ft p{margin:10px 0 0;color:#bdb8ae;font-size:15px}
+.ft h4{margin:0 0 10px;font-size:15px}
+.ft ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:15px}
+.ft a,.ft .lnk{color:#e9e6df;text-decoration:none;background:none;border:0;padding:0;cursor:pointer;font-size:15px;text-align:left}
+.ft a:hover,.ft .lnk:hover{text-decoration:underline}
+.legal{border-top:1px solid #333;padding:18px 0 28px;font-size:13px;color:#a8a399}
+
+.owner{background:var(--navy);color:#fff;border-radius:20px;padding:22px}
 @media(min-width:920px){.owner{padding:30px}}
-.owner h2{font-size:40px}
+.owner h2{font-size:34px}
 .owner .mut{color:#c3cfe4}
-.owner .brick{color:var(--ink)}
-.owner .brick.red{color:#fff}
-.ogrid{display:grid;gap:18px;margin-top:20px}
+.ogrid{display:grid;gap:16px;margin-top:18px}
 @media(min-width:920px){.ogrid{grid-template-columns:1fr 1fr}}
 .ocard{background:#123f73;border-radius:12px;padding:16px;min-width:0}
 .ocard.full{grid-column:1/-1}
-.ocard h3{font-family:"Work Sans";font-weight:700;font-size:19px;margin-bottom:10px}
+.ocard h3{font-size:18px;font-weight:700;letter-spacing:0;margin-bottom:10px}
 .field{display:grid;gap:4px;font-size:13px;font-weight:600;color:#d4ddee}
 .field input{background:#fff;color:var(--ink);border:0;border-radius:7px;padding:8px 10px;min-width:0;width:100%}
-.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
 .otable{width:100%;border-collapse:collapse;font-size:14px}
 .otable td,.otable th{padding:6px 4px;border-bottom:1px solid #2a5690;text-align:left}
 .otable th{font-size:12px;color:#c3cfe4;font-weight:600}
 .otable .n{text-align:right;font-variant-numeric:tabular-nums}
 .otable tr.t td{font-weight:700;border-bottom:0;padding-top:10px}
 .otable tr.short td{color:var(--yel)}
-.profit{font:800 36px "Work Sans"}
+.profit{font:900 34px Rubik}
 .inv{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px;margin-top:10px}
 .iv{display:grid;grid-template-columns:22px 1fr 82px;align-items:center;gap:8px;background:#0d3768;border:1px solid #2a5690;border-radius:8px;padding:6px 8px;font-size:13px}
 .iv i{width:22px;height:22px;border-radius:5px;border:1px solid rgba(255,255,255,.35)}
@@ -174,59 +237,86 @@ input[type=range]{width:100%;accent-color:var(--red)}
 .iv.short{border-color:var(--yel)}
 .iv.zero{opacity:.55}
 .alert{background:var(--yel);color:var(--ink);border-radius:10px;padding:14px;margin-top:12px}
-.alert h3{font-family:"Work Sans";font-weight:700;font-size:16px;margin-bottom:4px}
+.alert h3{font-size:16px;margin-bottom:4px}
 .subopts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.subopt{display:flex;align-items:center;gap:6px;border:2px solid var(--ink);background:#fff;color:var(--ink);border-radius:8px;padding:6px 10px;cursor:pointer;font-weight:600;font-size:13px}
+.subopt{display:flex;align-items:center;gap:6px;border:1.5px solid var(--ink);background:#fff;color:var(--ink);border-radius:8px;padding:6px 10px;cursor:pointer;font-weight:600;font-size:13px}
 .subopt i{width:16px;height:16px;border-radius:4px}
-.subopt em{font-style:normal;font-weight:500;color:var(--ink2)}
+.subopt em{font-style:normal;font-weight:500;color:var(--mut)}
 .done{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:#0d3768;border-radius:8px;padding:8px 10px;margin-top:8px;font-size:14px}
 .done i{width:16px;height:16px;border-radius:4px;display:inline-block;vertical-align:middle}
-textarea{width:100%;min-height:110px;border:0;border-radius:8px;padding:8px;font:12px ui-monospace,monospace;color:var(--ink)}
-footer{padding:34px 0 60px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;font-size:14px;color:var(--ink2)}
-.linkbtn{background:none;border:0;color:var(--ink2);text-decoration:underline;cursor:pointer;font-size:14px}
 
-/* ---- efectos ---- */
-.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:11px 16px;border-radius:10px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:.2s;z-index:40;max-width:90vw}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:11px 16px;border-radius:12px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:.2s;z-index:60;max-width:90vw}
 .toast.on{opacity:1;transform:translateX(-50%)}
-.rain{position:fixed;inset:0;pointer-events:none;z-index:35;overflow:hidden}
-.rain i{position:absolute;top:-30px;width:22px;height:14px;border:2px solid var(--ink);border-radius:2px;animation:fall 1.4s cubic-bezier(.4,.1,.7,1) forwards}
-.rain i::before{content:"";position:absolute;top:-7px;left:4px;width:8px;height:5px;background:inherit;border:2px solid var(--ink);border-bottom:0;border-radius:2px 2px 0 0}
+.rain{position:fixed;inset:0;pointer-events:none;z-index:55;overflow:hidden}
+.rain i{position:absolute;top:-30px;width:22px;height:14px;border-radius:3px;box-shadow:inset -2px -2px 0 rgba(0,0,0,.2);animation:fall 1.4s cubic-bezier(.4,.1,.7,1) forwards}
+.rain i::before,.rain i::after{content:"";position:absolute;top:-5px;width:7px;height:5px;background:inherit;border-radius:2px 2px 0 0}
+.rain i::before{left:3px}.rain i::after{right:3px}
 @keyframes fall{to{transform:translateY(110vh) rotate(var(--r))}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.stack i{opacity:1;transform:none}}
+.fly{position:fixed;z-index:56;width:18px;height:12px;border-radius:3px;pointer-events:none;transition:transform .6s cubic-bezier(.5,-.3,.6,1),opacity .6s}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="bar">
-    <a class="mark" href="#top" id="top" aria-label="PIX·L, inicio">PIX<i aria-hidden="true"></i>L</a>
-    <nav><a href="#arma">Diseña el tuyo</a><a href="#como">Cómo funciona</a><a href="#instrucciones">Instrucciones</a></nav>
-  </header>
+<div class="notice"><span>Envío gratis desde <b id="nFree">$1,499</b></span><span>Piezas extra en cada pedido</span><span>Armado y enviado desde México</span></div>
+<header class="top">
+  <div class="wrap">
+    <div class="hrow">
+      <a class="logo" href="#inicio" aria-label="PIX·L, inicio">PIX<i aria-hidden="true"></i>L</a>
+      <form class="search" id="searchForm" role="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <label class="sr" for="q">Buscar diseños</label>
+        <input id="q" type="search" placeholder="Busca un diseño: gato, nopal, corazón…">
+      </form>
+      <div class="hbtns">
+        <button class="ibtn" id="cartBtn" type="button" aria-label="Abrir carrito">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14l-1.5 11a2 2 0 0 1-2 1.7H8.5a2 2 0 0 1-2-1.7z"/><path d="M9 7V5.5a3 3 0 0 1 6 0V7"/></svg>
+          <span class="badge hide" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+    <nav class="main" aria-label="Principal">
+      <a href="#crea">Crea el tuyo</a><a href="#disenos">Diseños listos</a><a href="#disenos" data-filter="regalo">Regalos</a><a href="#como">Cómo funciona</a><a href="#dudas">Dudas frecuentes</a>
+    </nav>
+  </div>
+</header>
 
-  <section class="hero" id="dropzone">
-    <div>
-      <h1>Tu foto, hecha de <span class="ul">bloques.<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 13 C 60 4, 120 18, 180 9 S 270 6, 297 12" fill="none" stroke="#C91A09" stroke-width="5" stroke-linecap="round"/></svg></span></h1>
-      <p class="lead">Súbela y mírala convertida en mosaico de bloques al instante. Te mandamos las piezas a tu casa con instrucciones para armarlo.</p>
-      <button class="brick" id="upBtn" type="button">Subir mi foto</button>
-      <input type="file" id="file" accept="image/*" class="hide">
-      <div class="hint">Tu foto se procesa aquí mismo, en tu celular o compu; solo nos la mandas si haces tu pedido.</div>
+<main class="wrap" id="inicio">
+  <div class="quick" id="quick"></div>
+
+  <section class="hero">
+    <div class="txt">
+      <h1>Tu foto, hecha de <span>bloques.</span></h1>
+      <p>Mosaicos para armar con tus fotos, tu mascota o tu persona favorita. Te llegan las piezas a casa con instrucciones numeradas.</p>
+      <div class="ctas"><a class="btn yel" href="#crea">Crear con mi foto</a><a class="btn line" href="#disenos">Ver diseños listos</a></div>
     </div>
-    <div class="plate">
-      <span class="tape a" aria-hidden="true"></span><span class="tape b" aria-hidden="true"></span>
-      <span class="stamp" id="stamp">ejemplo</span>
-      <canvas id="cvHero" width="10" height="10" aria-label="Vista previa del mosaico"></canvas>
-      <span class="peek hide" id="peek">Mantén presionado para ver tu foto</span>
-    </div>
+    <div class="art"><div class="base"><canvas id="cvHero" width="10" height="10" aria-label="Mosaico de ejemplo armándose"></canvas></div></div>
   </section>
 
-  <section id="arma">
-    <div class="sechead"><div><h2>Diseña el tuyo</h2><div class="stack" aria-hidden="true"></div></div><p>Cada punto es una pieza real de 8 mm. Cambia estilo y tamaño, y el precio se actualiza solo.</p></div>
-    <div class="builder">
-      <div class="card">
-        <div class="step"><b>1</b><span>Estilo</span></div>
-        <div class="opts styles" id="styles"></div>
-        <div class="step"><b>2</b><span>Tamaño</span></div>
-        <div class="opts sizes" id="sizes"></div>
-        <div class="step"><b>3</b><span>Piezas</span></div>
+  <div class="props">
+    <div class="prop"><span class="ico" style="background:#fde9e6"><span class="stud" style="background:var(--red)"></span></span><div><b>Piezas de sobra</b><span class="mut">Te mandamos extras de cada color</span></div></div>
+    <div class="prop"><span class="ico" style="background:#fdf4d2"><span class="stud" style="background:var(--yel)"></span></span><div><b>Instrucciones numeradas</b><span class="mut">Por secciones, cuadrito por cuadrito</span></div></div>
+    <div class="prop"><span class="ico" style="background:#e3edfb"><span class="stud" style="background:var(--blue)"></span></span><div><b>Envío a todo México</b><span class="mut">Sale de nuestro taller en días</span></div></div>
+  </div>
+
+  <section class="sec" id="crea">
+    <div class="crumbs">Inicio › Crea el tuyo</div>
+    <div class="sechead"><div><h2>Mosaico con tu foto</h2><p class="mut">Sube tu foto y mira tu mosaico al instante. Cambia estilo y tamaño, y el precio se actualiza solo.</p></div></div>
+    <div class="creator">
+      <div class="cbox">
+        <div class="base"><canvas id="cvMain" width="10" height="10" aria-label="Vista previa de tu mosaico"></canvas></div>
+        <span class="peek hide" id="peek">Mantén presionado para ver tu foto</span>
+        <div class="upl">
+          <button class="btn red" id="upBtn" type="button">Subir mi foto</button>
+          <input type="file" id="file" accept="image/*" class="hide">
+          <span class="mut" style="font-size:14px">Tu foto se procesa en tu dispositivo.</span>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Estilo</h3>
+        <div class="optgrid st" id="styles"></div>
+        <h3>Tamaño</h3>
+        <div class="optgrid sz" id="sizes"></div>
+        <h3>Piezas</h3>
         <div class="seg" id="finish">
           <button type="button" data-p="3024">Con botón</button>
           <button type="button" data-p="98138">Redondas lisas</button>
@@ -244,54 +334,49 @@ footer{padding:34px 0 60px;display:flex;flex-wrap:wrap;gap:12px;justify-content:
             <label style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" id="dither"> Más detalle (mezcla colores por puntos)</label>
           </div>
         </details>
-      </div>
-      <aside class="ticket" aria-live="polite">
-        <div class="t" id="sumTitle"></div>
-        <div class="price" id="price">$0</div>
-        <div class="mut" style="font-size:14px">MXN, envío incluido a todo México</div>
-        <div class="facts">
-          <div><b id="fPieces">0</b><span>piezas</span></div>
-          <div><b id="fColors">0</b><span>colores</span></div>
-          <div><b id="fBases">0</b><span id="fBasesL">bases</span></div>
-          <div><b id="fTime">0 h</b><span>para armarlo</span></div>
-        </div>
-        <div class="mut" style="font-size:14px;font-weight:600">Colores de tu mosaico</div>
-        <div class="chips" id="chips"></div>
-        <ul class="incl">
-          <li>Piezas separadas por color, con unas extra por si se pierde alguna</li>
-          <li id="inclBase">Base para armarlo</li>
-          <li>Instrucciones numeradas, cuadrito por cuadrito</li>
-          <li>Sale de nuestro taller y llega en 3 a 6 días</li>
-        </ul>
-        <div class="buy">
-          <a class="brick red" id="waBtn" href="#" target="_blank" rel="noopener">Pedir por WhatsApp</a>
-          <button class="brick white sm" id="copyOrder" type="button">Copiar resumen del pedido</button>
-        </div>
-        <div class="hint" id="orderCode"></div>
-      </aside>
-    </div>
-  </section>
-
-  <section id="como">
-    <div class="sechead"><div><h2>Así funciona</h2><div class="stack" aria-hidden="true"></div></div><p>Sin pegamento ni herramientas. Piezas compatibles con las principales marcas de bloques.</p></div>
-    <div class="how">
-      <div class="hw"><div class="n">1</div><h3>Sube tu foto</h3><p>Sale mejor una cara o un objeto de cerca, con fondo sencillo.</p></div>
-      <div class="hw"><div class="n">2</div><h3>Elige estilo y tamaño</h3><p>Desde un mini de 13 cm hasta un mural de 77 cm para la pared.</p></div>
-      <div class="hw"><div class="n">3</div><h3>Pide por WhatsApp</h3><p>Nos mandas tu foto, revisamos tu diseño contigo y lo preparamos.</p></div>
-      <div class="hw"><div class="n">4</div><h3>Ármalo</h3><p>Sigue los números por secciones de 16 × 16. Unos 45 minutos cada una.</p></div>
-    </div>
-  </section>
-
-  <section id="instrucciones">
-    <div class="sechead"><div><h2>Tus instrucciones</h2><div class="stack" aria-hidden="true"></div></div><p>Así se ven las tuyas: cada cuadrito lleva el número de su color. Arma una fila a la vez, de izquierda a derecha.</p></div>
-    <div class="card guide">
-      <div>
-        <div class="row" style="justify-content:space-between;margin-bottom:12px">
-          <div><strong id="secTitle" class="type" style="font-size:24px"></strong> <span class="mut" id="secSub"></span></div>
-          <div class="row" style="gap:16px">
-            <button class="brick white sm" id="secPrev" type="button" aria-label="Sección anterior" style="margin-top:8px">‹</button>
-            <button class="brick white sm" id="secNext" type="button" aria-label="Sección siguiente" style="margin-top:8px">›</button>
+        <div class="sumbox" aria-live="polite">
+          <div class="mut" id="sumTitle" style="font-size:14px"></div>
+          <div class="bigprice" id="price">$0</div>
+          <div class="facts"><span><b id="fPieces">0</b> piezas</span><span><b id="fColors">0</b> colores</span><span><b id="fBases">0</b> <span id="fBasesL">base</span></span><span>≈ <b id="fTime">0 h</b> de armado</span></div>
+          <div class="chips" id="chips"></div>
+          <div class="cta2">
+            <button class="btn" id="addCustom" type="button">Añadir al carrito</button>
+            <button class="btn ghost" id="buyNow" type="button">Pedir ahora</button>
           </div>
+          <div class="mut" id="orderCode" style="font-size:13px;margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="disenos">
+    <div class="crumbs">Inicio › Diseños listos</div>
+    <div class="sechead"><div><h2>Diseños listos</h2><p class="mut">Mosaicos originales para regalar o para tu cuarto. En mini (13 cm) o cuadro (26 cm).</p></div></div>
+    <div class="filters">
+      <div class="fchips" id="cats"></div>
+      <label class="sort">Ordenar<select id="sort"><option value="feat">Destacados</option><option value="lo">Precio: menor a mayor</option><option value="hi">Precio: mayor a menor</option><option value="az">Nombre: A–Z</option></select></label>
+    </div>
+    <div class="fchips" id="pricef" style="margin:-6px 0 18px"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="sec" id="como">
+    <div class="sechead"><h2>Cómo funciona</h2></div>
+    <div class="how">
+      <div class="hw"><div class="n" style="background:var(--red)">1</div><h3>Elige o crea</h3><p>Un diseño listo o tu propia foto. Sale mejor una cara o una mascota de cerca.</p></div>
+      <div class="hw"><div class="n" style="background:#a8820a">2</div><h3>Pide por WhatsApp</h3><p>Tu carrito se convierte en un mensaje. Confirmamos tu diseño y forma de pago.</p></div>
+      <div class="hw"><div class="n" style="background:var(--blue)">3</div><h3>Te lo mandamos</h3><p>Piezas separadas por color, base e instrucciones, desde nuestro taller.</p></div>
+      <div class="hw"><div class="n" style="background:var(--grn)">4</div><h3>Ármalo</h3><p>Secciones de 16 × 16, unos 45 minutos cada una. Sin pegamento.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="instrucciones">
+    <div class="sechead"><div><h2>Así son tus instrucciones</h2><p class="mut">Cada cuadrito lleva el número de su color. Arma una fila a la vez, de izquierda a derecha.</p></div></div>
+    <div class="guide">
+      <div>
+        <div class="row" style="justify-content:space-between;margin-bottom:10px">
+          <div><strong id="secTitle" style="font-size:22px;font-weight:800"></strong> <span class="mut" id="secSub"></span></div>
+          <div class="row"><button class="btn ghost sm" id="secPrev" type="button" aria-label="Sección anterior">‹</button><button class="btn ghost sm" id="secNext" type="button" aria-label="Sección siguiente">›</button></div>
         </div>
         <canvas id="cvSection" width="10" height="10"></canvas>
         <label class="row" style="margin-top:12px;font-weight:600;gap:8px"><input type="checkbox" id="secDone"> Ya terminé esta sección</label>
@@ -299,22 +384,31 @@ footer{padding:34px 0 60px;display:flex;flex-wrap:wrap;gap:12px;justify-content:
       <div>
         <div class="mut" style="font-weight:600">Elige una sección</div>
         <div class="secgrid" id="secGrid"></div>
-        <h3 style="font:700 19px 'Work Sans';margin-top:20px">Piezas de esta sección</h3>
+        <h3 style="font-size:18px;margin-top:18px;letter-spacing:0">Piezas de esta sección</h3>
         <div class="legend" id="secLegend"></div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== PANEL DE LA DUEÑA ===================== -->
-  <section class="owner hide" id="duena" aria-label="Panel de la dueña">
-    <div class="row" style="justify-content:space-between">
-      <h2>Panel de la dueña</h2>
-      <button class="brick sm" id="closeOwner" type="button">Cerrar panel</button>
+  <section class="sec" id="dudas">
+    <div class="sechead"><h2>Dudas frecuentes</h2></div>
+    <div class="faq">
+      <details><summary>¿Las piezas son LEGO?</summary><p>No. Son piezas de plástico compatibles con las principales marcas de bloques. PIX·L es una marca independiente y no está afiliada a ninguna empresa de juguetes.</p></details>
+      <details><summary>¿Qué foto funciona mejor?</summary><p>Una con buena luz, donde la cara o la mascota se vea de cerca y el fondo sea sencillo. Puedes acercar y mover el encuadre antes de pedir.</p></details>
+      <details><summary>¿Puedo ver mi diseño antes de pagar?</summary><p>Sí. Lo que ves en la vista previa es tu mosaico pieza por pieza, y antes de enviarlo lo revisamos contigo por WhatsApp.</p></details>
+      <details><summary>¿Cuánto tarda en llegar?</summary><p>Lo preparamos en unos días y lo mandamos por paquetería a todo México. Te compartimos tu número de guía.</p></details>
+      <details><summary>¿Cómo pago?</summary><p>Al confirmar tu pedido por WhatsApp te damos las formas de pago disponibles.</p></details>
+      <details><summary>¿Y si me falta una pieza?</summary><p>Cada pedido trae piezas extra de cada color. Si aun así te falta alguna, escríbenos y te la mandamos.</p></details>
+      <details><summary>¿Necesita pegamento o marco?</summary><p>No. Las piezas se quedan fijas en la base. Si lo quieres colgar, una base de 32 × 32 cabe en muchos marcos de 26 cm.</p></details>
     </div>
-    <p class="mut" style="margin:10px 0 0;max-width:72ch">Esto no lo ven tus clientes y se guarda solo en este dispositivo. Aquí llevas tu inventario, costos y margen, surtes pedidos y sacas las instrucciones para mandar.</p>
+  </section>
+
+  <section class="sec owner hide" id="duena" aria-label="Panel de la dueña">
+    <div class="row" style="justify-content:space-between"><h2>Panel de la dueña</h2><button class="btn yel sm" id="closeOwner" type="button">Cerrar panel</button></div>
+    <p class="mut" style="margin:10px 0 0;max-width:72ch">Tus clientes no ven esto. Se guarda solo en este dispositivo: costos, precios, inventario y surtido del diseño con foto que está en pantalla.</p>
     <div class="ogrid">
       <div class="ocard">
-        <h3>Costos</h3>
+        <h3>Costos y precios</h3>
         <div class="fgrid">
           <label class="field">US$ por bolsa de 1,000 piezas<input type="number" id="oBag" step="0.1" min="0"></label>
           <label class="field">US$ base 32×32<input type="number" id="oBase32" step="0.1" min="0"></label>
@@ -322,59 +416,65 @@ footer{padding:34px 0 60px;display:flex;flex-wrap:wrap;gap:12px;justify-content:
           <label class="field">Impuesto de importación %<input type="number" id="oTax" step="0.5" min="0"></label>
           <label class="field">Pesos por dólar<input type="number" id="oFx" step="0.1" min="1"></label>
           <label class="field">Empaque por pedido (MXN)<input type="number" id="oPack" step="5" min="0"></label>
-          <label class="field">Envío nacional (MXN)<input type="number" id="oShip" step="5" min="0"></label>
           <label class="field">Tu margen %<input type="number" id="oMargin" step="5" min="0"></label>
           <label class="field">Piezas extra %<input type="number" id="oSpare" step="1" min="0"></label>
+          <label class="field">Envío que cobras (MXN)<input type="number" id="oShipFee" step="5" min="0"></label>
+          <label class="field">Envío gratis desde (MXN)<input type="number" id="oFree" step="50" min="0"></label>
           <label class="field">Gramos por 100 piezas<input type="number" id="oGrams" step="0.1" min="0" placeholder="pésalas una vez"></label>
           <label class="field">Tu WhatsApp (con lada)<input type="tel" id="oWa" placeholder="5215512345678"></label>
         </div>
-        <p class="mut" style="font-size:13px;margin:12px 0 0">Valores iniciales de referencia: bolsas de 1,000 piezas 1×1 en AliExpress, impuesto de 33.5% a paquetes desde China y base 32×32 compatible. Cámbialos por lo que pagues de verdad.</p>
+        <p class="mut" style="font-size:13px;margin:12px 0 0">Valores iniciales de referencia: bolsa de 1,000 piezas 1×1 en AliExpress, 33.5% de impuesto a paquetes desde China y base 32×32 compatible. Cámbialos por lo que pagues.</p>
       </div>
       <div class="ocard">
-        <h3>Este diseño</h3>
+        <h3>Diseño con foto en pantalla</h3>
         <table class="otable" id="oTable"></table>
         <div class="row" style="justify-content:space-between;margin-top:12px"><span class="mut">Tu ganancia</span><span class="profit" id="oProfit"></span></div>
       </div>
       <div class="ocard full">
         <h3>Inventario por color</h3>
-        <p class="mut" style="margin:0;font-size:14px">Pon cuántas piezas tienes de cada color. Los clientes solo ven colores con existencia. Si un diseño necesita más de lo que tienes, abajo te aparece el sustituto más parecido.</p>
-        <div id="pending"></div>
-        <div id="subs"></div>
+        <p class="mut" style="margin:0;font-size:14px">Los clientes solo ven colores con existencia, y un diseño listo sale "agotado" si no te alcanza algún color. Si el diseño con foto necesita más de lo que tienes, aquí te propongo el color más parecido.</p>
+        <div id="pending"></div><div id="subs"></div>
         <div class="inv" id="inv"></div>
       </div>
       <div class="ocard">
-        <h3>Surtir este pedido</h3>
+        <h3>Surtir el diseño con foto</h3>
         <table class="otable" id="pick"></table>
-        <div class="row" style="margin-top:16px;gap:16px">
-          <button class="brick sm" id="fulfil" type="button">Descontar del inventario</button>
-          <button class="brick white sm" id="cpPick" type="button">Copiar lista</button>
-        </div>
+        <div class="row" style="margin-top:14px"><button class="btn yel sm" id="fulfil" type="button">Descontar del inventario</button><button class="btn ghost sm" id="cpPick" type="button">Copiar lista</button></div>
       </div>
       <div class="ocard">
         <h3>Para resurtir</h3>
-        <p class="mut" style="margin:0 0 8px;font-size:14px">Colores con menos de 300 piezas. Compra bolsas de 1,000.</p>
+        <p class="mut" style="margin:0 0 8px;font-size:14px">Colores con menos de 300 piezas.</p>
         <table class="otable" id="restock"></table>
         <h3 style="margin-top:18px">Archivos para tu cliente</h3>
-        <div class="row" style="gap:16px">
-          <button class="brick sm" id="dlPlan" type="button">Plano completo</button>
-          <button class="brick white sm" id="dlSec" type="button">Sección actual</button>
-          <button class="brick white sm" id="dlPrev" type="button">Vista previa</button>
-        </div>
+        <div class="row"><button class="btn yel sm" id="dlPlan" type="button">Plano completo</button><button class="btn ghost sm" id="dlSec" type="button">Sección actual</button><button class="btn ghost sm" id="dlPrev" type="button">Vista previa</button></div>
       </div>
     </div>
   </section>
+</main>
 
-  <footer>
-    <span>PIX·L · mosaicos de bloques hechos con tu foto · Piezas compatibles con las principales marcas de bloques.</span>
-    <button class="linkbtn" id="openOwner" type="button">Panel de la dueña</button>
-  </footer>
-</div>
+<footer class="ft">
+  <div class="wrap">
+    <div class="ftgrid">
+      <div><span class="logo">PIX<i aria-hidden="true"></i>L</span><p>Mosaicos de bloques hechos con tus fotos. Armados pieza por pieza, en casa.</p><p>[Tu dirección o zona de entregas]<br>[Tu horario de atención]</p></div>
+      <div><h4>Tienda</h4><ul><li><a href="#crea">Crea el tuyo</a></li><li><a href="#disenos">Diseños listos</a></li><li><a href="#disenos" data-filter="regalo">Tarjetas de regalo</a></li></ul></div>
+      <div><h4>Ayuda</h4><ul><li><a href="#como">Cómo funciona</a></li><li><a href="#dudas">Dudas frecuentes</a></li><li><button class="lnk" id="trackBtn" type="button">Rastrear pedido</button></li></ul></div>
+      <div><h4>Comunidad</h4><ul><li><a href="#instrucciones">Instrucciones</a></li><li>[Tu Instagram]</li><li>[Tu TikTok]</li></ul></div>
+    </div>
+    <div class="legal">© PIX·L. Piezas compatibles con las principales marcas de bloques. PIX·L es una marca independiente y no está afiliada, patrocinada ni avalada por ninguna empresa de juguetes. · <button class="lnk" id="openOwner" type="button" style="color:#a8a399;font-size:13px;text-decoration:underline">Panel de la dueña</button></div>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Carrito" aria-hidden="true">
+  <div class="dhead"><h2>Tu carrito</h2><button class="ibtn" id="closeCart" type="button" aria-label="Cerrar carrito"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <div class="ditems" id="ditems"></div>
+  <div class="dfoot" id="dfoot"></div>
+</aside>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
 "use strict";
-/* ============ Catálogo de colores (Gobricks) ============
-   [#, nombre, nombre LEGO equivalente, BrickLink, Rebrickable, hex] */
+/* ============ Catálogo de colores (Gobricks): [#, nombre, nombre LEGO equivalente, BrickLink, Rebrickable, hex] ============ */
 const PAL=[
  ['090','Blanco','White',1,15,'FFFFFF'],['080','Negro','Black',11,0,'05131D'],
  ['010','Rojo','Bright Red',5,4,'C91A09'],['014','Rojo vino','New Dark Red',59,320,'720E0F'],
@@ -399,9 +499,35 @@ const PAL=[
 ].map(([g,n,lego,bl,rb,hex])=>{const rgb=[parseInt(hex.slice(0,2),16),parseInt(hex.slice(2,4),16),parseInt(hex.slice(4,6),16)];
   return {g,n,lego,bl,rb,hex:'#'+hex,rgb,lab:rgb2lab(...rgb),lum:.299*rgb[0]+.587*rgb[1]+.114*rgb[2]};});
 const IDX=Object.fromEntries(PAL.map((p,i)=>[p.g,i]));
-// inventario inicial de ejemplo: 28 colores básicos con una bolsa de 1,000
-const STARTER=['090','080','010','014','021','083','036','030','033','031','034','032','084','081','082','071','072','040','043','042','046','050','052','055','056','062','011','012'];
+const STARTER=['090','080','010','014','021','083','036','030','033','031','034','032','084','081','082','071','072','040','043','042','046','050','052','053','055','056','060','062','011','012','013','045'];
 
+/* ============ Diseños listos: pixel art original de 16×16 ============ */
+function rainbow(){const keys=['r','n','y','g','b','p'],rows=[];
+ for(let y=0;y<16;y++){let s='';for(let x=0;x<16;x++){const d=Math.hypot(x-7.5,(y-14.5)*1.05),band=Math.floor((d-4)/1.55);
+   s+=(y>=12&&(x<3||x>12))?'w':(band>=0&&band<6)?keys[5-band]:'.';}rows.push(s);}return rows;}
+const DESIGNS=[
+ {id:'corazon',n:'Corazón',cat:'amor',map:{'.':'011','R':'010','D':'014','W':'090'},rows:[
+  '................','................','...RRR....RRR...','..RRRRR..RRRRR..','.RRWRRRRRRRRRRR.','.RWRRRRRRRRRRRD.','.RRRRRRRRRRRRRD.','.RRRRRRRRRRRRRD.',
+  '..RRRRRRRRRRRD..','...RRRRRRRRRD...','....RRRRRRRD....','.....RRRRRD.....','......RRRD......','.......RD.......','................','................']},
+ {id:'nopal',n:'Nopal en maceta',cat:'mexicano',map:{'.':'032','G':'043','L':'042','P':'012','O':'083','o':'084'},rows:[
+  '................','.......PP.......','......GGGG......','..PG..GLGG......','.GGGG.GGGG..GG..','.GLGG.GGLG.GGGG.','.GGGGGGGGG.GLGG.','..GGGGGLGGGGGG..',
+  '......GGGGGG....','......GLGG......','......GGGG......','....OOOOOOOO....','....oooooooo....','.....OOOOOO.....','.....OOOOOO.....','................']},
+ {id:'atardecer',n:'Atardecer en el mar',cat:'paisaje',map:{'m':'060','g':'013','n':'021','o':'036','s':'033','d':'055','b':'050','y':'030'},rows:[
+  'mmmmmmmmmmmmmmmm','mmmmmmmmmmmmmmmm','gggggggggggggggg','gggggssssssggggg','nnnnssssssssnnnn','nnnssssssssssnnn','ooossssssssssooo','oooossssssssoooo',
+  'dddddddddddddddd','bbbbbyyyyyybbbbb','bbbbbbyyyybbbbbb','ddddddyyyydddddd','bbbbbbbyybbbbbbb','dddddddyyddddddd','bbbbbbbbbbbbbbbb','dddddddddddddddd']},
+ {id:'calaverita',n:'Calaverita',cat:'mexicano',map:{'.':'055','W':'090','P':'012','K':'080','Y':'033','R':'010','B':'046'},rows:[
+  '................','.....WWWWWW.....','...WWWWRRWWWW...','..WWWWRYYRWWWW..','..WWWWWRRWWWWW..','..WPPPWWWWPPPW..','..WPKPWWWWPKPW..','..WPPPWWWWPPPW..',
+  '..WWWWWBBWWWWW..','...WWWWKKWWWW...','....WWWWWWWW....','....WKWKWKWK....','....WWWWWWWW....','.....WKWKWK.....','................','................']},
+ {id:'taco',n:'Taquito',cat:'mexicano',map:{'.':'053','L':'042','R':'010','M':'081','Y':'036','y':'030','W':'090'},rows:[
+  '................','..WW............','.WWWW......WW...','..........WWWW..','.....LLLRLLL....','...LRLLLLLRLL...','..LLMMMMMMMMLL..','.YYMMMMMMMMMMYY.',
+  '.YyYMMMMMMMMYyY.','.YYYYYYYYYYYYYY.','..YYyYYYYYYyYY..','....YYYYYYYY....','................','................','................','................']},
+ {id:'gatito',n:'Gatito naranja',cat:'mascotas',map:{'.':'056','K':'080','O':'021','G':'043','P':'011','W':'090'},rows:[
+  '................','..K..........K..','..KK........KK..','..KOK......KOK..','..KOOKKKKKKOOK..','..KOOOOOOOOOOK..','.KOOOOOOOOOOOOK.','.KOOGKOOOOGKOOK.',
+  '.KOOGKOOOOGKOOK.','.KOOOOOPPOOOOOK.','.KWWOOOKKOOOWWK.','..KOOOKOOKOOOK..','...KOOOOOOOOK...','....KKKKKKKK....','................','................']},
+ {id:'arcoiris',n:'Arcoíris',cat:'amor',map:{'.':'053','r':'010','n':'021','y':'033','g':'043','b':'050','p':'060','w':'090'},rows:rainbow()},
+];
+const CATS=[['todo','Todo'],['mexicano','Mexicano'],['mascotas','Mascotas'],['amor','Amor'],['paisaje','Paisajes'],['regalo','Regalos']];
+const GIFTS=[{id:'gift500',n:'Tarjeta de regalo $500',amount:500,bg:'#C91A09'},{id:'gift1000',n:'Tarjeta de regalo $1,000',amount:1000,bg:'#0055BF'}];
 const STYLES=[
  {k:'color',n:'A todo color',d:'Fiel a tu foto',g:null,sat:110},
  {k:'pop',n:'Pop',d:'Colores fuertes',g:['090','080','010','021','033','030','050','046','042','043','011','012','060'],sat:150},
@@ -429,20 +555,62 @@ function dE(a,b){const[L1,a1,b1]=a,[L2,a2,b2]=b,r=Math.PI/180;const C1=Math.hypo
  const RT=-Math.sin(2*dT*r)*RC;return Math.sqrt((dL/SL)**2+(dC/SC)**2+(dH/SH)**2+RT*(dC/SC)*(dH/SH));}
 
 /* ============ Estado ============ */
-const DEF={bag:7.23,base32:4.69,base16:1.6,tax:33.5,fx:18.5,pack:50,ship:120,margin:110,spare:5,grams:0,wa:''};
+const DEF={bag:7.23,base32:4.69,base16:1.6,tax:33.5,fx:18.5,pack:50,margin:110,spare:5,shipFee:129,free:1499,grams:0,wa:''};
 const S={img:null,demo:true,style:'color',size:'cuadro',finish:'3024',zoom:1,cx:.5,cy:.5,bri:0,con:0,sat:110,dither:false,
- stock:Object.fromEntries(PAL.map(p=>[p.g,STARTER.includes(p.g)?1000:0])),
- subs:{},grid:null,counts:null,order:[],sec:0,done:new Set(),o:{...DEF},code:'',anim:null,confirmFulfil:false};
+ stock:Object.fromEntries(PAL.map(p=>[p.g,STARTER.includes(p.g)?1000:0])),subs:{},grid:null,counts:null,order:[],sec:0,done:new Set(),
+ o:{...DEF},code:'',anim:new Map(),cart:[],cat:'todo',pf:'all',sort:'feat',q:'',variant:{},confirmFulfil:false};
 try{const s=JSON.parse(localStorage.getItem('pixl-owner')||'null');if(s){Object.assign(S.o,s.o||{});if(s.stock)Object.assign(S.stock,s.stock);}}catch(e){}
+try{const c=JSON.parse(localStorage.getItem('pixl-cart')||'null');if(Array.isArray(c))S.cart=c;}catch(e){}
 const persist=()=>{try{localStorage.setItem('pixl-owner',JSON.stringify({o:S.o,stock:S.stock}));}catch(e){}};
+const saveCart=()=>{try{localStorage.setItem('pixl-cart',JSON.stringify(S.cart));}catch(e){}};
 const $=id=>document.getElementById(id);
 const size=()=>SIZES.find(s=>s.k===S.size);
 const reduce=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
-function newCode(){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='PX-';for(let i=0;i<5;i++)s+=a[Math.floor(Math.random()*a.length)];return s;}
+const newCode=()=>{const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='PX-';for(let i=0;i<5;i++)s+=a[Math.floor(Math.random()*a.length)];return s;};
 S.code=newCode();
+const mx=n=>'$'+Math.round(n).toLocaleString('es-MX');
 
-/* ============ Imagen ============ */
-function demo(){ // ilustración original: perrito en sus colores
+/* ============ Precios ============ */
+function bases(sz){const {W,H}=sz;if(W%32===0&&H%32===0)return{n:(W/32)*(H/32),size:32,name:'Base 32×32'};return{n:(W/16)*(H/16),size:16,name:'Placa 16×16'};}
+function costFor(sz){const o=S.o,b=bases(sz),qty=Math.ceil(sz.W*sz.H*(1+o.spare/100)),imp=1+o.tax/100;
+ const pieces=qty*o.bag/1000*o.fx*imp,base=b.n*(b.size===32?o.base32:o.base16)*o.fx*imp;return{qty,b,pieces,base,pack:+o.pack,total:pieces+base+(+o.pack)};}
+const retail=sz=>Math.max(149,Math.ceil(costFor(sz).total*(1+S.o.margin/100)/50)*50-1);
+const designSize=v=>v==='cuadro'?{W:32,H:32}:{W:16,H:16};
+
+/* ============ Dibujo de piezas ============ */
+function piece(x,px,py,cs,col,f){
+ if(f.shape==='rd'){x.fillStyle='#55574f';x.fillRect(px,py,cs,cs);x.fillStyle=col;x.beginPath();x.arc(px+cs/2,py+cs/2,cs*.46,0,7);x.fill();
+  if(cs>=7){x.fillStyle='rgba(255,255,255,.2)';x.beginPath();x.arc(px+cs*.38,py+cs*.36,cs*.15,0,7);x.fill();}}
+ else{x.fillStyle=col;x.fillRect(px,py,cs,cs);const e=Math.max(1,cs*.06);x.fillStyle='rgba(0,0,0,.2)';x.fillRect(px,py+cs-e,cs,e);x.fillRect(px+cs-e,py,e,cs);
+  x.fillStyle='rgba(255,255,255,.14)';x.fillRect(px,py,cs,e);}
+ if(f.stud&&cs>=6){const r=cs*.3,cx=px+cs/2,cy=py+cs/2;x.fillStyle='rgba(0,0,0,.25)';x.beginPath();x.arc(cx+cs*.04,cy+cs*.05,r,0,7);x.fill();
+  x.fillStyle=col;x.beginPath();x.arc(cx,cy,r,0,7);x.fill();x.fillStyle='rgba(255,255,255,.28)';x.beginPath();x.arc(cx-r*.3,cy-r*.3,r*.45,0,7);x.fill();}
+}
+function emptyStud(x,px,py,cs){x.fillStyle='#6C6E68';x.fillRect(px,py,cs,cs);if(cs>=6){x.fillStyle='#7d7f78';x.beginPath();x.arc(px+cs/2,py+cs/2,cs*.3,0,7);x.fill();}}
+/* Dibuja una cuadrícula. kind: 'drop' = las piezas caen y encajan; 'pop' = se reacomodan en onda desde el centro */
+function drawGrid(cv,W,H,cols,cs,kind,finish='3024'){
+ const f=FINISH[finish];cv.width=W*cs;cv.height=H*cs;const x=cv.getContext('2d');
+ const prev=S.anim.get(cv);if(prev)prev.stop=true;S.anim.delete(cv);
+ if(reduce()||!kind){for(let y=0;y<H;y++)for(let q=0;q<W;q++)piece(x,q*cs,y*cs,cs,cols[y*W+q],f);return;}
+ const N=W*H,delay=new Float32Array(N),dur=kind==='drop'?420:260,spread=kind==='drop'?1300:520,cxm=(W-1)/2,cym=(H-1)/2,maxd=Math.hypot(cxm,cym)||1;
+ for(let y=0;y<H;y++)for(let q=0;q<W;q++)delay[y*W+q]=kind==='drop'?((H-1-y)/H*.75+Math.random()*.25)*spread:(Math.hypot(q-cxm,y-cym)/maxd)*spread+Math.random()*60;
+ const tok={stop:false};S.anim.set(cv,tok);const t0=performance.now();
+ const ease=t=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2);};
+ const step=now=>{if(tok.stop)return;const t=now-t0;let all=true;x.clearRect(0,0,cv.width,cv.height);
+  for(let y=0;y<H;y++)for(let q=0;q<W;q++)emptyStud(x,q*cs,y*cs,cs);
+  for(let y=0;y<H;y++)for(let q=0;q<W;q++){const p=y*W+q,k=(t-delay[p])/dur;
+   if(k<=0){all=false;continue;}if(k>=1){piece(x,q*cs,y*cs,cs,cols[p],f);continue;}all=false;const e=ease(k);
+   if(kind==='drop'){x.globalAlpha=Math.min(1,k*2);piece(x,q*cs,y*cs-(1-e)*cs*4,cs,cols[p],f);x.globalAlpha=1;}
+   else{const c=cs*(.4+.6*e),o=(cs-c)/2;x.save();x.translate(q*cs+o,y*cs+o);piece(x,0,0,c,cols[p],f);x.restore();}}
+  if(!all)requestAnimationFrame(step);else if(S.anim.get(cv)===tok)S.anim.delete(cv);};
+ requestAnimationFrame(step);
+}
+const designCols=d=>d.rows.join('').split('').map(ch=>PAL[IDX[d.map[ch]]].hex);
+function designCounts(d,variant){const mult=variant==='cuadro'?4:1,c={};for(const ch of d.rows.join('')){const g=d.map[ch];c[g]=(c[g]||0)+mult;}return c;}
+function designAvailable(d,variant){return Object.entries(designCounts(d,variant)).every(([g,n])=>S.stock[g]>=Math.ceil(n*(1+S.o.spare/100)));}
+
+/* ============ Foto del cliente ============ */
+function demo(){
  const c=document.createElement('canvas');c.width=c.height=640;const x=c.getContext('2d');
  const g=x.createLinearGradient(0,0,640,640);g.addColorStop(0,'#ffd8b0');g.addColorStop(1,'#9fd4e6');x.fillStyle=g;x.fillRect(0,0,640,640);
  x.fillStyle='#fff3a6';for(let i=0;i<9;i++){x.beginPath();x.arc(70+i*70,575+(i%2)*28,24,0,7);x.fill();}
@@ -455,16 +623,14 @@ function demo(){ // ilustración original: perrito en sus colores
  x.fillStyle='#e8507a';x.beginPath();x.ellipse(320,462,28,36,0,0,Math.PI);x.fill();
  x.strokeStyle='#1c1410';x.lineWidth=8;x.lineCap='round';x.beginPath();x.moveTo(320,412);x.lineTo(320,440);x.moveTo(278,444);x.quadraticCurveTo(320,472,362,444);x.stroke();
  x.fillStyle='#c91a09';x.fillRect(200,505,240,34);x.fillStyle='#ffe96b';x.beginPath();x.arc(320,545,22,0,7);x.fill();
- const im=new Image();im.onload=()=>{S.img=im;S.demo=true;render('drop');};im.src=c.toDataURL();
+ const im=new Image();im.onload=()=>{S.img=im;S.demo=true;render(null);};im.src=c.toDataURL();
 }
 function loadFile(f){
  if(!f)return;if(!f.type||!f.type.startsWith('image/')){toast('Elige una imagen JPG o PNG.');return;}
  const im=new Image();im.onload=()=>{S.img=im;S.demo=false;Object.assign(S,{zoom:1,cx:.5,cy:.5});$('zoom').value=1;$('cropX').value=.5;$('cropY').value=.5;
-  S.done.clear();S.code=newCode();$('dropzone').scrollIntoView({block:'start'});render('drop');};
+  S.done.clear();S.code=newCode();$('crea').scrollIntoView({block:'start'});render('drop');toast('¡Listo! Así se ve tu foto en bloques');};
  im.onerror=()=>toast('No pudimos abrir esa imagen. Prueba con una JPG o PNG.');im.src=URL.createObjectURL(f);
 }
-
-/* ============ Proceso ============ */
 function sample(){
  const {W,H}=size(),img=S.img,iw=img.naturalWidth,ih=img.naturalHeight,ta=W/H;let sw,sh;if(iw/ih>ta){sh=ih;sw=ih*ta;}else{sw=iw;sh=iw/ta;}
  sw/=S.zoom;sh/=S.zoom;const sx=(iw-sw)*S.cx,sy=(ih-sh)*S.cy;
@@ -492,163 +658,154 @@ function quantize(px,allowed){
   add(x+1,y,7/16);add(x-1,y+1,3/16);add(x,y+1,5/16);add(x+1,y+1,1/16);}
  return out;
 }
-const inStock=i=>S.stock[PAL[i].g]>0;
-function allowed(){
- const st=STYLES.find(s=>s.k===S.style);let al=(st.g?st.g.map(g=>IDX[g]):PAL.map((p,i)=>i)).filter(i=>inStock(i)&&S.subs[PAL[i].g]!=='drop');
- if(al.length<2)al=PAL.map((p,i)=>i).filter(i=>inStock(i)&&S.subs[PAL[i].g]!=='drop');
- if(al.length<2)al=[IDX['080'],IDX['090']];
- return al;
-}
-function compute(){
- const grid=quantize(sample(),allowed());
+function allowed(){const st=STYLES.find(s=>s.k===S.style);const ok=i=>S.stock[PAL[i].g]>0&&S.subs[PAL[i].g]!=='drop';
+ let al=(st.g?st.g.map(g=>IDX[g]):PAL.map((p,i)=>i)).filter(ok);if(al.length<2)al=PAL.map((p,i)=>i).filter(ok);if(al.length<2)al=[IDX['080'],IDX['090']];return al;}
+function compute(){const grid=quantize(sample(),allowed());
  for(let p=0;p<grid.length;p++){const t=S.subs[PAL[grid[p]].g];if(t&&t!=='drop')grid[p]=IDX[t];}
  S.grid=grid;S.counts=new Array(PAL.length).fill(0);for(const v of grid)S.counts[v]++;
- S.order=PAL.map((p,i)=>i).filter(i=>S.counts[i]).sort((a,b)=>S.counts[b]-S.counts[a]);
-}
+ S.order=PAL.map((p,i)=>i).filter(i=>S.counts[i]).sort((a,b)=>S.counts[b]-S.counts[a]);}
 const need=i=>Math.ceil(S.counts[i]*(1+S.o.spare/100));
 const shortages=()=>S.order.filter(i=>need(i)>S.stock[PAL[i].g]);
+const gridCols=()=>Array.from(S.grid,i=>PAL[i].hex);
+function shrink(){const sz=size(),k=Math.max(1,Math.floor(sz.W/32)),cols=[];for(let y=0;y<sz.H;y+=k)for(let x=0;x<sz.W;x+=k)cols.push(PAL[S.grid[y*sz.W+x]].hex);
+ return{W:Math.ceil(sz.W/k),H:Math.ceil(sz.H/k),cols};}
 
-/* ============ Dibujo ============ */
-function piece(x,px,py,cs,col,f){
- if(f.shape==='rd'){x.fillStyle='#55574f';x.fillRect(px,py,cs,cs);x.fillStyle=col;x.beginPath();x.arc(px+cs/2,py+cs/2,cs*.46,0,7);x.fill();
-  if(cs>=7){x.fillStyle='rgba(255,255,255,.2)';x.beginPath();x.arc(px+cs*.38,py+cs*.36,cs*.15,0,7);x.fill();}}
- else{x.fillStyle=col;x.fillRect(px,py,cs,cs);const e=Math.max(1,cs*.06);x.fillStyle='rgba(0,0,0,.2)';x.fillRect(px,py+cs-e,cs,e);x.fillRect(px+cs-e,py,e,cs);
-  x.fillStyle='rgba(255,255,255,.14)';x.fillRect(px,py,cs,e);}
- if(f.stud&&cs>=6){const r=cs*.3,cx=px+cs/2,cy=py+cs/2;x.fillStyle='rgba(0,0,0,.25)';x.beginPath();x.arc(cx+cs*.04,cy+cs*.05,r,0,7);x.fill();
-  x.fillStyle=col;x.beginPath();x.arc(cx,cy,r,0,7);x.fill();x.fillStyle='rgba(255,255,255,.28)';x.beginPath();x.arc(cx-r*.3,cy-r*.3,r*.45,0,7);x.fill();}
-}
-function emptyStud(x,px,py,cs){x.fillStyle='#6C6E68';x.fillRect(px,py,cs,cs);if(cs>=6){x.fillStyle='#7d7f78';x.beginPath();x.arc(px+cs/2,py+cs/2,cs*.3,0,7);x.fill();}}
-function drawMosaic(cv,cs){const {W,H}=size(),f=FINISH[S.finish];cv.width=W*cs;cv.height=H*cs;const x=cv.getContext('2d');
- for(let y=0;y<H;y++)for(let q=0;q<W;q++)piece(x,q*cs,y*cs,cs,PAL[S.grid[y*W+q]].hex,f);}
-/* Animación: las piezas caen y encajan sobre la base */
-function animateHero(kind){
- const cv=$('cvHero'),{W,H}=size(),f=FINISH[S.finish];const w=(cv.parentElement.clientWidth-28)*(window.devicePixelRatio||1);const cs=Math.max(4,Math.floor(w/W));
- cv.width=W*cs;cv.height=H*cs;const x=cv.getContext('2d');
- if(reduce()||!kind){drawMosaic(cv,cs);return;}
- const N=W*H,delay=new Float32Array(N),fallDur=kind==='drop'?420:260,spread=kind==='drop'?1300:520;
- const cxm=(W-1)/2,cym=(H-1)/2,maxd=Math.hypot(cxm,cym);
- for(let y=0;y<H;y++)for(let q=0;q<W;q++){const p=y*W+q;
-  delay[p]=kind==='drop'?((H-1-y)/H*.75+Math.random()*.25)*spread:(Math.hypot(q-cxm,y-cym)/maxd)*spread+Math.random()*60;}
- const t0=performance.now();const tok=S.anim={};
- const ease=t=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2);};
- const step=now=>{if(S.anim!==tok)return;const t=now-t0;let doneAll=true;
-  x.clearRect(0,0,cv.width,cv.height);
-  for(let y=0;y<H;y++)for(let q=0;q<W;q++)emptyStud(x,q*cs,y*cs,cs);
-  for(let y=0;y<H;y++)for(let q=0;q<W;q++){const p=y*W+q,k=(t-delay[p])/fallDur;
-   if(k<=0){doneAll=false;continue;}
-   if(k>=1){piece(x,q*cs,y*cs,cs,PAL[S.grid[p]].hex,f);continue;}
-   doneAll=false;const e=ease(k);
-   if(kind==='drop'){const off=(1-e)*cs*4;x.globalAlpha=Math.min(1,k*2);piece(x,q*cs,y*cs-off,cs,PAL[S.grid[p]].hex,f);x.globalAlpha=1;}
-   else{const s=.4+.6*e,c=cs*s,o=(cs-c)/2;x.save();x.translate(q*cs+o,y*cs+o);piece(x,0,0,c,PAL[S.grid[p]].hex,f);x.restore();}}
-  if(!doneAll)requestAnimationFrame(step);};
- requestAnimationFrame(step);
-}
-const numCol=i=>PAL[i].lum>140?'#1d1b18':'#ffffff';
+/* ============ Instrucciones ============ */
+const numCol=i=>PAL[i].lum>140?'#141414':'#ffffff';
 function drawSection(cv,si,cs){
  const {W}=size(),cols=W/SEC,sr=Math.floor(si/cols),sc=si%cols,ox=sc*SEC,oy=sr*SEC,head=Math.round(cs*.9);
  cv.width=head+SEC*cs+2;cv.height=head+SEC*cs+2;const x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,cv.width,cv.height);
  const rk=Object.fromEntries(S.order.map((i,k)=>[i,k+1]));
- x.textAlign='center';x.textBaseline='middle';x.font=`600 ${Math.round(cs*.4)}px "Work Sans",sans-serif`;x.fillStyle='#4a4136';
+ x.textAlign='center';x.textBaseline='middle';x.font=`600 ${Math.round(cs*.4)}px Rubik,sans-serif`;x.fillStyle='#5d5a54';
  for(let c=0;c<SEC;c++)x.fillText(String(c+1),head+c*cs+cs/2,head/2);
  for(let r=0;r<SEC;r++)x.fillText(String.fromCharCode(65+r),head/2,head+r*cs+cs/2);
- x.font=`800 ${Math.round(cs*.42)}px "Work Sans",sans-serif`;
- for(let r=0;r<SEC;r++)for(let c=0;c<SEC;c++){const i=S.grid[(oy+r)*W+ox+c],px=head+c*cs,py=head+r*cs;x.fillStyle=PAL[i].hex;x.fillRect(px,py,cs,cs);
-  x.fillStyle=numCol(i);x.fillText(String(rk[i]),px+cs/2,py+cs/2+1);}
- x.strokeStyle='rgba(29,27,24,.2)';x.lineWidth=1;
+ x.font=`800 ${Math.round(cs*.42)}px Rubik,sans-serif`;
+ for(let r=0;r<SEC;r++)for(let c=0;c<SEC;c++){const i=S.grid[(oy+r)*W+ox+c],px=head+c*cs,py=head+r*cs;x.fillStyle=PAL[i].hex;x.fillRect(px,py,cs,cs);x.fillStyle=numCol(i);x.fillText(String(rk[i]),px+cs/2,py+cs/2+1);}
+ x.strokeStyle='rgba(0,0,0,.18)';x.lineWidth=1;
  for(let k=0;k<=SEC;k++){x.beginPath();x.moveTo(head+k*cs+.5,head);x.lineTo(head+k*cs+.5,head+SEC*cs);x.stroke();x.beginPath();x.moveTo(head,head+k*cs+.5);x.lineTo(head+SEC*cs,head+k*cs+.5);x.stroke();}
- x.strokeStyle='#1d1b18';x.lineWidth=2;
+ x.strokeStyle='#141414';x.lineWidth=2;
  for(let k=0;k<=SEC;k+=4){x.beginPath();x.moveTo(head+k*cs,head);x.lineTo(head+k*cs,head+SEC*cs);x.stroke();x.beginPath();x.moveTo(head,head+k*cs);x.lineTo(head+SEC*cs,head+k*cs);x.stroke();}
 }
-function drawPlan(cs){
- const {W,H}=size(),head=Math.round(cs*1.1),c=document.createElement('canvas');c.width=head+W*cs+2;c.height=head+H*cs+2;const x=c.getContext('2d');
+function drawPlan(cs){const {W,H}=size(),head=Math.round(cs*1.1),c=document.createElement('canvas');c.width=head+W*cs+2;c.height=head+H*cs+2;const x=c.getContext('2d');
  x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);const rk=Object.fromEntries(S.order.map((i,k)=>[i,k+1]));x.textAlign='center';x.textBaseline='middle';
- x.font=`600 ${Math.round(cs*.36)}px "Work Sans",sans-serif`;x.fillStyle='#4a4136';
+ x.font=`600 ${Math.round(cs*.36)}px Rubik,sans-serif`;x.fillStyle='#5d5a54';
  for(let k=0;k<W;k++)x.fillText(String(k+1),head+k*cs+cs/2,head/2);for(let k=0;k<H;k++)x.fillText(String(k+1),head/2,head+k*cs+cs/2);
- x.font=`800 ${Math.round(cs*.42)}px "Work Sans",sans-serif`;
+ x.font=`800 ${Math.round(cs*.42)}px Rubik,sans-serif`;
  for(let r=0;r<H;r++)for(let q=0;q<W;q++){const i=S.grid[r*W+q];x.fillStyle=PAL[i].hex;x.fillRect(head+q*cs,head+r*cs,cs,cs);x.fillStyle=numCol(i);x.fillText(String(rk[i]),head+q*cs+cs/2,head+r*cs+cs/2+1);}
- x.strokeStyle='rgba(29,27,24,.15)';x.lineWidth=1;
- for(let k=0;k<=W;k++){x.beginPath();x.moveTo(head+k*cs+.5,head);x.lineTo(head+k*cs+.5,head+H*cs);x.stroke();}
+ x.strokeStyle='rgba(0,0,0,.15)';x.lineWidth=1;for(let k=0;k<=W;k++){x.beginPath();x.moveTo(head+k*cs+.5,head);x.lineTo(head+k*cs+.5,head+H*cs);x.stroke();}
  for(let k=0;k<=H;k++){x.beginPath();x.moveTo(head,head+k*cs+.5);x.lineTo(head+W*cs,head+k*cs+.5);x.stroke();}
- x.strokeStyle='#C91A09';x.lineWidth=3;
- for(let k=0;k<=W;k+=SEC){x.beginPath();x.moveTo(head+k*cs,head);x.lineTo(head+k*cs,head+H*cs);x.stroke();}
- for(let k=0;k<=H;k+=SEC){x.beginPath();x.moveTo(head,head+k*cs);x.lineTo(head+W*cs,head+k*cs);x.stroke();}
- return c;
-}
-
-/* ============ Costos y precio ============ */
-function bases(sz=size()){const {W,H}=sz;if(W%32===0&&H%32===0)return{n:(W/32)*(H/32),size:32,name:'Base 32×32'};return{n:(W/16)*(H/16),size:16,name:'Placa 16×16'};}
-function costFor(sz){
- const o=S.o,b=bases(sz),qty=Math.ceil(sz.W*sz.H*(1+o.spare/100)),imp=1+o.tax/100;
- const pieces=qty*o.bag/1000*o.fx*imp,base=b.n*(b.size===32?o.base32:o.base16)*o.fx*imp;
- return{qty,b,pieces,base,pack:+o.pack,ship:+o.ship,total:pieces+base+(+o.pack)+(+o.ship)};
-}
-const retail=total=>Math.max(149,Math.ceil(total*(1+S.o.margin/100)/50)*50-1);
-const mx=n=>'$'+Math.round(n).toLocaleString('es-MX');
+ x.strokeStyle='#C91A09';x.lineWidth=3;for(let k=0;k<=W;k+=SEC){x.beginPath();x.moveTo(head+k*cs,head);x.lineTo(head+k*cs,head+H*cs);x.stroke();}
+ for(let k=0;k<=H;k+=SEC){x.beginPath();x.moveTo(head,head+k*cs);x.lineTo(head+W*cs,head+k*cs);x.stroke();}return c;}
 
 /* ============ Interfaz ============ */
+const csFor=(cv,W)=>Math.max(4,Math.floor(((cv.parentElement.clientWidth||400)-24)*(window.devicePixelRatio||1)/W));
 let raf=0;
 function render(kind){if(!S.img)return;cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{compute();paint(kind);});}
-function paint(kind){animateHero(kind);paintStyles();paintSizes();paintTicket();paintGuide();if(!$('duena').classList.contains('hide'))paintOwner();
- $('stamp').textContent=S.demo?'ejemplo':'tu foto';$('peek').classList.toggle('hide',S.demo);}
-function showOriginal(on){if(!on){animateHero();return;}const cv=$('cvHero'),{W,H}=size(),img=S.img,iw=img.naturalWidth,ih=img.naturalHeight,ta=W/H;
- let sw,sh;if(iw/ih>ta){sh=ih;sw=ih*ta;}else{sw=iw;sh=iw/ta;}sw/=S.zoom;sh/=S.zoom;S.anim=null;cv.getContext('2d').drawImage(img,(iw-sw)*S.cx,(ih-sh)*S.cy,sw,sh,0,0,cv.width,cv.height);}
-function paintStyles(){
+function paint(kind){const {W,H}=size(),cv=$('cvMain');drawGrid(cv,W,H,gridCols(),csFor(cv,W),kind,S.finish);
+ $('peek').classList.toggle('hide',S.demo);paintCreator();paintGuide();
+ const t=document.querySelector('[data-thumb="custom"]');if(t&&!S.anim.has(t))drawThumb(t,null);
+ if(!$('duena').classList.contains('hide'))paintOwner();}
+function showOriginal(on){const cv=$('cvMain');if(!on){const {W,H}=size();drawGrid(cv,W,H,gridCols(),csFor(cv,W),null,S.finish);return;}
+ const {W,H}=size(),img=S.img,iw=img.naturalWidth,ih=img.naturalHeight,ta=W/H;let sw,sh;if(iw/ih>ta){sh=ih;sw=ih*ta;}else{sw=iw;sh=iw/ta;}sw/=S.zoom;sh/=S.zoom;
+ cv.getContext('2d').drawImage(img,(iw-sw)*S.cx,(ih-sh)*S.cy,sw,sh,0,0,cv.width,cv.height);}
+function paintCreator(){
  $('styles').innerHTML=STYLES.map(s=>{const sw=(s.g||['010','030','050','043','012','080']).slice(0,6).map(g=>`<i style="background:${PAL[IDX[g]].hex}"></i>`).join('');
   return `<button class="opt" type="button" data-s="${s.k}" aria-pressed="${s.k===S.style}"><div class="sw">${sw}</div><strong>${s.n}</strong><small>${s.d}</small></button>`;}).join('');
-}
-function paintSizes(){
- $('sizes').innerHTML=SIZES.map(s=>{const w=Math.round(s.W/96*70)+8,h=Math.round(s.H/96*38)+6;
-  return `<button class="opt" type="button" data-z="${s.k}" aria-pressed="${s.k===S.size}"><div class="shape"><i style="width:${w}px;height:${h}px"></i></div>
-   <strong>${s.n}</strong><small>${(s.W*.8).toFixed(0)} × ${(s.H*.8).toFixed(0)} cm</small><em>${mx(retail(costFor(s).total))}</em></button>`;}).join('');
+ $('sizes').innerHTML=SIZES.map(s=>`<button class="opt" type="button" data-z="${s.k}" aria-pressed="${s.k===S.size}"><strong>${s.n}</strong><small>${(s.W*.8).toFixed(0)} × ${(s.H*.8).toFixed(0)} cm</small><em>${mx(retail(s))}</em></button>`).join('');
  document.querySelectorAll('#finish button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.p===S.finish));
-}
-function orderText(){const sz=size();return `¡Hola PIX·L! Quiero mi mosaico\nCódigo: ${S.code}\nTamaño: ${sz.n} (${(sz.W*.8).toFixed(0)}×${(sz.H*.8).toFixed(0)} cm, ${sz.W}×${sz.H} piezas)\nEstilo: ${STYLES.find(s=>s.k===S.style).n}\nPiezas: ${FINISH[S.finish].n}\nPrecio: ${mx(retail(costFor(sz).total))} MXN\nAhorita te mando mi foto.`;}
-function paintTicket(){
- const sz=size(),N=sz.W*sz.H,c=costFor(sz);
- $('sumTitle').textContent=`${sz.n} · ${(sz.W*.8).toFixed(0)} × ${(sz.H*.8).toFixed(0)} cm · ${STYLES.find(s=>s.k===S.style).n.toLowerCase()}`;
- $('price').textContent=mx(retail(c.total));
- $('fPieces').textContent=N.toLocaleString('es-MX');$('fColors').textContent=S.order.length;
- $('fBases').textContent=c.b.n;$('fBasesL').textContent=c.b.size===32?(c.b.n===1?'base':'bases'):(c.b.n===1?'placa base':'placas base');
+ const sz=size(),N=sz.W*sz.H,b=bases(sz);
+ $('sumTitle').textContent=`${sz.n} · ${(sz.W*.8).toFixed(0)} × ${(sz.H*.8).toFixed(0)} cm · ${STYLES.find(s=>s.k===S.style).n.toLowerCase()} · piezas ${FINISH[S.finish].n}`;
+ $('price').textContent=mx(retail(sz));$('fPieces').textContent=N.toLocaleString('es-MX');$('fColors').textContent=S.order.length;
+ $('fBases').textContent=b.n;$('fBasesL').textContent=b.size===32?(b.n===1?'base':'bases'):(b.n===1?'placa base':'placas base');
  const hrs=N/256*.75;$('fTime').textContent=hrs<1?Math.round(hrs*60)+' min':(Math.round(hrs*2)/2).toLocaleString('es-MX')+' h';
  $('chips').innerHTML=S.order.map(i=>`<span class="chip"><i style="background:${PAL[i].hex}"></i>${PAL[i].n}</span>`).join('');
- $('inclBase').textContent=`${c.b.n} ${c.b.size===32?(c.b.n>1?'bases de 32 × 32':'base de 32 × 32'):(c.b.n>1?'placas base de 16 × 16':'placa base de 16 × 16')} para armarlo`;
  $('orderCode').textContent=`Código de tu diseño: ${S.code}`;
- const wa=(S.o.wa||'').replace(/\D/g,'');$('waBtn').href=wa?`https://wa.me/${wa}?text=${encodeURIComponent(orderText())}`:'#';$('waBtn').toggleAttribute('data-nowa',!wa);
 }
 function paintGuide(){
  const {W,H}=size(),cols=W/SEC,rows=H/SEC,n=cols*rows;if(S.sec>=n)S.sec=0;const sr=Math.floor(S.sec/cols),sc=S.sec%cols;
  $('secTitle').textContent=`Sección ${String.fromCharCode(65+sr)}${sc+1}`;$('secSub').textContent=`(${S.sec+1} de ${n})`;
  const cv=$('cvSection'),w=(cv.parentElement.clientWidth||600)*(window.devicePixelRatio||1);drawSection(cv,S.sec,Math.max(22,Math.floor((w-30)/(SEC+1))));
- $('secDone').checked=S.done.has(S.sec);
- const g=$('secGrid');g.style.gridTemplateColumns=`repeat(${cols},minmax(0,1fr))`;let h='';
- for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const k=r*cols+c;h+=`<button type="button" class="secbtn${S.done.has(k)?' ok':''}" data-sec="${k}" aria-pressed="${k===S.sec}">${String.fromCharCode(65+r)}${c+1}</button>`;}
- g.innerHTML=h;
- const rk=Object.fromEntries(S.order.map((i,k)=>[i,k+1])),cnt={};
- for(let r=0;r<SEC;r++)for(let c=0;c<SEC;c++){const i=S.grid[(sr*SEC+r)*W+sc*SEC+c];cnt[i]=(cnt[i]||0)+1;}
+ $('secDone').checked=S.done.has(S.sec);const g=$('secGrid');g.style.gridTemplateColumns=`repeat(${cols},minmax(0,1fr))`;let h='';
+ for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const k=r*cols+c;h+=`<button type="button" class="secbtn${S.done.has(k)?' ok':''}" data-sec="${k}" aria-pressed="${k===S.sec}">${String.fromCharCode(65+r)}${c+1}</button>`;}g.innerHTML=h;
+ const rk=Object.fromEntries(S.order.map((i,k)=>[i,k+1])),cnt={};for(let r=0;r<SEC;r++)for(let c=0;c<SEC;c++){const i=S.grid[(sr*SEC+r)*W+sc*SEC+c];cnt[i]=(cnt[i]||0)+1;}
  $('secLegend').innerHTML=Object.keys(cnt).map(Number).sort((a,b)=>rk[a]-rk[b]).map(i=>`<div class="lg"><span class="k" style="background:${PAL[i].hex};color:${numCol(i)}">${rk[i]}</span><span>${PAL[i].n}</span><span class="q">${cnt[i]}</span></div>`).join('');
 }
-/* ---- panel ---- */
-function suggest(g){const L=PAL[IDX[g]].lab,n=need(IDX[g]);
- return PAL.filter(p=>p.g!==g&&S.stock[p.g]-(S.counts[IDX[p.g]]?need(IDX[p.g]):0)>=n).map(p=>({p,d:dE(L,p.lab)})).sort((a,b)=>a.d-b.d).slice(0,4);}
-function pickText(){const o=S.o,b=bases();return `Pedido ${S.code}\n`+S.order.map(i=>`${PAL[i].n} (#${PAL[i].g}): ${need(i)} piezas${o.grams>0?` ≈ ${(need(i)*o.grams/100).toFixed(1)} g`:''}`).join('\n')+`\n${b.n} × ${b.name}`;}
+
+/* ---- colección ---- */
+function products(){
+ const list=[{id:'custom',n:'Mosaico con tu foto',cat:'todo',price:retail(SIZES[0]),from:true,feat:0}];
+ DESIGNS.forEach((d,k)=>{const v=S.variant[d.id]||'mini';list.push({id:d.id,n:d.n,cat:d.cat,price:retail(designSize(v)),variant:v,design:d,feat:k+1,avail:designAvailable(d,v)});});
+ GIFTS.forEach((g,k)=>list.push({id:g.id,n:g.n,cat:'regalo',price:g.amount,gift:g,feat:20+k}));
+ return list;
+}
+function paintGrid(animate){
+ let list=products().filter(p=>S.cat==='todo'||p.cat===S.cat||(p.id==='custom'&&S.cat!=='regalo'));
+ if(S.q){const q=S.q.toLowerCase();list=list.filter(p=>(p.n+' '+p.cat).toLowerCase().includes(q));}
+ const pf={all:()=>true,a:p=>p.price<=600,b:p=>p.price>600&&p.price<=1500,c:p=>p.price>1500}[S.pf];list=list.filter(pf);
+ list.sort({feat:(a,b)=>a.feat-b.feat,lo:(a,b)=>a.price-b.price,hi:(a,b)=>b.price-a.price,az:(a,b)=>a.n.localeCompare(b.n,'es')}[S.sort]);
+ $('cats').innerHTML=CATS.map(([k,n])=>`<button class="fchip" type="button" data-cat="${k}" aria-pressed="${S.cat===k}">${n}</button>`).join('');
+ $('pricef').innerHTML=[['all','Todos los precios'],['a','Hasta $600'],['b','$600 a $1,500'],['c','Más de $1,500']].map(([k,n])=>`<button class="fchip" type="button" data-pf="${k}" aria-pressed="${S.pf===k}">${n}</button>`).join('');
+ if(!list.length){$('grid').innerHTML=`<div class="empty"><h3 style="font-size:20px">No encontramos ese diseño</h3><p class="mut">Pero lo podemos hacer con tu foto.</p><a class="btn red" href="#crea">Crear con mi foto</a></div>`;return;}
+ $('grid').innerHTML=list.map(p=>{
+  let img,meta='',btn;
+  if(p.id==='custom'){img=`<canvas data-thumb="custom" width="10" height="10"></canvas><span class="tag">Personalizado</span>`;meta=`<span class="mut" style="font-size:13px">7 tamaños, de 13 a 77 cm</span>`;btn=`<a class="btn sm" href="#crea">Crear el mío</a>`;}
+  else if(p.gift){img=`<div class="gift" style="background-color:${p.gift.bg}"><small>PIX·L</small><b>${mx(p.gift.amount)}</b><small>Tarjeta de regalo</small></div>`;btn=`<button class="btn sm" type="button" data-add="${p.id}">Añadir</button>`;}
+  else{img=`<canvas data-thumb="${p.id}" width="10" height="10"></canvas>${p.avail?'':'<span class="tag out">Agotado</span>'}`;
+   meta=`<div class="vpills">${['mini','cuadro'].map(v=>`<button class="vpill" type="button" data-var="${p.id}" data-v="${v}" aria-pressed="${p.variant===v}">${v==='mini'?'Mini 13 cm':'Cuadro 26 cm'}</button>`).join('')}</div>`;
+   btn=`<button class="btn sm" type="button" data-add="${p.id}" ${p.avail?'':'disabled'}>${p.avail?'Añadir':'Agotado'}</button>`;}
+  return `<article class="pcard"><div class="pimg">${img}</div><h3>${p.n}</h3><div class="price">${p.from?'Desde ':''}${mx(p.price)}</div>${meta}<div>${btn}</div></article>`;}).join('');
+ document.querySelectorAll('[data-thumb]').forEach(cv=>{if(animate&&thumbIO&&!reduce()){drawGrid(cv,16,16,new Array(256).fill('#6C6E68'),20,null);thumbIO.observe(cv);}else drawThumb(cv,null);});
+}
+const thumbIO='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){thumbIO.unobserve(e.target);drawThumb(e.target,'drop');}}),{threshold:.35}):null;
+function drawThumb(cv,kind){const id=cv.dataset.thumb;
+ if(id==='custom'){if(!S.grid)return;const s=shrink();drawGrid(cv,s.W,s.H,s.cols,Math.max(4,Math.floor(320/s.W)),kind);return;}
+ const d=DESIGNS.find(x=>x.id===id);drawGrid(cv,16,16,designCols(d),20,kind);}
+
+/* ---- carrito ---- */
+function addToCart(item,fromEl){
+ const ex=S.cart.find(c=>c.key===item.key);if(ex)ex.qty++;else S.cart.push({...item,qty:1});saveCart();paintCart();flyToCart(fromEl,item.color||'#C91A09');
+ const b=$('cartCount');b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');
+}
+function cartTotals(){const sub=S.cart.reduce((a,c)=>a+c.price*c.qty,0);const ship=sub===0||sub>=S.o.free?0:+S.o.shipFee;return{sub,ship,total:sub+ship};}
+function paintCart(){
+ const n=S.cart.reduce((a,c)=>a+c.qty,0);$('cartCount').textContent=n;$('cartCount').classList.toggle('hide',!n);$('nFree').textContent=mx(S.o.free);
+ if(!S.cart.length){$('ditems').innerHTML=`<div class="empty"><h3 style="font-size:19px">Tu carrito está vacío</h3><p class="mut">Crea un mosaico con tu foto o elige un diseño listo.</p><a class="btn red" href="#crea" data-close>Crear con mi foto</a></div>`;$('dfoot').innerHTML='';return;}
+ $('ditems').innerHTML=S.cart.map((c,k)=>`<div class="ditem"><div class="thumb">${c.thumb?`<canvas data-cthumb="${k}" width="10" height="10"></canvas>`:`<span class="stud" style="width:34px;height:34px;background:${c.color||'#C91A09'}"></span>`}</div>
+  <div><b>${c.name}</b><small>${c.detail}</small><br><span class="qty"><button type="button" data-dec="${k}" aria-label="Quitar uno">−</button><span>${c.qty}</span><button type="button" data-inc="${k}" aria-label="Agregar uno">+</button></span></div>
+  <div style="font-weight:700">${mx(c.price*c.qty)}</div></div>`).join('');
+ document.querySelectorAll('[data-cthumb]').forEach(cv=>{const c=S.cart[+cv.dataset.cthumb];drawGrid(cv,c.thumb.W,c.thumb.H,c.thumb.cols,Math.max(2,Math.floor(96/c.thumb.W)),null);});
+ const t=cartTotals(),left=Math.max(0,S.o.free-t.sub);
+ $('dfoot').innerHTML=`<div class="dl"><span>Subtotal</span><span>${mx(t.sub)}</span></div><div class="dl"><span>Envío</span><span>${t.ship?mx(t.ship):'Gratis'}</span></div>
+  <div class="freebar" aria-hidden="true"><i style="width:${Math.min(100,t.sub/Math.max(1,S.o.free)*100)}%"></i></div>
+  <div class="mut" style="font-size:13px">${left?`Te faltan ${mx(left)} para el envío gratis`:'Tu pedido tiene envío gratis'}</div>
+  <div class="dl t"><span>Total</span><span>${mx(t.total)}</span></div>
+  <button class="btn red wide" id="checkout" type="button">Pedir por WhatsApp</button><button class="btn ghost wide sm" id="copyCart" type="button">Copiar mi pedido</button>`;
+}
+function cartText(){const t=cartTotals();return `¡Hola PIX·L! Quiero hacer este pedido:\n`+S.cart.map(c=>`• ${c.qty} × ${c.name} (${c.detail})${c.code?` · código ${c.code}`:''} · ${mx(c.price*c.qty)}`).join('\n')+
+ `\nSubtotal: ${mx(t.sub)}\nEnvío: ${t.ship?mx(t.ship):'gratis'}\nTotal: ${mx(t.total)} MXN`+(S.cart.some(c=>c.code)?'\nAhorita les mando mi foto.':'');}
+function openCart(){$('drawer').classList.add('on');$('scrim').classList.add('on');$('drawer').setAttribute('aria-hidden','false');paintCart();setTimeout(()=>$('closeCart').focus(),50);}
+function closeCart(){$('drawer').classList.remove('on');$('scrim').classList.remove('on');$('drawer').setAttribute('aria-hidden','true');}
+function customItem(){const sz=size();return{key:'custom-'+S.code+'-'+S.size+'-'+S.style+'-'+S.finish,name:'Mosaico con tu foto',
+ detail:`${sz.n} ${(sz.W*.8).toFixed(0)}×${(sz.H*.8).toFixed(0)} cm · ${STYLES.find(s=>s.k===S.style).n} · piezas ${FINISH[S.finish].n}`,price:retail(sz),code:S.code,thumb:shrink(),color:'#C91A09'};}
+
+/* ---- panel dueña ---- */
+function suggest(g){const L=PAL[IDX[g]].lab,n=need(IDX[g]);return PAL.filter(p=>p.g!==g&&S.stock[p.g]-(S.counts[IDX[p.g]]?need(IDX[p.g]):0)>=n).map(p=>({p,d:dE(L,p.lab)})).sort((a,b)=>a.d-b.d).slice(0,4);}
+function pickText(){const o=S.o,b=bases(size());return `Pedido ${S.code}\n`+S.order.map(i=>`${PAL[i].n} (#${PAL[i].g}): ${need(i)} piezas${o.grams>0?` ≈ ${(need(i)*o.grams/100).toFixed(1)} g`:''}`).join('\n')+`\n${b.n} × ${b.name}`;}
+const OF=[['oBag','bag'],['oBase32','base32'],['oBase16','base16'],['oTax','tax'],['oFx','fx'],['oPack','pack'],['oMargin','margin'],['oSpare','spare'],['oShipFee','shipFee'],['oFree','free'],['oGrams','grams'],['oWa','wa']];
 function paintOwner(){
- const o=S.o;
- for(const [id,k] of [['oBag','bag'],['oBase32','base32'],['oBase16','base16'],['oTax','tax'],['oFx','fx'],['oPack','pack'],['oShip','ship'],['oMargin','margin'],['oSpare','spare'],['oGrams','grams'],['oWa','wa']])
-  if(document.activeElement!==$(id))$(id).value=o[k]||(k==='grams'||k==='wa'?'':o[k]);
- const sz=size(),c=costFor(sz),price=retail(c.total);
- $('oTable').innerHTML=`<tr><td>${c.qty.toLocaleString('es-MX')} piezas (con impuesto)</td><td class="n">${mx(c.pieces)}</td></tr>
-  <tr><td>${c.b.n} × ${c.b.name} (con impuesto)</td><td class="n">${mx(c.base)}</td></tr>
-  <tr><td>Empaque</td><td class="n">${mx(c.pack)}</td></tr><tr><td>Envío</td><td class="n">${mx(c.ship)}</td></tr>
-  <tr class="t"><td>Costo total</td><td class="n">${mx(c.total)}</td></tr><tr class="t"><td>Precio al cliente</td><td class="n">${mx(price)}</td></tr>`;
+ const o=S.o;for(const [id,k] of OF)if(document.activeElement!==$(id))$(id).value=((k==='grams'||k==='wa')&&!o[k])?'':o[k];
+ const sz=size(),c=costFor(sz),price=retail(sz);
+ $('oTable').innerHTML=`<tr><td>${c.qty.toLocaleString('es-MX')} piezas con impuesto</td><td class="n">${mx(c.pieces)}</td></tr><tr><td>${c.b.n} × ${c.b.name} con impuesto</td><td class="n">${mx(c.base)}</td></tr>
+  <tr><td>Empaque</td><td class="n">${mx(c.pack)}</td></tr><tr class="t"><td>Costo</td><td class="n">${mx(c.total)}</td></tr><tr class="t"><td>Precio al cliente (sin envío)</td><td class="n">${mx(price)}</td></tr>`;
  $('oProfit').textContent=mx(price-c.total);
  const sh=shortages();
  $('pending').innerHTML=sh.map(i=>{const p=PAL[i],sg=suggest(p.g);return `<div class="alert"><h3>Te faltan piezas de ${p.n}: necesitas ${need(i)} y tienes ${S.stock[p.g]}</h3><div style="font-size:14px">¿Lo cambio por el más parecido que sí tienes?</div><div class="subopts">${
   sg.map((s,k)=>`<button class="subopt" type="button" data-sub="${p.g}" data-to="${s.p.g}"><i style="background:${s.p.hex}"></i>${k?'Usar':'Sí, usar'} ${s.p.n} <em>${s.d<5?'casi igual':s.d<12?'parecido':'distinto'}</em></button>`).join('')||'<em>No tienes otro color con suficientes piezas.</em>'
- }<button class="subopt" type="button" data-sub="${p.g}" data-to="drop">Recalcular sin este color</button></div></div>`;}).join('');
+  }<button class="subopt" type="button" data-sub="${p.g}" data-to="drop">Recalcular sin este color</button></div></div>`;}).join('');
  $('subs').innerHTML=Object.entries(S.subs).map(([g,t])=>{const a=PAL[IDX[g]];return `<div class="done"><i style="background:${a.hex}"></i><s>${a.n}</s> cambiado por ${t==='drop'?'otros colores':`<i style="background:${PAL[IDX[t]].hex}"></i> ${PAL[IDX[t]].n}`}<button class="subopt" type="button" data-undo="${g}" style="margin-left:auto">Deshacer</button></div>`;}).join('');
  $('inv').innerHTML=[...PAL].sort((a,b)=>(S.counts[IDX[b.g]]||0)-(S.counts[IDX[a.g]]||0)||S.stock[b.g]-S.stock[a.g]).map(p=>{const i=IDX[p.g],n=S.counts[i]?need(i):0;
   return `<label class="iv${n>S.stock[p.g]?' short':''}${S.stock[p.g]?'':' zero'}"><i style="background:${p.hex}"></i><span>${p.n}<small>#${p.g}${n?` · usa ${n}`:''}</small></span><input type="number" min="0" step="100" data-st="${p.g}" value="${S.stock[p.g]}" aria-label="Piezas de ${p.n} en inventario"></label>`;}).join('');
- $('pick').innerHTML=`<tr><th>Color</th><th class="n">Piezas</th>${o.grams>0?'<th class="n">Gramos</th>':''}</tr>`+S.order.map(i=>`<tr class="${need(i)>S.stock[PAL[i].g]?'short':''}"><td>${PAL[i].n} #${PAL[i].g}</td><td class="n">${need(i)}</td>${o.grams>0?`<td class="n">${(need(i)*o.grams/100).toFixed(1)}</td>`:''}</tr>`).join('')+`<tr class="t"><td>${bases().n} × ${bases().name}</td><td class="n"></td>${o.grams>0?'<td></td>':''}</tr>`;
+ $('pick').innerHTML=`<tr><th>Color</th><th class="n">Piezas</th>${o.grams>0?'<th class="n">Gramos</th>':''}</tr>`+S.order.map(i=>`<tr class="${need(i)>S.stock[PAL[i].g]?'short':''}"><td>${PAL[i].n} #${PAL[i].g}</td><td class="n">${need(i)}</td>${o.grams>0?`<td class="n">${(need(i)*o.grams/100).toFixed(1)}</td>`:''}</tr>`).join('')+`<tr class="t"><td>${bases(sz).n} × ${bases(sz).name}</td><td></td>${o.grams>0?'<td></td>':''}</tr>`;
  const low=PAL.filter(p=>S.stock[p.g]>0&&S.stock[p.g]<300);
  $('restock').innerHTML=low.length?low.map(p=>`<tr><td>${p.n} #${p.g}</td><td class="n">quedan ${S.stock[p.g]}</td></tr>`).join(''):'<tr><td>Todo bien por ahora.</td></tr>';
  $('fulfil').disabled=sh.length>0;$('fulfil').textContent=S.confirmFulfil?'¿Seguro? Toca otra vez':'Descontar del inventario';
@@ -660,58 +817,82 @@ async function save(name,data){if(!DL){toast('Las descargas no están disponible
 const blob=c=>new Promise(r=>c.toBlob(r,'image/png'));
 function toast(t){const el=$('toast');el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('on'),2400);}
 async function copy(t,ok){try{await navigator.clipboard.writeText(t);toast(ok);}catch(e){toast('Tu navegador no dejó copiar. Selecciona el texto y cópialo.');}}
-function rain(){if(reduce())return;const r=document.createElement('div');r.className='rain';const cols=['#C91A09','#F2CD37','#0055BF','#4B9F4A','#FE8A18','#E4ADC8','#36AEBF'];
- for(let i=0;i<34;i++){const b=document.createElement('i');b.style.left=(Math.random()*100)+'vw';b.style.background=cols[i%cols.length];b.style.animationDelay=(Math.random()*.5)+'s';
-  b.style.setProperty('--r',(Math.random()*720-360)+'deg');r.appendChild(b);}document.body.appendChild(r);setTimeout(()=>r.remove(),2200);}
+const BC=['#C91A09','#F2CD37','#0055BF','#4B9F4A','#FE8A18','#E4ADC8','#36AEBF'];
+function rain(){if(reduce())return;const r=document.createElement('div');r.className='rain';
+ for(let i=0;i<34;i++){const b=document.createElement('i');b.style.left=(Math.random()*100)+'vw';b.style.background=BC[i%BC.length];b.style.animationDelay=(Math.random()*.5)+'s';b.style.setProperty('--r',(Math.random()*720-360)+'deg');r.appendChild(b);}
+ document.body.appendChild(r);setTimeout(()=>r.remove(),2200);}
+function flyToCart(el,color){if(reduce()||!el)return;const a=el.getBoundingClientRect(),b=$('cartBtn').getBoundingClientRect();const f=document.createElement('div');f.className='fly';f.style.background=color;
+ f.style.left=(a.left+a.width/2)+'px';f.style.top=a.top+'px';document.body.appendChild(f);
+ requestAnimationFrame(()=>{f.style.transform=`translate(${b.left+b.width/2-a.left-a.width/2}px,${b.top+10-a.top}px) rotate(540deg) scale(.6)`;f.style.opacity='.4';});setTimeout(()=>f.remove(),700);}
 function openOwner(){$('duena').classList.remove('hide');paintOwner();$('duena').scrollIntoView({block:'start'});}
+function waLink(text){const wa=(S.o.wa||'').replace(/\D/g,'');return wa?`https://wa.me/${wa}?text=${encodeURIComponent(text)}`:null;}
+function sendOrder(text){rain();const l=waLink(text);if(l){const a=document.createElement('a');a.href=l;a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();}
+ else copy(text,'Pedido copiado. Pégalo en el WhatsApp de PIX·L.');}
 
 /* ============ Eventos ============ */
 function init(){
- // bloquecitos que caen al ver cada sección
- const bc=['#C91A09','#F2CD37','#0055BF','#4B9F4A','#FE8A18','#E4ADC8','#36AEBF','#0A3463'];
- document.querySelectorAll('.stack').forEach(s=>{s.innerHTML=bc.map((c,k)=>`<i style="background:${c};animation-delay:${k*70}ms"></i>`).join('');});
- if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('seen');io.unobserve(e.target);}}),{threshold:.4});
-  document.querySelectorAll('.sechead').forEach(el=>io.observe(el));}else document.querySelectorAll('.sechead').forEach(el=>el.classList.add('seen'));
-
+ const trackOrder=()=>sendOrder('¡Hola PIX·L! Quiero saber cómo va mi pedido. Mi código es: ');
+ const QUICK=[['Con tu foto','#crea','#C91A09'],['Mascotas','mascotas','#FE8A18'],['Mexicano','mexicano','#4B9F4A'],['Amor','amor','#C870A0'],['Paisajes','paisaje','#0055BF'],['Tarjetas de regalo','regalo','#F2CD37'],['Rastrear pedido','track','#36AEBF'],['Dudas','#dudas','#6C6E68']];
+ $('quick').innerHTML=QUICK.map(([n,t,c])=>t.startsWith('#')?`<a class="qchip" href="${t}"><span class="stud" style="background:${c}"></span>${n}</a>`:`<button class="qchip" type="button" data-q="${t}"><span class="stud" style="background:${c}"></span>${n}</button>`).join('');
+ $('quick').onclick=e=>{const b=e.target.closest('[data-q]');if(!b)return;if(b.dataset.q==='track'){trackOrder();return;}S.cat=b.dataset.q;paintGrid(false);$('disenos').scrollIntoView({block:'start'});};
+ document.querySelectorAll('[data-filter]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();S.cat=a.dataset.filter;paintGrid(false);$('disenos').scrollIntoView({block:'start'});}));
+ $('trackBtn').onclick=trackOrder;
+ // héroe: los diseños listos se arman solos, uno tras otro
+ const hcv=$('cvHero');let hk=0;const heroLoop=()=>{const d=DESIGNS[hk%DESIGNS.length];hk++;drawGrid(hcv,16,16,designCols(d),Math.max(8,Math.floor(((hcv.parentElement.clientWidth||400)-24)*(window.devicePixelRatio||1)/16)),'drop');};
+ heroLoop();if(!reduce())setInterval(()=>{if(!document.hidden)heroLoop();},4200);
+ $('searchForm').onsubmit=e=>{e.preventDefault();S.q=$('q').value.trim();S.cat='todo';paintGrid(false);$('disenos').scrollIntoView({block:'start'});};
+ $('q').oninput=e=>{S.q=e.target.value.trim();paintGrid(false);};
+ $('cats').onclick=e=>{const b=e.target.closest('[data-cat]');if(!b)return;S.cat=b.dataset.cat;paintGrid(false);};
+ $('pricef').onclick=e=>{const b=e.target.closest('[data-pf]');if(!b)return;S.pf=b.dataset.pf;paintGrid(false);};
+ $('sort').onchange=e=>{S.sort=e.target.value;paintGrid(false);};
+ $('grid').onclick=e=>{const v=e.target.closest('[data-var]');if(v){S.variant[v.dataset.var]=v.dataset.v;paintGrid(false);return;}
+  const a=e.target.closest('[data-add]');if(!a)return;const id=a.dataset.add;
+  if(id.startsWith('gift')){const g=GIFTS.find(x=>x.id===id);addToCart({key:id,name:g.n,detail:'Te la mandamos por WhatsApp',price:g.amount,color:g.bg},a);}
+  else{const d=DESIGNS.find(x=>x.id===id),vv=S.variant[id]||'mini',cols=designCols(d);
+   addToCart({key:id+'-'+vv,name:d.n,detail:vv==='mini'?'Mini 13 × 13 cm':'Cuadro 26 × 26 cm',price:retail(designSize(vv)),thumb:{W:16,H:16,cols},color:cols[7*16+7]},a);}
+  a.textContent='Agregado ✓';a.classList.add('added');setTimeout(()=>{a.textContent='Añadir';a.classList.remove('added');},1500);};
  $('upBtn').onclick=()=>$('file').click();$('file').onchange=e=>loadFile(e.target.files[0]);
- document.body.addEventListener('dragover',e=>{e.preventDefault();$('dropzone').classList.add('drop-over');});
- document.body.addEventListener('dragleave',e=>{if(!e.relatedTarget)$('dropzone').classList.remove('drop-over');});
- document.body.addEventListener('drop',e=>{e.preventDefault();$('dropzone').classList.remove('drop-over');loadFile(e.dataTransfer.files[0]);});
+ document.body.addEventListener('dragover',e=>e.preventDefault());document.body.addEventListener('drop',e=>{e.preventDefault();loadFile(e.dataTransfer.files[0]);});
  const pk=$('peek');pk.addEventListener('pointerdown',()=>showOriginal(true));['pointerup','pointerleave','pointercancel'].forEach(ev=>pk.addEventListener(ev,()=>showOriginal(false)));
  $('styles').onclick=e=>{const b=e.target.closest('[data-s]');if(!b)return;S.style=b.dataset.s;S.sat=STYLES.find(s=>s.k===S.style).sat;$('sat').value=S.sat;render('pop');};
  $('sizes').onclick=e=>{const b=e.target.closest('[data-z]');if(!b)return;S.size=b.dataset.z;S.sec=0;S.done.clear();render('pop');};
  $('finish').onclick=e=>{const b=e.target.closest('[data-p]');if(!b)return;S.finish=b.dataset.p;render('pop');};
  for(const [id,k] of [['zoom','zoom'],['cropX','cx'],['cropY','cy'],['bri','bri'],['con','con'],['sat','sat']])$(id).oninput=e=>{S[k]=+e.target.value;render();};
  $('dither').onchange=e=>{S.dither=e.target.checked;render('pop');};
- $('waBtn').onclick=e=>{rain();if($('waBtn').hasAttribute('data-nowa')){e.preventDefault();copy(orderText(),'Resumen copiado. Pégalo en el chat de PIX·L.');}};
- $('copyOrder').onclick=()=>copy(orderText(),'Resumen del pedido copiado');
+ $('addCustom').onclick=e=>{addToCart(customItem(),e.currentTarget);toast('Agregado a tu carrito');};
+ $('buyNow').onclick=()=>{const it=customItem();sendOrder(`¡Hola PIX·L! Quiero este mosaico:\n• ${it.name} (${it.detail}) · código ${it.code} · ${mx(it.price)}\nAhorita les mando mi foto.`);};
  $('secGrid').onclick=e=>{const b=e.target.closest('[data-sec]');if(!b)return;S.sec=+b.dataset.sec;paintGuide();};
  $('secPrev').onclick=()=>{const {W,H}=size(),n=W/SEC*H/SEC;S.sec=(S.sec-1+n)%n;paintGuide();};
  $('secNext').onclick=()=>{const {W,H}=size(),n=W/SEC*H/SEC;S.sec=(S.sec+1)%n;paintGuide();};
  $('secDone').onchange=e=>{e.target.checked?S.done.add(S.sec):S.done.delete(S.sec);paintGuide();if(e.target.checked)rain();};
- // dueña
+ $('cartBtn').onclick=openCart;$('closeCart').onclick=closeCart;$('scrim').onclick=closeCart;
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('drawer').classList.contains('on'))closeCart();});
+ $('drawer').addEventListener('click',e=>{
+  if(e.target.closest('[data-close]')){closeCart();return;}
+  const inc=e.target.closest('[data-inc]'),dec=e.target.closest('[data-dec]');
+  if(inc){S.cart[+inc.dataset.inc].qty++;saveCart();paintCart();return;}
+  if(dec){const k=+dec.dataset.dec;S.cart[k].qty--;if(S.cart[k].qty<=0)S.cart.splice(k,1);saveCart();paintCart();return;}
+  if(e.target.id==='checkout')sendOrder(cartText());
+  if(e.target.id==='copyCart')copy(cartText(),'Pedido copiado');});
  $('openOwner').onclick=()=>{location.hash='duena';openOwner();};
  $('closeOwner').onclick=()=>{$('duena').classList.add('hide');history.replaceState(null,'',location.pathname+location.search);};
  window.addEventListener('hashchange',()=>{if(location.hash==='#duena')openOwner();});
  const num=v=>Math.max(0,parseFloat(v)||0);
- for(const [id,k,fn] of [['oBag','bag',num],['oBase32','base32',num],['oBase16','base16',num],['oTax','tax',num],['oFx','fx',num],['oPack','pack',num],['oShip','ship',num],['oMargin','margin',num],['oSpare','spare',num],['oGrams','grams',num],['oWa','wa',v=>v.trim()]])
-  $(id).addEventListener('input',e=>{S.o[k]=fn(e.target.value);persist();paintSizes();paintTicket();paintOwner();});
- let invT;$('inv').addEventListener('input',e=>{const inp=e.target.closest('[data-st]');if(!inp)return;S.stock[inp.dataset.st]=Math.max(0,parseInt(inp.value)||0);persist();
-  clearTimeout(invT);invT=setTimeout(()=>render(),500);});
+ for(const [id,k] of OF)$(id).addEventListener('input',e=>{S.o[k]=k==='wa'?e.target.value.trim():num(e.target.value);persist();paintCreator();paintGrid(false);paintCart();paintOwner();});
+ let invT;$('inv').addEventListener('input',e=>{const inp=e.target.closest('[data-st]');if(!inp)return;S.stock[inp.dataset.st]=Math.max(0,parseInt(inp.value)||0);persist();clearTimeout(invT);invT=setTimeout(()=>{render();paintGrid(false);},500);});
  $('pending').onclick=e=>{const b=e.target.closest('[data-sub]');if(!b)return;S.subs[b.dataset.sub]=b.dataset.to;toast('Listo, mosaico actualizado');render('pop');};
  $('subs').onclick=e=>{const b=e.target.closest('[data-undo]');if(!b)return;delete S.subs[b.dataset.undo];render('pop');};
  $('fulfil').onclick=()=>{if(!S.confirmFulfil){S.confirmFulfil=true;paintOwner();setTimeout(()=>{S.confirmFulfil=false;if(!$('duena').classList.contains('hide'))paintOwner();},4000);return;}
-  S.confirmFulfil=false;for(const i of S.order)S.stock[PAL[i].g]=Math.max(0,S.stock[PAL[i].g]-need(i));persist();toast(`Pedido ${S.code} descontado del inventario`);rain();render();};
+  S.confirmFulfil=false;for(const i of S.order)S.stock[PAL[i].g]=Math.max(0,S.stock[PAL[i].g]-need(i));persist();toast(`Pedido ${S.code} descontado del inventario`);rain();render();paintGrid(false);};
  $('cpPick').onclick=()=>copy(pickText(),'Lista de surtido copiada');
  $('dlPlan').onclick=async()=>save(`${S.code}-plano.png`,await blob(drawPlan(size().W>64?24:32)));
  $('dlSec').onclick=async()=>{const c=document.createElement('canvas');drawSection(c,S.sec,48);save(`${S.code}-seccion-${$('secTitle').textContent.split(' ')[1]}.png`,await blob(c));};
- $('dlPrev').onclick=async()=>{const c=document.createElement('canvas');drawMosaic(c,Math.max(8,Math.floor(1600/size().W)));save(`${S.code}-vista-previa.png`,await blob(c));};
- let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(S.grid){animateHero();paintGuide();}},150);});
+ $('dlPrev').onclick=async()=>{const c=document.createElement('canvas');const {W,H}=size();drawGrid(c,W,H,gridCols(),Math.max(8,Math.floor(1600/W)),null,S.finish);save(`${S.code}-vista-previa.png`,await blob(c));};
+ let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(S.grid){const {W,H}=size(),cv=$('cvMain');drawGrid(cv,W,H,gridCols(),csFor(cv,W),null,S.finish);paintGuide();}},150);});
  if(location.hash==='#duena')setTimeout(openOwner,60);
- demo();
+ paintGrid(true);paintCart();demo();
  const dl=['dlPlan','dlSec','dlPrev'];
- if(window.claude&&typeof window.claude.use==='function'){dl.forEach(id=>$(id).classList.add('hide'));
-  window.claude.use('downloads').then(d=>{if(d){DL=d;dl.forEach(id=>$(id).classList.remove('hide'));}}).catch(()=>{});}
+ if(window.claude&&typeof window.claude.use==='function'){dl.forEach(id=>$(id).classList.add('hide'));window.claude.use('downloads').then(d=>{if(d){DL=d;dl.forEach(id=>$(id).classList.remove('hide'));}}).catch(()=>{});}
  else DL={save:async({filename,data})=>{const b=data instanceof Blob?data:new Blob([data]);const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);}};
 }
 init();

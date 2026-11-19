@@ -2,14 +2,15 @@
 
 Tienda web de mosaicos de bloques hechos con la foto del cliente. Modelo con inventario propio: compras piezas por mayoreo, las tienes en casa y envías cada pedido desde México.
 
-Abre `index.html` en el navegador. No necesita servidor ni dependencias.
+Abre `index.html` en el navegador. No necesita servidor ni dependencias. Los textos entre corchetes, como [Tu dirección], son para que pongas tus datos.
 
 ## Lo que ve el cliente
 
-- Sube su foto y ve cómo las piezas caen y encajan sobre la base hasta formar su mosaico (la foto se procesa en su dispositivo).
-- Elige estilo (a todo color, pop, pastel, vintage, blanco y negro), tamaño (de 13 a 77 cm) y tipo de pieza.
-- Ve el precio en MXN con envío incluido y pide por WhatsApp con un código de diseño.
-- Ve cómo son sus instrucciones: secciones de 16 × 16 con el número de color en cada cuadrito.
+- Tienda con barra de avisos, buscador, carrito, accesos rápidos, colección con filtros de categoría y precio, dudas frecuentes y pie de página.
+- **Diseños listos:** 7 mosaicos originales de 16 × 16 (corazón, nopal, atardecer, calaverita, taquito, gatito, arcoíris) en mini o cuadro, y tarjetas de regalo. Si no te alcanza un color del inventario, salen como agotados.
+- **Crea el tuyo:** sube su foto y ve cómo las piezas caen y encajan; elige estilo, tamaño (13 a 77 cm) y tipo de pieza.
+- **Carrito:** suma productos, calcula envío (gratis desde un monto que tú decides) y manda todo el pedido por WhatsApp.
+- **Instrucciones:** secciones de 16 × 16 con el número de color en cada cuadrito.
 
 ## Panel de la dueña
 
