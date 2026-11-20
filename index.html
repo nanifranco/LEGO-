@@ -93,6 +93,15 @@ body.arrastrando .drop-zona{opacity:1}
 .placa .studs i{border-radius:50%;background:#6a6a6a}
 .placa[aria-pressed="true"]{background:var(--y);color:var(--ink);box-shadow:2px 2px 0 var(--ink)}
 .placa-nota{font-size:13px;color:var(--muted);margin:8px 0 0}
+.tallas{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.tallas .tam{padding:9px 2px}
+.tallas .tam b{font-size:20px}
+.tallas .tam span{display:block;font-size:11px;color:var(--muted)}
+.tallas .tam[aria-pressed="true"] span{color:var(--ink)}
+.incluye{margin:10px 0 0;padding:0;list-style:none;font-size:13px;display:grid;gap:3px}
+.incluye li::before{content:"✓ ";font-weight:800;color:var(--g)}
+.real-op{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600}
+.pagina canvas.real{width:auto;margin:10px auto}
 .tamanos{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
 .tam{cursor:pointer;border:2px solid var(--ink);border-radius:10px;background:var(--card);padding:8px 4px;text-align:center;font-size:12px;line-height:1.2}
 .tam b{display:block;font-size:15px}
@@ -201,10 +210,12 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 16px 40p
 @media (max-width:480px){.tamanos{grid-template-columns:repeat(4,1fr)} .campos{grid-template-columns:1fr}}
 
 @media print{
-  @page{size:letter;margin:10mm}
+  @page{size:letter;margin:8mm}
   body{background:#fff}
   body>*:not(#instrucciones){display:none!important}
-  .instrucciones{position:static;overflow:visible}
+  .instrucciones{position:static;overflow:visible;background:#fff}
+  .pagina canvas:not(.real){max-height:150mm;width:auto;max-width:100%;margin:6mm auto}
+  .pagina.solo-real h3{font-size:14px}
   .instr-barra{display:none}
   .pagina{border:0;margin:0;padding:0;max-width:none;break-after:page}
   .pagina:last-child{break-after:auto}
@@ -238,7 +249,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 16px 40p
     <div class="datos">
       <div><b id="dato-colores">—</b>colores en inventario</div>
       <div><b>4</b>tamaños de base</div>
-      <div><b>16 a 192</b>piezas por lado</div>
+      <div><b>XS a XL</b>y tamaños a la medida</div>
     </div>
   </div>
   <div aria-hidden="true"><div class="caida" id="caida"></div></div>
@@ -268,8 +279,14 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 16px 40p
         <span class="etq">Tipo de base (building plate)</span>
         <div class="placas" id="placas"></div>
         <p class="placa-nota" id="placa-nota"></p>
-        <span class="etq">Tamaño del mosaico</span>
-        <div class="tamanos" id="tamanos"></div>
+        <span class="etq">Orientación</span>
+        <div class="seg" id="orient">
+          <button type="button" data-v="cuadrado" aria-pressed="true">◻ Cuadrado</button>
+          <button type="button" data-v="vertical" aria-pressed="false">▯ Vertical</button>
+          <button type="button" data-v="horizontal" aria-pressed="false">▭ Horizontal</button>
+        </div>
+        <span class="etq">Tamaño</span>
+        <div class="tallas" id="tamanos"></div>
         <div class="personal">Personalizado:
           <input type="number" id="pw" min="1" value="2" aria-label="Bases a lo ancho"> ×
           <input type="number" id="ph" min="1" value="2" aria-label="Bases a lo alto"> bases
@@ -373,7 +390,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 16px 40p
 <div id="toast" role="status" aria-live="polite"></div>
 <footer>PIX·L · Mosaicos de bloques hechos en México · Piezas compatibles con las marcas principales de bloques de construcción.</footer>
 
-<script type="application/json" id="catalogo-embebido">{"actualizado":"2026-11-19","tienda":{"nombre":"PIX·L","whatsapp":"","moneda":"MXN","precioPieza":0.35,"envio":149,"envioGratisDesde":1500,"extraPct":0.03,"extraMin":2},"proveedor":{"nombre":"AliExpress · lotes MOC 1×1 compatibles","nota":"Lotes de piezas 1×1 por color (round tile 98138 o plate 3024) de vendedores MOC con envío a México. Ajusta costoLote con el precio real que pagues.","loteTamano":100,"costoLote":25,"busqueda":{"redondo":"https://www.aliexpress.com/w/wholesale-1x1-round-tile-98138-{color}.html","cuadrado":"https://www.aliexpress.com/w/wholesale-1x1-plate-3024-{color}.html"}},"piezas":{"redondo":{"nombre":"Redondo 1×1","ref":"98138"},"cuadrado":{"nombre":"Cuadrado 1×1","ref":"3024"}},"placas":{"nota":"Bases (building plates) en las que se arma el mosaico. stock = piezas en inventario por tamaño.","tamanos":[{"id":"16","studs":16,"nombre":"16×16","nota":"Se unen entre sí con pines","precio":22},{"id":"24","studs":24,"nombre":"24×24","nota":"El tamaño más usado en mosaicos","precio":45},{"id":"32","studs":32,"nombre":"32×32","nota":"Base clásica","precio":79},{"id":"48","studs":48,"nombre":"48×48","nota":"Menos uniones, más rígida","precio":149}],"porDefecto":"24","colores":[{"id":"negra","nombre":"Negra","hex":"#1E1E1E","stock":{"16":300,"24":150,"32":40,"48":15}},{"id":"gris","nombre":"Gris claro","hex":"#A0A5A9","stock":{"16":200,"24":100,"32":25,"48":10}},{"id":"blanca","nombre":"Blanca","hex":"#F2F2F2","stock":{"16":150,"24":60,"32":12,"48":0}}]},"colores":[{"id":"blanco","nombre":"Blanco","en":"white","hex":"#F4F4F4","stock":{"redondo":8000,"cuadrado":6000}},{"id":"gris-claro","nombre":"Gris claro","en":"light bluish gray","hex":"#A0A5A9","stock":{"redondo":6000,"cuadrado":5000}},{"id":"gris-oscuro","nombre":"Gris oscuro","en":"dark bluish gray","hex":"#6C6E68","stock":{"redondo":6000,"cuadrado":5000}},{"id":"negro","nombre":"Negro","en":"black","hex":"#1B2A34","stock":{"redondo":9000,"cuadrado":7000}},{"id":"rojo","nombre":"Rojo","en":"red","hex":"#C91A09","stock":{"redondo":4000,"cuadrado":3000}},{"id":"rojo-oscuro","nombre":"Rojo oscuro","en":"dark red","hex":"#720E0F","stock":{"redondo":2500,"cuadrado":2000}},{"id":"naranja","nombre":"Naranja","en":"orange","hex":"#FE8A18","stock":{"redondo":3000,"cuadrado":2500}},{"id":"naranja-claro","nombre":"Naranja claro","en":"bright light orange","hex":"#F8BB3D","stock":{"redondo":2500,"cuadrado":2000}},{"id":"amarillo","nombre":"Amarillo","en":"yellow","hex":"#F2CD37","stock":{"redondo":4000,"cuadrado":3000}},{"id":"amarillo-claro","nombre":"Amarillo claro","en":"bright light yellow","hex":"#FFF03A","stock":{"redondo":2000,"cuadrado":1500}},{"id":"beige","nombre":"Beige","en":"tan","hex":"#E4CD9E","stock":{"redondo":4000,"cuadrado":3000}},{"id":"beige-oscuro","nombre":"Beige oscuro","en":"dark tan","hex":"#958A73","stock":{"redondo":2500,"cuadrado":2000}},{"id":"piel-clara","nombre":"Piel clara","en":"light nougat","hex":"#F6D7B3","stock":{"redondo":3500,"cuadrado":2500}},{"id":"piel","nombre":"Piel","en":"nougat","hex":"#D09168","stock":{"redondo":3500,"cuadrado":2500}},{"id":"piel-media","nombre":"Piel media","en":"medium nougat","hex":"#AA7D55","stock":{"redondo":3000,"cuadrado":2500}},{"id":"cafe","nombre":"Café","en":"reddish brown","hex":"#582A12","stock":{"redondo":3500,"cuadrado":3000}},{"id":"cafe-oscuro","nombre":"Café oscuro","en":"dark brown","hex":"#352100","stock":{"redondo":2500,"cuadrado":2000}},{"id":"lima","nombre":"Lima","en":"lime","hex":"#BBE90B","stock":{"redondo":2000,"cuadrado":1500}},{"id":"verde-brillante","nombre":"Verde brillante","en":"bright green","hex":"#4B9F4A","stock":{"redondo":2500,"cuadrado":2000}},{"id":"verde","nombre":"Verde","en":"green","hex":"#237841","stock":{"redondo":3000,"cuadrado":2500}},{"id":"verde-oscuro","nombre":"Verde oscuro","en":"dark green","hex":"#184632","stock":{"redondo":2500,"cuadrado":2000}},{"id":"verde-olivo","nombre":"Verde olivo","en":"olive green","hex":"#9B9A5A","stock":{"redondo":0,"cuadrado":800}},{"id":"verde-arena","nombre":"Verde arena","en":"sand green","hex":"#A0BCAC","stock":{"redondo":1500,"cuadrado":1200}},{"id":"aqua-claro","nombre":"Aqua claro","en":"light aqua","hex":"#ADC3C0","stock":{"redondo":1200,"cuadrado":1000}},{"id":"turquesa","nombre":"Turquesa","en":"medium azure","hex":"#36AEBF","stock":{"redondo":2500,"cuadrado":2000}},{"id":"turquesa-oscuro","nombre":"Turquesa oscuro","en":"dark turquoise","hex":"#008F9B","stock":{"redondo":2000,"cuadrado":1500}},{"id":"azul-cielo","nombre":"Azul cielo","en":"bright light blue","hex":"#9FC3E9","stock":{"redondo":2500,"cuadrado":2000}},{"id":"azul-medio","nombre":"Azul medio","en":"medium blue","hex":"#5A93DB","stock":{"redondo":3000,"cuadrado":2500}},{"id":"azul","nombre":"Azul","en":"blue","hex":"#0055BF","stock":{"redondo":4000,"cuadrado":3000}},{"id":"azul-arena","nombre":"Azul arena","en":"sand blue","hex":"#6074A1","stock":{"redondo":1500,"cuadrado":1200}},{"id":"azul-marino","nombre":"Azul marino","en":"dark blue","hex":"#0A3463","stock":{"redondo":3000,"cuadrado":2500}},{"id":"lavanda","nombre":"Lavanda","en":"lavender","hex":"#E1D5ED","stock":{"redondo":150,"cuadrado":600}},{"id":"lila","nombre":"Lila","en":"medium lavender","hex":"#AC78BA","stock":{"redondo":1500,"cuadrado":1200}},{"id":"morado","nombre":"Morado","en":"dark purple","hex":"#3F3691","stock":{"redondo":5000,"cuadrado":4000}},{"id":"magenta","nombre":"Magenta","en":"magenta","hex":"#923978","stock":{"redondo":1500,"cuadrado":1200}},{"id":"rosa-oscuro","nombre":"Rosa oscuro","en":"dark pink","hex":"#C870A0","stock":{"redondo":2000,"cuadrado":1500}},{"id":"rosa-claro","nombre":"Rosa claro","en":"bright pink","hex":"#E4ADC8","stock":{"redondo":2000,"cuadrado":1500}},{"id":"coral","nombre":"Coral","en":"coral","hex":"#FF698F","stock":{"redondo":0,"cuadrado":0}}]}</script>
+<script type="application/json" id="catalogo-embebido">{"actualizado":"2026-11-19","tienda":{"nombre":"PIX·L","whatsapp":"","moneda":"MXN","precioPieza":0.35,"envio":149,"envioGratisDesde":1500,"extraPct":0.03,"extraMin":2,"descuentos":[{"bases":9,"pct":5},{"bases":16,"pct":10},{"bases":25,"pct":15}],"recargoColores":{"limite":25,"pct":2},"minutosPorPieza":0.078,"incluye":["Piezas 1×1 de cada color + repuestos","Bases del tamaño y color que elijas","Separador de piezas","Instrucciones impresas a color, base por base"]},"proveedor":{"nombre":"AliExpress · lotes MOC 1×1 compatibles","nota":"Lotes de piezas 1×1 por color (round tile 98138 o plate 3024) de vendedores MOC con envío a México. Ajusta costoLote con el precio real que pagues.","loteTamano":100,"costoLote":25,"busqueda":{"redondo":"https://www.aliexpress.com/w/wholesale-1x1-round-tile-98138-{color}.html","cuadrado":"https://www.aliexpress.com/w/wholesale-1x1-plate-3024-{color}.html"}},"piezas":{"redondo":{"nombre":"Redondo 1×1","ref":"98138"},"cuadrado":{"nombre":"Cuadrado 1×1","ref":"3024"}},"placas":{"nota":"Bases (building plates) en las que se arma el mosaico. stock = piezas en inventario por tamaño.","tamanos":[{"id":"16","studs":16,"nombre":"16×16","nota":"Se unen entre sí con pines","precio":22},{"id":"24","studs":24,"nombre":"24×24","nota":"El tamaño más usado en mosaicos","precio":45},{"id":"32","studs":32,"nombre":"32×32","nota":"Base clásica","precio":79},{"id":"48","studs":48,"nombre":"48×48","nota":"Menos uniones, más rígida","precio":149}],"porDefecto":"24","colores":[{"id":"transparente","nombre":"Transparente","hex":"#DCE4E8","transparente":true,"stock":{"16":200,"24":150,"32":0,"48":0}},{"id":"negra","nombre":"Negra","hex":"#1E1E1E","stock":{"16":300,"24":150,"32":40,"48":15}},{"id":"gris","nombre":"Gris claro","hex":"#A0A5A9","stock":{"16":200,"24":100,"32":25,"48":10}},{"id":"blanca","nombre":"Blanca","hex":"#F2F2F2","stock":{"16":150,"24":60,"32":12,"48":0}}],"tallas":{"nota":"Bases por lado usando la base de 24×24 como referencia; con otras bases se ajusta al mismo tamaño en cm.","XS":[2,3],"S":[3,4],"M":[4,5],"L":[5,7],"XL":[6,8]},"maxPorLado":20},"colores":[{"id":"blanco","nombre":"Blanco","en":"white","hex":"#F4F4F4","stock":{"redondo":8000,"cuadrado":6000}},{"id":"gris-claro","nombre":"Gris claro","en":"light bluish gray","hex":"#A0A5A9","stock":{"redondo":6000,"cuadrado":5000}},{"id":"gris-oscuro","nombre":"Gris oscuro","en":"dark bluish gray","hex":"#6C6E68","stock":{"redondo":6000,"cuadrado":5000}},{"id":"negro","nombre":"Negro","en":"black","hex":"#1B2A34","stock":{"redondo":9000,"cuadrado":7000}},{"id":"rojo","nombre":"Rojo","en":"red","hex":"#C91A09","stock":{"redondo":4000,"cuadrado":3000}},{"id":"rojo-oscuro","nombre":"Rojo oscuro","en":"dark red","hex":"#720E0F","stock":{"redondo":2500,"cuadrado":2000}},{"id":"naranja","nombre":"Naranja","en":"orange","hex":"#FE8A18","stock":{"redondo":3000,"cuadrado":2500}},{"id":"naranja-claro","nombre":"Naranja claro","en":"bright light orange","hex":"#F8BB3D","stock":{"redondo":2500,"cuadrado":2000}},{"id":"amarillo","nombre":"Amarillo","en":"yellow","hex":"#F2CD37","stock":{"redondo":4000,"cuadrado":3000}},{"id":"amarillo-claro","nombre":"Amarillo claro","en":"bright light yellow","hex":"#FFF03A","stock":{"redondo":2000,"cuadrado":1500}},{"id":"beige","nombre":"Beige","en":"tan","hex":"#E4CD9E","stock":{"redondo":4000,"cuadrado":3000}},{"id":"beige-oscuro","nombre":"Beige oscuro","en":"dark tan","hex":"#958A73","stock":{"redondo":2500,"cuadrado":2000}},{"id":"piel-clara","nombre":"Piel clara","en":"light nougat","hex":"#F6D7B3","stock":{"redondo":3500,"cuadrado":2500}},{"id":"piel","nombre":"Piel","en":"nougat","hex":"#D09168","stock":{"redondo":3500,"cuadrado":2500}},{"id":"piel-media","nombre":"Piel media","en":"medium nougat","hex":"#AA7D55","stock":{"redondo":3000,"cuadrado":2500}},{"id":"cafe","nombre":"Café","en":"reddish brown","hex":"#582A12","stock":{"redondo":3500,"cuadrado":3000}},{"id":"cafe-oscuro","nombre":"Café oscuro","en":"dark brown","hex":"#352100","stock":{"redondo":2500,"cuadrado":2000}},{"id":"lima","nombre":"Lima","en":"lime","hex":"#BBE90B","stock":{"redondo":2000,"cuadrado":1500}},{"id":"verde-brillante","nombre":"Verde brillante","en":"bright green","hex":"#4B9F4A","stock":{"redondo":2500,"cuadrado":2000}},{"id":"verde","nombre":"Verde","en":"green","hex":"#237841","stock":{"redondo":3000,"cuadrado":2500}},{"id":"verde-oscuro","nombre":"Verde oscuro","en":"dark green","hex":"#184632","stock":{"redondo":2500,"cuadrado":2000}},{"id":"verde-olivo","nombre":"Verde olivo","en":"olive green","hex":"#9B9A5A","stock":{"redondo":0,"cuadrado":800}},{"id":"verde-arena","nombre":"Verde arena","en":"sand green","hex":"#A0BCAC","stock":{"redondo":1500,"cuadrado":1200}},{"id":"aqua-claro","nombre":"Aqua claro","en":"light aqua","hex":"#ADC3C0","stock":{"redondo":1200,"cuadrado":1000}},{"id":"turquesa","nombre":"Turquesa","en":"medium azure","hex":"#36AEBF","stock":{"redondo":2500,"cuadrado":2000}},{"id":"turquesa-oscuro","nombre":"Turquesa oscuro","en":"dark turquoise","hex":"#008F9B","stock":{"redondo":2000,"cuadrado":1500}},{"id":"azul-cielo","nombre":"Azul cielo","en":"bright light blue","hex":"#9FC3E9","stock":{"redondo":2500,"cuadrado":2000}},{"id":"azul-medio","nombre":"Azul medio","en":"medium blue","hex":"#5A93DB","stock":{"redondo":3000,"cuadrado":2500}},{"id":"azul","nombre":"Azul","en":"blue","hex":"#0055BF","stock":{"redondo":4000,"cuadrado":3000}},{"id":"azul-arena","nombre":"Azul arena","en":"sand blue","hex":"#6074A1","stock":{"redondo":1500,"cuadrado":1200}},{"id":"azul-marino","nombre":"Azul marino","en":"dark blue","hex":"#0A3463","stock":{"redondo":3000,"cuadrado":2500}},{"id":"lavanda","nombre":"Lavanda","en":"lavender","hex":"#E1D5ED","stock":{"redondo":150,"cuadrado":600}},{"id":"lila","nombre":"Lila","en":"medium lavender","hex":"#AC78BA","stock":{"redondo":1500,"cuadrado":1200}},{"id":"morado","nombre":"Morado","en":"dark purple","hex":"#3F3691","stock":{"redondo":5000,"cuadrado":4000}},{"id":"magenta","nombre":"Magenta","en":"magenta","hex":"#923978","stock":{"redondo":1500,"cuadrado":1200}},{"id":"rosa-oscuro","nombre":"Rosa oscuro","en":"dark pink","hex":"#C870A0","stock":{"redondo":2000,"cuadrado":1500}},{"id":"rosa-claro","nombre":"Rosa claro","en":"bright pink","hex":"#E4ADC8","stock":{"redondo":2000,"cuadrado":1500}},{"id":"coral","nombre":"Coral","en":"coral","hex":"#FF698F","stock":{"redondo":0,"cuadrado":0}}]}</script>
 <script>
 (() => {
 'use strict';
@@ -383,10 +400,11 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 16px 40p
    cada 60 s y al regresar a la pestaña). Modo tienda: ?admin
    ============================================================ */
 const $ = (s, el = document) => el.querySelector(s);
-const CM = 0.8, MAX_STUDS = 192;
+const CM = 0.8;
 const placaActual = () => S.cat.placas.tamanos.find(t => t.id === S.placa) || S.cat.placas.tamanos[0];
 const PL = () => placaActual().studs;
-const maxBases = () => Math.max(1, Math.floor(MAX_STUDS / PL()));
+const maxBases = () => S.cat.placas.maxPorLado || 20;
+const TALLAS = ['XS', 'S', 'M', 'L', 'XL'];
 const ADMIN = new URLSearchParams(location.search).has('admin');
 const LS_STOCK = 'pixl_stock_v1', LS_PEDIDOS = 'pixl_pedidos_v1';
 const fmt = n => n.toLocaleString('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
@@ -400,7 +418,7 @@ const S = {
   zoom: 1, ox: .5, oy: .5, brillo: 0, contraste: 0, saturacion: 0, dither: false,
   excluidos: new Set(), subs: {}, opcion: {},
   grid: null, W: 0, H: 0, cuenta: null, problemas: [],
-  original: false, lineas: true, base: null, placa: null, conBases: true,
+  original: false, lineas: true, base: null, placa: null, conBases: true, orient: 'cuadrado', talla: 'XS', real: true,
   firmaStock: '', pedido: null
 };
 
@@ -686,15 +704,10 @@ function pintarMedidas() {
 }
 
 /* ---------------- UI: tamaños ---------------- */
-function presets() {
-  const s = PL(), mx = maxBases(), vistos = new Set(), out = [];
-  const add = (wcm, hcm) => {
-    const w = clamp(Math.round(wcm / (s * CM)), 1, mx), hh = clamp(Math.round(hcm / (s * CM)), 1, mx), k = w + 'x' + hh;
-    if (!vistos.has(k)) { vistos.add(k); out.push([w, hh]); }
-  };
-  for (const cm of [20, 38, 50, 75, 100]) add(cm, cm);
-  for (const [a, b] of [[38, 50], [50, 75], [75, 100]]) { add(a, b); add(b, a); }
-  return out.sort((a, b) => a[0] * a[1] - b[0] * b[1] || a[0] - b[0]).slice(0, 8);
+function dimTalla(t, orient) {
+  const ref = S.cat.placas.tallas[t], k = 24 / PL(), mx = maxBases();
+  const a = clamp(Math.round(ref[0] * k), 1, mx), b = clamp(Math.round(ref[1] * k), 1, mx);
+  return orient === 'vertical' ? [a, b] : orient === 'horizontal' ? [b, a] : [a, a];
 }
 function pintarPlacas() {
   const t = placaActual();
@@ -707,13 +720,14 @@ function pintarPlacas() {
 function pintarTamanos() {
   if (!S.cat) return;
   const s = PL();
-  $('#tamanos').innerHTML = presets().map(([w, h]) => {
-    const on = w === S.pw && h === S.ph, k = 30 / Math.max(w, h);
-    return `<button type="button" class="tam" data-w="${w}" data-h="${h}" aria-pressed="${on}"><div class="forma" style="width:${w * k}px;height:${h * k}px;background-image:linear-gradient(90deg,#0003 1px,transparent 1px),linear-gradient(#0003 1px,transparent 1px);background-size:${k}px ${k}px"></div><b>${Math.round(w * s * CM)}×${Math.round(h * s * CM)}</b>cm · ${w}×${h} ${w * h === 1 ? 'base' : 'bases'}</button>`;
+  $('#tamanos').innerHTML = TALLAS.map(t => {
+    const [w, hh] = dimTalla(t, S.orient), on = w === S.pw && hh === S.ph;
+    return `<button type="button" class="tam" data-talla="${t}" aria-pressed="${on}" title="${w}×${hh} bases · ${fmtN(w * hh * s * s)} piezas"><b>${t}</b>${Math.round(w * s * CM)}×${Math.round(hh * s * CM)}<span>cm · ${w * hh} ${w * hh === 1 ? 'base' : 'bases'}</span></button>`;
   }).join('');
   const mx = maxBases();
   for (const id of ['pw', 'ph']) $('#' + id).max = mx;
   $('#pw').value = S.pw; $('#ph').value = S.ph;
+  document.querySelectorAll('#orient button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === S.orient));
 }
 function setTamano(w, h) {
   const mx = maxBases();
@@ -721,11 +735,12 @@ function setTamano(w, h) {
   pintarTamanos(); pintarBases(); $('#n-bases').textContent = S.pw * S.ph; procesar(true);
 }
 function setPlaca(id) {
-  const antes = PL(), w = S.pw * antes, hh = S.ph * antes;
+  const tallaAntes = TALLAS.find(t => { const [w, hh] = dimTalla(t, S.orient); return w === S.pw && hh === S.ph; });
+  const w = S.pw * PL(), hh = S.ph * PL();
   S.placa = id; const s = PL();
-  // conserva el tamaño físico lo más parecido posible
-  S.pw = clamp(Math.round(w / s), 1, maxBases()); S.ph = clamp(Math.round(hh / s), 1, maxBases());
-  const b = baseActual(); if (b.stock <= 0) { const otra = S.cat.placas.colores.find(c => (c.stock?.[id] ?? 0) > 0); if (otra) S.base = otra.id; }
+  if (tallaAntes) [S.pw, S.ph] = dimTalla(tallaAntes, S.orient);
+  else { S.pw = clamp(Math.round(w / s), 1, maxBases()); S.ph = clamp(Math.round(hh / s), 1, maxBases()); }
+  if (baseActual().stock <= 0) { const otra = S.cat.placas.colores.find(c => (c.stock?.[id] ?? 0) > 0); if (otra) S.base = otra.id; }
   sprites.clear(); pintarPlacas(); setTamano(S.pw, S.ph);
 }
 
@@ -789,8 +804,12 @@ function calcular() {
   const piezas = u.reduce((a, k) => a + necesarias(S.cuenta[k]), 0);
   const nb = S.pw * S.ph, b = baseActual();
   const sPiezas = Math.round(piezas * t.precioPieza), sBases = S.conBases ? nb * b.precio : 0;
-  const sub = sPiezas + sBases, envio = sub >= (t.envioGratisDesde ?? Infinity) ? 0 : t.envio;
-  return { piezas, colores: u.length, nb, sPiezas, sBases, envio, total: sub + envio, base: b };
+  const tramo = (t.descuentos || []).filter(d => nb >= d.bases).pop();
+  const desc = tramo ? Math.round((sPiezas + sBases) * tramo.pct / 100) : 0;
+  const rc = t.recargoColores, recargo = rc && u.length > rc.limite ? Math.round((sPiezas + sBases) * rc.pct / 100) : 0;
+  const sub = sPiezas + sBases - desc + recargo, envio = sub >= (t.envioGratisDesde ?? Infinity) ? 0 : t.envio;
+  const minutos = Math.round(S.W * S.H * (t.minutosPorPieza ?? .078));
+  return { piezas, colores: u.length, nb, sPiezas, sBases, desc, tramo, recargo, envio, total: sub + envio, base: b, minutos };
 }
 function pintarPedido() {
   const c = calcular(), { u, num } = usados();
@@ -799,8 +818,12 @@ function pintarPedido() {
   $('#totales').innerHTML = `
     <div class="renglon"><span>Piezas <small>(${fmtN(c.piezas)})</small></span><span>${fmt(c.sPiezas)}</span></div>
     <div class="renglon"><span>Bases <small>(${S.conBases ? c.nb + ' × ' + c.base.tamano + ' · ' + fmt(c.base.precio) : 'no incluidas'})</small></span><span>${fmt(c.sBases)}</span></div>
+    ${c.desc ? `<div class="renglon"><span>Descuento por tamaño <small>(${c.tramo.pct}% desde ${c.tramo.bases} bases)</small></span><span>−${fmt(c.desc)}</span></div>` : ''}
+    ${c.recargo ? `<div class="renglon"><span>Más de ${S.cat.tienda.recargoColores.limite} colores <small>(+${S.cat.tienda.recargoColores.pct}%)</small></span><span>${fmt(c.recargo)}</span></div>` : ''}
     <div class="renglon"><span>Envío a todo México</span><span>${c.envio ? fmt(c.envio) : 'Gratis'}</span></div>
-    <div class="renglon total"><span>Total</span><span>${fmt(c.total)}</span></div>`;
+    <div class="renglon total"><span>Total</span><span>${fmt(c.total)}</span></div>
+    <p class="mini">Tiempo de armado aprox.: ${c.minutos < 90 ? c.minutos + ' min' : (c.minutos / 60).toFixed(1).replace('.0', '') + ' h'}</p>
+    <ul class="incluye">${(S.cat.tienda.incluye || []).map(x => `<li>${x}</li>`).join('')}</ul>`;
   const pend = S.problemas.length, baseSin = S.conBases && c.base.stock < c.nb;
   const msg = pend ? `Hay ${pend} ${pend === 1 ? 'color' : 'colores'} sin piezas suficientes. Acepta una sustitución arriba para continuar.` : baseSin ? `Solo hay ${c.base.stock} bases ${c.base.tamano} ${c.base.nombre.toLowerCase()}. Elige otro color o tamaño de base.` : '';
   $('#bloquea').hidden = !msg; $('#bloquea').textContent = msg;
@@ -868,12 +891,13 @@ function descargar(nombre, contenido, tipo) {
 
 /* ---------------- instrucciones ---------------- */
 function textoSobre(rgb) { return lum(rgb) > 150 ? '#1E1B18' : '#FFFFFF'; }
-function canvasPlaca(px, py, num) {
-  const N = PL(), cs = Math.min(34, Math.max(17, Math.round(832 / N))), m = 24, c = document.createElement('canvas');
+function canvasPlaca(px, py, num, real) {
+  const N = PL(), cs = Math.min(34, Math.max(17, Math.round(832 / N))), m = real ? 0 : 24, c = document.createElement('canvas');
   c.width = c.height = m + N * cs + 4; const x = c.getContext('2d');
   x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
   x.font = '600 10px system-ui,sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillStyle = '#6B645C';
-  for (let i = 0; i < N; i++) { x.fillText(i + 1, m + i * cs + cs / 2, m / 2); x.fillText(i + 1, m / 2, m + i * cs + cs / 2); }
+  if (!real) for (let i = 0; i < N; i++) { x.fillText(i + 1, m + i * cs + cs / 2, m / 2); x.fillText(i + 1, m / 2, m + i * cs + cs / 2); }
+  if (real) { c.width = c.height = N * cs; x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); c.className = 'real'; c.style.width = c.style.height = (N * CM * 10) + 'mm'; }
   x.font = `800 ${Math.round(cs * .46)}px system-ui,sans-serif`;
   for (let y = 0; y < N; y++) for (let xx = 0; xx < N; xx++) {
     const k = S.grid[(py * N + y) * S.W + px * N + xx], col = S.pal[k];
@@ -887,6 +911,7 @@ function canvasPlaca(px, py, num) {
   x.strokeStyle = '#1E1B18'; x.lineWidth = 2.5; x.beginPath();
   for (let i = 0; i <= N; i += 8) { x.moveTo(m + i * cs, m); x.lineTo(m + i * cs, m + N * cs); x.moveTo(m, m + i * cs); x.lineTo(m + N * cs, m + i * cs); }
   x.stroke();
+  if (real) { x.lineWidth = 3; x.strokeRect(1.5, 1.5, c.width - 3, c.height - 3); }
   return c;
 }
 function canvasMini(num) {
@@ -909,13 +934,15 @@ function abrirInstrucciones() {
   if (!S.grid) return;
   const { u, num } = usados(), sec = $('#instrucciones');
   const folio = S.pedido ? ' · ' + S.pedido.folio : '';
-  sec.innerHTML = `<div class="instr-barra"><h2>Instrucciones${folio}</h2><button class="btn chico" id="imprimir" type="button">Imprimir / guardar PDF</button><button class="btn sec chico" id="cerrar-instr" type="button">Cerrar</button></div>`;
+  const cabe = PL() * CM * 10 <= 200;
+  sec.innerHTML = `<div class="instr-barra"><h2>Instrucciones${folio}</h2>${cabe ? `<label class="real-op" title="Imprime cada base a escala 1:1 para ponerla debajo de una base transparente"><input type="checkbox" id="real" ${S.real ? 'checked' : ''}> Plantillas a tamaño real</label>` : ''}<button class="btn chico" id="imprimir" type="button">Imprimir / guardar PDF</button><button class="btn sec chico" id="cerrar-instr" type="button">Cerrar</button></div>`;
   const portada = document.createElement('div'); portada.className = 'pagina';
   portada.innerHTML = `<h2>Tu mosaico PIX·L</h2><p class="mini">${S.W} × ${S.H} piezas · ${(S.W * CM).toFixed(1)} × ${(S.H * CM).toFixed(1)} cm · ${S.pw * S.ph} ${S.pw * S.ph === 1 ? 'base' : 'bases'} de ${placaActual().nombre} · ${S.cat.piezas[S.pieza].nombre}</p>`;
   portada.appendChild(canvasMini(num));
   portada.insertAdjacentHTML('beforeend', `<h3>Cómo armarlo</h3><ol class="pasos-armado">
     <li>Separa las piezas por número: cada color tiene el suyo (abajo).</li>
     <li>Acomoda las bases como en el mapa: la letra es la fila y el número la columna (A1 va arriba a la izquierda).</li>
+    ${baseActual().transparente ? '<li>¿Bases transparentes? Pon cada base encima de su plantilla a tamaño real y coloca cada pieza sobre su número, como pintar por números.</li>' : ''}
     <li>Arma una base a la vez. Empieza por la fila 1 y avanza de izquierda a derecha; las líneas gruesas marcan bloques de 8×8 para no perderte.</li>
     <li>Presiona cada pieza hasta que haga clic. Te mandamos piezas de repuesto de cada color.</li></ol>
     <h3>Colores</h3>${leyenda(u, num, k => S.cuenta[k])}`);
@@ -926,8 +953,13 @@ function abrirInstrucciones() {
     for (let y = 0; y < PL(); y++) for (let x = 0; x < PL(); x++) { const k = S.grid[(j * PL() + y) * S.W + i * PL() + x]; cnt.set(k, (cnt.get(k) || 0) + 1); }
     pg.innerHTML = `<h3>Base ${nombrePlaca(i, j)} <small>fila ${j + 1}, columna ${i + 1} · ${cnt.size} colores</small></h3>`;
     pg.appendChild(canvasPlaca(i, j, num));
+    if (cabe && S.real) {
+      const pr = document.createElement('div'); pr.className = 'pagina solo-real';
+      pr.innerHTML = `<h3>Base ${nombrePlaca(i, j)} <small>plantilla a tamaño real · coloca la base transparente encima</small></h3>`;
+      pr.appendChild(canvasPlaca(i, j, num, true)); pg._real = pr;
+    }
     pg.insertAdjacentHTML('beforeend', leyenda(u.filter(k => cnt.has(k)), num, k => cnt.get(k)));
-    sec.appendChild(pg);
+    sec.appendChild(pg); if (pg._real) sec.appendChild(pg._real);
   }
   sec.hidden = false; sec.scrollTop = 0; document.body.style.overflow = 'hidden';
 }
@@ -955,7 +987,12 @@ function eventos() {
   addEventListener('drop', e => { e.preventDefault(); dd = 0; document.body.classList.remove('arrastrando'); cargarArchivo(e.dataTransfer.files[0]); });
 
   $('#placas').addEventListener('click', e => { const b = e.target.closest('.placa'); if (b && b.dataset.placa !== S.placa) setPlaca(b.dataset.placa); });
-  $('#tamanos').addEventListener('click', e => { const b = e.target.closest('.tam'); if (b) setTamano(+b.dataset.w, +b.dataset.h); });
+  $('#tamanos').addEventListener('click', e => { const b = e.target.closest('.tam'); if (!b) return; S.talla = b.dataset.talla; setTamano(...dimTalla(S.talla, S.orient)); });
+  $('#orient').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return; S.orient = b.dataset.v;
+    const t = TALLAS.find(t => { const [w, hh] = dimTalla(t, 'cuadrado'); return w === Math.max(S.pw, S.ph) || w === Math.min(S.pw, S.ph); }) || S.talla;
+    S.talla = t; setTamano(...dimTalla(t, S.orient));
+  });
   $('#pw').addEventListener('change', () => setTamano(+$('#pw').value, S.ph));
   $('#ph').addEventListener('change', () => setTamano(S.pw, +$('#ph').value));
   $('#pieza').addEventListener('click', e => {
@@ -1041,6 +1078,7 @@ function eventos() {
   $('#ok-json').addEventListener('click', () => S.pedido && descargar(`${S.pedido.folio}.json`, JSON.stringify(S.pedido, null, 1), 'application/json'));
   $('#ok-instr').addEventListener('click', () => { $('#dlg-ok').close(); abrirInstrucciones(); });
   $('#ok-cerrar').addEventListener('click', () => $('#dlg-ok').close());
+  $('#instrucciones').addEventListener('change', e => { if (e.target.id === 'real') { S.real = e.target.checked; abrirInstrucciones(); } });
   $('#instrucciones').addEventListener('click', e => { if (e.target.id === 'imprimir') print(); if (e.target.id === 'cerrar-instr') cerrarInstrucciones(); });
   addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#instrucciones').hidden) cerrarInstrucciones(); });
 
