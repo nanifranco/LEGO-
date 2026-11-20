@@ -4,14 +4,25 @@ Página donde el cliente sube una foto, la ve convertida en mosaico de piezas 1�
 
 ## Qué hace
 
-- **Subir imagen** (botón o arrastrar y soltar) y encuadrarla arrastrando sobre la vista previa, con zoom, brillo, contraste, saturación y difuminado opcional.
-- **Tallas XS, S, M, L y XL** en cuadrado, vertical u horizontal (como brick.me), o bases a la medida hasta 20 por lado.
-- **Bases (building plates)** de 16×16, 24×24, 32×32 o 48×48, cada una con su precio, inventario por color y nota. El cliente elige el tipo de base y el tamaño del mosaico (en cm) se arma como acomodo de esas bases, hasta 192 piezas por lado. Al cambiar de base se conserva el tamaño lo más parecido posible.
-- **Piezas 1×1**, redondas o cuadradas (98138 / 3024). El inventario de cada forma se lleva por separado.
-- **Solo usa los colores del catálogo.** La conversión compara colores con CIEDE2000, que se parece a cómo los percibe el ojo.
-- **Revisa el inventario en tiempo real.** Si un color no alcanza, sugiere el más parecido que sí tenga piezas suficientes. El cliente lo acepta con "Sí, sustituir" o pide "Otra opción". No se puede ordenar hasta resolverlo.
-- **Pedido**: piezas con repuesto (3 %, mínimo 2 por color), bases del color elegido (incluye transparentes), descuento por tamaño, recargo si pasa de 25 colores, envío, total en MXN, tiempo de armado aproximado y lo que incluye el kit. Al confirmar se descarga `PXL-….json` con el diseño exacto y se abre WhatsApp con el resumen.
-- **Instrucciones imprimibles**: portada con el mapa de bases (A1, A2…), y una hoja por base (del tamaño que se eligió) con cada cuadrito numerado. Con bases de 16×16 o 24×24 también imprime **plantillas a tamaño real** (8 mm por pieza) para poner la base transparente encima y armar como pintar por números, coordenadas y líneas cada 8 piezas.
+Flujo pensado para el celular, con tema oscuro:
+
+1. **Inicio**: subir foto (o arrastrarla), galería de ejemplos o continuar un borrador.
+2. **Elegir modo**: vista de la foto con *Rotar* y *Cambiar foto*. Después, **Editor PIX·L** (control total) o **Diseño automático**, que elige orientación según la foto, talla M y contraste automático.
+3. **Editor en 3 pasos**. La barra de arriba muestra medidas, precio con descuento y **Finalizar**. Cada herramienta abre una hoja desde abajo con *Deshacer* y *Listo*:
+   - **Paso 1 · Prepara**
+     - **Tamaño**: cuadrado, horizontal, vertical o a la medida. Base de 16, 24, 32 o 48. Tarjetas XS–XL con cm, bases, piezas, precio y "Ahorra X %". Las líneas sobre el mosaico marcan cada base.
+     - **Recorte**: zoom, arrastrar para mover, rotar, centrar y usar la orientación de la foto.
+   - **Paso 2 · Afina**
+     - **Colores**: avisos de inventario con sustituciones, pieza cuadrada o redonda, máximo de colores y paleta para quitar o volver a usar colores.
+     - **Ajustes**: contraste automático, brillo, contraste, saturación y difuminado.
+     - **Filtros**: Original, Vivo, Blanco y negro, Sepia, Pop, Frío y Cálido, con vista previa de cada uno.
+   - **Paso 3 · Avanzado**
+     - **Pintar**: pincel, tomar color y borrar, pieza por pieza.
+     - **Borradores**: guarda hasta 8 diseños en el dispositivo.
+4. **Tu kit**: vista previa, medidas, piezas, colores y tiempo de armado. Avisos de inventario (no deja ordenar sin resolverlos), color de base (incluye transparente), resumen con descuento por tamaño, recargo por colores y envío, lo que incluye el kit, lista de piezas e instrucciones imprimibles.
+5. **Ordenar**: pide los datos de envío, descarga `PXL-….json` con el diseño exacto y abre WhatsApp con el resumen.
+
+Las **instrucciones** traen una portada con el mapa de bases (A1, A2…) y una hoja por base con cada pieza numerada. Con bases de 16×16 o 24×24 también imprimen **plantillas a tamaño real** (8 mm por pieza) para armar encima de una base transparente.
 
 ## Inventario: `catalog.json`
 

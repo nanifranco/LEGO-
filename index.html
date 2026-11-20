@@ -3,362 +3,396 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>PIX·L — Tu foto en mosaico de bloques</title>
-<meta name="description" content="Sube una foto y conviértela en un mosaico de bloques con instrucciones numeradas. Envíos a todo México.">
-<meta name="theme-color" content="#FBF5EA">
+<title>PIX·L — Tu foto en arte de bloques</title>
+<meta name="description" content="Convierte tu foto en un mosaico de bloques 1×1 con bases, piezas e instrucciones numeradas. Envíos a todo México.">
+<meta name="theme-color" content="#0B0E13">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#FBF5EA; --ink:#1E1B18; --muted:#6B645C; --card:#FFFFFF; --soft:#F3EBDD;
-  --r:#FF4D2E; --y:#FFC72C; --b:#2D5BFF; --g:#1FA463;
-  --bd:2.5px solid var(--ink); --sh:4px 4px 0 var(--ink); --rad:14px;
-  font-family:'Bricolage Grotesque',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+  --bg:#0B0E13; --bg2:#10151D; --card:#151B25; --card2:#1B2230; --line:#262F3D; --line2:#344052;
+  --tx:#ECEFF4; --mut:#8D97A8; --r:#FF4D2E; --y:#FFC72C; --b:#3D7BFF; --g:#22C55E; --p:#A26BFF;
+  --rad:18px; --safe:env(safe-area-inset-bottom,0px);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
 }
-*{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);line-height:1.4;
-  background-image:radial-gradient(circle at 1px 1px,#0000000d 1.6px,transparent 0);background-size:22px 22px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--tx)}
+body{min-height:100dvh;background-image:radial-gradient(circle at 1px 1px,#ffffff0d 1.2px,transparent 0);background-size:24px 24px}
 button,input,select,textarea{font:inherit;color:inherit}
-h1,h2,h3{line-height:1.05;margin:0}
-a{color:inherit}
+button{cursor:pointer}
+h1,h2,h3,.disp{font-family:'Bricolage Grotesque',Inter,sans-serif;margin:0;line-height:1.05;letter-spacing:-.02em}
 [hidden]{display:none!important}
+svg{display:block}
+.mut{color:var(--mut)}
 
-/* ---------- header ---------- */
-.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:16px;padding:12px clamp(14px,4vw,40px);
-  background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:var(--bd)}
-.logo{font-weight:800;font-size:28px;letter-spacing:-.02em;text-decoration:none;display:flex;align-items:center;gap:3px}
-.logo .stud{width:15px;height:15px;border-radius:50%;background:var(--r);border:2.5px solid var(--ink);box-shadow:inset -2px -2px 0 #0003;display:inline-block;transform:translateY(2px)}
-.pasos{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
-.pasos span{font-size:13px;font-weight:600;padding:5px 10px;border-radius:99px;border:2px solid var(--ink);background:var(--card);opacity:.45;transition:.25s}
-.pasos span.on{opacity:1;background:var(--y)}
-.admin-badge{font-size:12px;font-weight:800;background:var(--ink);color:var(--bg);padding:4px 10px;border-radius:99px}
+/* ---------- marca ---------- */
+.marca{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top));border-bottom:1px solid var(--line);background:#0B0E13e6;backdrop-filter:blur(10px);position:sticky;top:0;z-index:30}
+.logo{font-family:'Bricolage Grotesque';font-weight:800;font-size:26px;letter-spacing:-.03em;display:flex;align-items:center;gap:3px;text-decoration:none;color:var(--tx)}
+.logo i{width:13px;height:13px;border-radius:50%;background:var(--r);box-shadow:inset -2px -2px 0 #0004,0 0 14px #ff4d2e88;transform:translateY(2px)}
+.marca .der{font-size:14px;color:var(--mut)}
+.marca .der b{color:var(--y)}
+.admin{font-size:11px;font-weight:700;background:var(--y);color:#000;padding:3px 8px;border-radius:99px;margin-left:8px}
 
-/* ---------- hero ---------- */
-.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(20px,5vw,60px);align-items:center;
-  max-width:1200px;margin:0 auto;padding:clamp(30px,7vw,90px) clamp(16px,4vw,40px)}
-.hero h1{font-size:clamp(42px,7vw,88px);font-weight:800;letter-spacing:-.035em}
-.hero h1 em{font-style:normal;background:var(--y);padding:0 .12em;border-radius:8px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
-.hero p{font-size:clamp(17px,2vw,21px);color:var(--muted);max-width:34ch;margin:20px 0 28px}
-.hero .acciones{display:flex;gap:12px;flex-wrap:wrap}
-.hero .datos{display:flex;gap:22px;margin-top:32px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
-.hero .datos b{display:block;font-size:22px;color:var(--ink)}
-.caida{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;padding:14px;background:#1E1E1E;border:var(--bd);border-radius:18px;box-shadow:8px 8px 0 var(--ink);aspect-ratio:1;max-width:440px;margin-left:auto}
-.caida i{border-radius:50%;aspect-ratio:1;box-shadow:inset -2px -3px 0 #0000003a,inset 2px 2px 0 #ffffff40;animation:cae 3.8s cubic-bezier(.3,1.4,.5,1) infinite both}
-@keyframes cae{0%{transform:translateY(-140%) scale(.6);opacity:0}12%{transform:none;opacity:1}82%{transform:none;opacity:1}100%{transform:translateY(30%) scale(.6);opacity:0}}
-.drop-zona{position:fixed;inset:0;z-index:50;background:#2D5BFFcc;display:grid;place-items:center;color:#fff;font-size:clamp(26px,5vw,48px);font-weight:800;pointer-events:none;opacity:0;transition:.2s}
-body.arrastrando .drop-zona{opacity:1}
+/* ---------- pantallas ---------- */
+.pantalla{min-height:calc(100dvh - 60px)}
+.centro{max-width:560px;margin:0 auto;padding:28px 18px 50px}
 
-/* ---------- buttons ---------- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;font-weight:800;font-size:16px;
-  padding:13px 20px;border-radius:12px;border:var(--bd);background:var(--r);color:#fff;box-shadow:var(--sh);transition:transform .12s,box-shadow .12s;text-decoration:none;user-select:none}
-.btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
-.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
-.btn.sec{background:var(--card);color:var(--ink)}
-.btn.azul{background:var(--b)}
-.btn.verde{background:var(--g)}
-.btn.chico{font-size:14px;padding:8px 12px;border-radius:10px;box-shadow:3px 3px 0 var(--ink)}
+/* inicio */
+.ini-arte{display:grid;grid-template-columns:repeat(14,1fr);gap:2px;width:min(240px,62vw);margin:4px auto 26px;padding:8px;background:#05070A;border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 60px #3D7BFF22}
+.ini-arte i{aspect-ratio:1;border-radius:2px;animation:cae 4.4s cubic-bezier(.3,1.4,.5,1) infinite both;box-shadow:inset -1px -1px 0 #0004,inset 1px 1px 0 #fff3}
+@keyframes cae{0%{transform:translateY(-160%) scale(.5);opacity:0}12%{transform:none;opacity:1}84%{transform:none;opacity:1}100%{transform:translateY(40%) scale(.5);opacity:0}}
+.ini h1{font-size:clamp(38px,9vw,56px);text-align:center;font-weight:800}
+.arcoiris{background:linear-gradient(90deg,#A26BFF,#3D7BFF 30%,#22C55E 55%,#FFC72C 75%,#FF4D2E);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ini p.sub{text-align:center;color:var(--mut);font-size:18px;margin:16px 0 26px}
+.opcion{display:flex;align-items:center;gap:16px;width:100%;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:var(--rad);padding:20px;margin-bottom:14px;color:var(--tx);transition:.15s}
+.opcion:hover{border-color:var(--line2);background:var(--card2)}
+.opcion.punteada{border-style:dashed;border-color:var(--line2)}
+.opcion .ico{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;flex:none}
+.opcion b{display:block;font-size:19px;font-weight:700;margin-bottom:3px}
+.opcion span{color:var(--mut);font-size:15px}
+.opcion .flecha{margin-left:auto;color:var(--mut)}
+.ico.azul{background:#3D7BFF1f;color:#6E9BFF}.ico.rojo{background:#FF4D2E1f;color:#FF7A61}.ico.gris{background:#ffffff0d;color:var(--mut)}.ico.morado{background:#A26BFF1f;color:#B78CFF}.ico.amarillo{background:#FFC72C1f;color:var(--y)}
+.galeria{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:-4px 0 16px}
+.galeria button{padding:0;border:1.5px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card);color:var(--mut);font-size:12px;font-weight:600}
+.galeria canvas{width:100%;aspect-ratio:1;display:block}
+.galeria span{display:block;padding:7px}
+.borr-lista{display:grid;gap:10px;margin:-4px 0 16px}
+.borr{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:10px}
+.borr img{width:58px;height:58px;border-radius:8px;object-fit:cover;image-rendering:pixelated;background:#000}
+.borr div{flex:1;min-width:0;font-size:13px;color:var(--mut)}
+.borr div b{display:block;color:var(--tx);font-size:15px}
+.tips{text-align:center;color:var(--mut);font-size:14px;margin-top:22px}
+.tips b{background:#FFC72C1a;color:var(--y);padding:4px 10px;border-radius:99px;font-weight:600}
+.drop{position:fixed;inset:0;z-index:90;background:#3D7BFFdd;display:grid;place-items:center;font-family:'Bricolage Grotesque';font-size:clamp(28px,6vw,48px);font-weight:800;opacity:0;pointer-events:none;transition:.2s}
+body.arrastrando .drop{opacity:1}
+
+/* modo */
+.foto-prev{display:block;margin:6px auto 16px;max-width:min(320px,80vw);max-height:46vh;border-radius:22px;border:1px solid var(--line);box-shadow:0 20px 60px #0008}
+.fila-bot{display:flex;gap:12px;justify-content:center;margin-bottom:26px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:99px;border:1.5px solid var(--line2);background:transparent;font-weight:600;font-size:15px;color:var(--tx)}
+.pill:hover{background:var(--card)}
+.modo-tit{text-align:center;color:var(--mut);font-size:17px;margin-bottom:16px}
+.opcion.primaria{background:linear-gradient(135deg,#3D7BFF,#2A5FE0);border-color:transparent}
+.opcion.primaria span{color:#DCE6FF}
+.opcion.primaria .ico{background:#ffffff26;color:#fff}
+
+/* ---------- editor ---------- */
+.barra-ed{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--bg)}
+.atras{display:flex;align-items:center;gap:6px;background:none;border:0;color:var(--mut);font-size:16px;font-weight:500;padding:8px 6px}
+.precio-ed{text-align:center;line-height:1.2}
+.precio-ed small{display:block;color:var(--mut);font-size:14px}
+.precio-ed s{color:var(--mut);font-size:14px;margin-right:6px}
+.precio-ed b{font-size:20px;font-weight:700}
+.badge{display:inline-block;background:var(--r);color:#fff;font-size:11px;font-weight:700;padding:3px 7px;border-radius:99px;margin-left:6px;vertical-align:3px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:14px;padding:12px 18px;font-weight:700;font-size:16px;color:#fff;background:var(--b);box-shadow:0 8px 24px #3D7BFF44;transition:transform .1s;text-decoration:none}
+.btn:active{transform:scale(.97)}
+.btn.rojo{background:var(--r);box-shadow:0 8px 24px #FF4D2E44}
+.btn.verde{background:var(--g);box-shadow:0 8px 24px #22C55E33;color:#04210F}
+.btn.sec{background:var(--card2);box-shadow:none;border:1.5px solid var(--line2);color:var(--tx)}
+.btn.chico{padding:8px 12px;font-size:14px;border-radius:11px}
 .btn.ancho{width:100%}
-.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:var(--sh)}
-.btn.grande{font-size:19px;padding:16px 26px}
-.chip{cursor:pointer;font-size:13px;font-weight:600;padding:6px 11px;border-radius:99px;border:2px solid var(--ink);background:var(--card)}
-.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.lienzo{position:relative;display:grid;place-items:center;padding:14px 12px;touch-action:none;user-select:none;-webkit-user-select:none}
+#mosaico{display:block;border-radius:3px;box-shadow:0 0 0 1px #ffffff14,0 24px 60px #000a;cursor:grab;touch-action:none}
+#mosaico.pintando{cursor:crosshair}
+.tip{display:flex;align-items:center;gap:12px;margin:0 12px 12px;padding:12px 12px 12px 16px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--b);border-radius:14px;font-size:15px}
+.tip svg{color:#6E9BFF;flex:none}
+.tip p{margin:0;flex:1}
+.x{background:none;border:0;color:var(--mut);font-size:22px;padding:4px 6px;line-height:1}
+.pasos{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 10px calc(14px + var(--safe));background:linear-gradient(#0B0E1300,#0B0E13 22%)}
+.paso-tit{text-align:center;font-weight:700;font-size:14px;letter-spacing:.06em;margin-bottom:8px}
+.paso-fila{display:flex;align-items:stretch;gap:8px;max-width:640px;margin:0 auto}
+.paso-nav{flex:0 0 74px;background:none;border:0;font-weight:700;font-size:13px;line-height:1.15;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.herrs{flex:1;display:flex;gap:8px}
+.herr{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 4px;border-radius:16px;border:1.5px solid;background:#ffffff05;font-weight:600;font-size:15px;min-height:88px}
+.herr svg{width:30px;height:30px}.paso-nav svg{width:24px;height:24px}.tabs svg{width:26px;height:26px}.herr-pintar svg{width:24px;height:24px}
+.c-b{color:#6E9BFF;border-color:#3D7BFF66}.c-r{color:#FF7A61;border-color:#FF4D2E66}.c-y{color:var(--y);border-color:#FFC72C66}.c-p{color:#B78CFF;border-color:#A26BFF88}
+.herr.c-b{box-shadow:0 0 18px #3D7BFF22}.herr.c-r{box-shadow:0 0 18px #FF4D2E1c}.herr.c-y{box-shadow:0 0 18px #FFC72C1c}.herr.c-p{box-shadow:0 0 18px #A26BFF26}
+.empieza{position:absolute;transform:translate(-6px,-34px);background:var(--b);color:#fff;font-size:11px;font-weight:800;letter-spacing:.05em;padding:5px 10px;border-radius:8px}
+.empieza::after{content:"";position:absolute;left:18px;bottom:-5px;border:6px solid transparent;border-top-color:var(--b);border-bottom:0}
 
-/* ---------- app layout ---------- */
-.app{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:22px;max-width:1400px;margin:0 auto;padding:22px clamp(12px,3vw,32px) 60px;align-items:start}
-.card{background:var(--card);border:var(--bd);border-radius:var(--rad);box-shadow:var(--sh)}
-.vista{padding:14px;position:sticky;top:78px}
-.vista-barra{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
-.medidas{font-weight:800;font-size:18px}
-.medidas small{display:block;font-weight:400;font-size:13px;color:var(--muted)}
-.vista-acciones{display:flex;gap:6px;flex-wrap:wrap}
-.lienzo{position:relative;display:grid;place-items:center;background:var(--soft);border-radius:10px;padding:10px;min-height:300px;overflow:hidden;touch-action:none}
-#mosaico{display:block;border-radius:4px;box-shadow:0 10px 30px #0004;cursor:grab;max-width:100%}
-#mosaico.arrastrando{cursor:grabbing}
-.arrastra{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:600;background:#000a;color:#fff;padding:4px 10px;border-radius:99px;pointer-events:none;opacity:.85}
-.panel{display:flex;flex-direction:column;gap:16px}
-.bloque{padding:0}
-.bloque>summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:800;font-size:18px;display:flex;align-items:center;gap:8px}
-.bloque>summary::-webkit-details-marker{display:none}
-.bloque>summary::after{content:"＋";margin-left:auto;font-weight:600}
-.bloque[open]>summary::after{content:"－"}
-.bloque .cont{padding:0 16px 16px}
-.n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--y);border:2px solid var(--ink);font-size:13px}
-.etq{font-size:13px;font-weight:600;color:var(--muted);margin:12px 0 6px;display:block}
-.placas{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
-.placa{cursor:pointer;border:2px solid var(--ink);border-radius:10px;background:var(--card);padding:8px 4px 7px;text-align:center;font-size:11px;line-height:1.2;color:var(--muted)}
-.placa b{display:block;font-size:15px;color:var(--ink)}
-.placa .studs{display:grid;gap:1px;width:36px;height:36px;margin:0 auto 6px;padding:2px;background:#1E1E1E;border-radius:3px}
-.placa .studs i{border-radius:50%;background:#6a6a6a}
-.placa[aria-pressed="true"]{background:var(--y);color:var(--ink);box-shadow:2px 2px 0 var(--ink)}
-.placa-nota{font-size:13px;color:var(--muted);margin:8px 0 0}
-.tallas{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
-.tallas .tam{padding:9px 2px}
-.tallas .tam b{font-size:20px}
-.tallas .tam span{display:block;font-size:11px;color:var(--muted)}
-.tallas .tam[aria-pressed="true"] span{color:var(--ink)}
-.incluye{margin:10px 0 0;padding:0;list-style:none;font-size:13px;display:grid;gap:3px}
-.incluye li::before{content:"✓ ";font-weight:800;color:var(--g)}
-.real-op{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600}
-.pagina canvas.real{width:auto;margin:10px auto}
-.tamanos{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
-.tam{cursor:pointer;border:2px solid var(--ink);border-radius:10px;background:var(--card);padding:8px 4px;text-align:center;font-size:12px;line-height:1.2}
-.tam b{display:block;font-size:15px}
-.tam .forma{margin:0 auto 5px;background:var(--soft);border:1.5px solid var(--ink);border-radius:3px}
-.tam[aria-pressed="true"]{background:var(--y);box-shadow:2px 2px 0 var(--ink)}
-.personal{display:flex;gap:8px;align-items:center;margin-top:10px;font-size:14px}
-.personal input{width:56px;padding:6px;border:2px solid var(--ink);border-radius:8px;text-align:center}
-.seg{display:flex;border:2px solid var(--ink);border-radius:10px;overflow:hidden}
-.seg button{flex:1;padding:8px;border:0;background:var(--card);cursor:pointer;font-weight:600;font-size:14px}
-.seg button+button{border-left:2px solid var(--ink)}
-.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
-.rango{display:grid;grid-template-columns:92px 1fr 34px;align-items:center;gap:8px;font-size:14px;margin:6px 0}
-.rango output{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
-input[type=range]{accent-color:var(--r);width:100%}
-.check{display:flex;gap:8px;align-items:center;font-size:14px;margin-top:8px;cursor:pointer}
-.check input{width:18px;height:18px;accent-color:var(--r)}
-
-/* colors */
-.inv{font-size:12px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:6px}
-.inv .punto{width:8px;height:8px;border-radius:50%;background:var(--g);box-shadow:0 0 0 3px #1FA46333;animation:late 1.8s infinite}
-@keyframes late{50%{box-shadow:0 0 0 6px #1FA46311}}
-.alerta{border:2px solid var(--ink);border-radius:12px;padding:11px;margin-bottom:10px;background:#FFF4D6}
-.alerta.sin{background:#FFE3DD}
-.alerta p{margin:0 0 8px;font-size:14px}
-.par{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;margin-bottom:9px;flex-wrap:wrap}
-.par .flecha{font-size:18px}
-.parecido{font-size:12px;font-weight:600;padding:2px 7px;border-radius:99px;border:1.5px solid var(--ink);background:var(--card)}
-.alerta .btns{display:flex;gap:7px;flex-wrap:wrap}
-.sw{display:inline-block;width:20px;height:20px;border-radius:50%;border:2px solid var(--ink);flex:none;box-shadow:inset -2px -2px 0 #0002}
-.sw.sq{border-radius:5px}
-.subs{font-size:13px;margin:4px 0 10px;display:flex;flex-direction:column;gap:5px}
+/* hoja inferior */
+.hoja{position:fixed;left:0;right:0;bottom:0;z-index:40;max-width:720px;margin:0 auto;background:#121823;border:1px solid var(--line2);border-bottom:0;border-radius:24px 24px 0 0;box-shadow:0 -20px 60px #000a;transform:translateY(105%);transition:transform .32s cubic-bezier(.2,.9,.3,1);padding-bottom:calc(16px + var(--safe));max-height:66dvh;display:flex;flex-direction:column}
+.hoja.abierta{transform:none}
+.hoja .asa{width:44px;height:5px;border-radius:9px;background:var(--line2);margin:9px auto 2px}
+.hoja-cab{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:4px 14px 10px}
+.hoja-cab h3{font-family:Inter;font-size:22px;font-weight:700;color:#6E9BFF;letter-spacing:0}
+.hoja-cab .des{justify-self:start;background:none;border:0;color:var(--mut);font-size:16px;display:flex;gap:6px;align-items:center;padding:6px}
+.hoja-cab .des:disabled{opacity:.35}
+.listo{justify-self:end;background:none;border:1.5px solid var(--line2);border-radius:99px;padding:8px 16px;font-weight:600;display:flex;align-items:center;gap:6px}
+.hoja-cuerpo{overflow:auto;padding:4px 16px 6px;overscroll-behavior:contain}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:5px;background:#0B0F16;border:1px solid var(--line);border-radius:16px;margin-bottom:12px}
+.tabs button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 2px;border:0;border-radius:12px;background:none;color:var(--mut);font-size:13.5px;font-weight:500}
+.tabs button[aria-pressed="true"]{background:var(--card2);color:var(--tx)}
+.fila-chips{display:flex;align-items:center;gap:6px;overflow:auto;margin-bottom:12px;scrollbar-width:none}
+.fila-chips>span{font-size:13px;color:var(--mut);margin-right:2px;white-space:nowrap}
+.chip{white-space:nowrap;border:1.5px solid var(--line2);background:none;border-radius:99px;padding:7px 12px;font-size:13.5px;font-weight:600;color:var(--mut)}
+.chip[aria-pressed="true"]{border-color:var(--b);color:#fff;background:#3D7BFF26}
+.carrusel{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;margin:0 -16px;padding-left:16px;padding-right:16px;scrollbar-width:thin}
+.tarjeta{position:relative;flex:0 0 min(46%,200px);scroll-snap-align:start;background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:34px 10px 14px;text-align:center}
+.tarjeta[aria-pressed="true"]{border-color:var(--b);background:#3D7BFF14;box-shadow:inset 0 0 0 1px var(--b)}
+.tarjeta .talla{position:absolute;top:10px;left:10px;background:#ffffff14;font-size:11px;font-weight:800;padding:3px 7px;border-radius:7px}
+.tarjeta .ahorra{position:absolute;top:10px;right:10px;background:var(--b);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px}
+.mini-grid{display:grid;gap:2px;width:42px;height:42px;margin:0 auto 12px}
+.mini-grid i{background:#AEB6C4;border-radius:2px}
+.tarjeta b{display:block;font-size:19px;font-weight:700}
+.tarjeta small{display:block;color:var(--mut);font-size:13px;margin:4px 0 8px}
+.tarjeta s{color:var(--mut);font-size:13px;margin-right:4px}
+.tarjeta em{font-style:normal;font-weight:600}
+.stepper{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:8px}
+.stepper div{display:flex;align-items:center;gap:10px}
+.stepper button{width:38px;height:38px;border-radius:12px;border:1.5px solid var(--line2);background:var(--card2);font-size:20px;font-weight:600}
+.stepper output{min-width:26px;text-align:center;font-weight:700;font-size:18px}
+.nota{font-size:13px;color:var(--mut);margin:6px 0 10px}
+.rango{display:grid;grid-template-columns:96px 1fr 40px;align-items:center;gap:10px;margin:10px 0;font-size:15px}
+.rango output{text-align:right;color:var(--mut);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--b);height:28px}
+.interruptor{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line);font-size:15px}
+.interruptor small{display:block;color:var(--mut);font-size:13px}
+.sw-t{position:relative;width:50px;height:30px;flex:none}
+.sw-t input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer;z-index:1}
+.sw-t span{position:absolute;inset:0;border-radius:99px;background:var(--line2);transition:.2s}
+.sw-t span::after{content:"";position:absolute;width:24px;height:24px;left:3px;top:3px;border-radius:50%;background:#fff;transition:.2s}
+.sw-t input:checked+span{background:var(--g)}
+.sw-t input:checked+span::after{transform:translateX(20px)}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;background:#0B0F16;border:1px solid var(--line);border-radius:14px;margin:6px 0 12px}
+.seg button{border:0;background:none;border-radius:10px;padding:9px 4px;font-weight:600;font-size:14px;color:var(--mut)}
+.seg button[aria-pressed="true"]{background:var(--card2);color:var(--tx)}
+.filtros{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:10px}
+.filtros button{border:1.5px solid var(--line);background:var(--card);border-radius:14px;padding:6px 6px 8px;font-size:13px;font-weight:600;color:var(--mut)}
+.filtros button[aria-pressed="true"]{border-color:var(--p);color:#fff;box-shadow:0 0 0 1px var(--p),0 0 16px #A26BFF44}
+.filtros canvas{width:100%;aspect-ratio:1;border-radius:8px;display:block;margin-bottom:6px;image-rendering:pixelated;background:#000}
+.paleta{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:8px}
+.pc{position:relative;aspect-ratio:1;border-radius:10px;border:2px solid #0006;padding:0;box-shadow:inset -3px -3px 0 #0003,inset 2px 2px 0 #fff3}
+.pc.usado{box-shadow:0 0 0 2px var(--bg),0 0 0 4px #fff,inset -3px -3px 0 #0003}
+.pc.fuera{opacity:.18}
+.pc.agotado::after{content:"";position:absolute;left:-4px;right:-4px;top:50%;height:2.5px;background:#fff;transform:rotate(-45deg);box-shadow:0 0 0 1px #000}
+.pc.sel{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--y)}
+.alerta{border:1px solid #FFC72C55;background:#FFC72C10;border-radius:14px;padding:12px;margin-bottom:10px;font-size:14px}
+.alerta.sin{border-color:#FF4D2E66;background:#FF4D2E12}
+.alerta p{margin:0 0 9px}
+.par{display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:10px;flex-wrap:wrap}
+.sw{display:inline-block;width:22px;height:22px;border-radius:6px;border:2px solid #0006;flex:none;box-shadow:inset -2px -2px 0 #0003}
+.etq{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px;background:#ffffff12;color:var(--mut)}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.ok{color:var(--g);font-weight:600;font-size:14px;margin:2px 0 12px}
+.subs{display:grid;gap:6px;margin:0 0 12px;font-size:13px}
 .subs div{display:flex;align-items:center;gap:6px}
-.subs button{margin-left:auto;font-size:12px;border:0;background:none;text-decoration:underline;cursor:pointer;color:var(--muted)}
-.ok{font-size:14px;font-weight:600;color:var(--g);margin:0 0 10px}
-.paleta{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:6px}
-.pc{position:relative;aspect-ratio:1;border-radius:50%;border:2px solid var(--ink);cursor:pointer;padding:0;box-shadow:inset -3px -3px 0 #0002,inset 2px 2px 0 #fff4;display:grid;place-items:center;font-size:11px;font-weight:800}
-.pc.usado{outline:3px solid var(--ink);outline-offset:2px}
-.pc.fuera{opacity:.22}
-.pc.agotado::after{content:"";position:absolute;inset:40% -8%;background:var(--ink);transform:rotate(-45deg);height:2.5px}
-.leyenda-pal{font-size:12px;color:var(--muted);margin-top:10px}
-.admin-stock{display:grid;grid-template-columns:22px 1fr 82px;gap:6px 8px;align-items:center;font-size:13px;margin-top:12px;max-height:320px;overflow:auto;padding-right:4px}
-.admin-stock input{width:100%;padding:4px 6px;border:1.5px solid var(--ink);border-radius:6px;text-align:right}
+.subs button{margin-left:auto;background:none;border:0;color:var(--mut);text-decoration:underline;font-size:13px}
+.titulo-sec{font-size:13px;font-weight:700;color:var(--mut);letter-spacing:.04em;text-transform:uppercase;margin:16px 0 8px}
+.herr-pintar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.herr-pintar button{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 4px;border:1.5px solid var(--line);border-radius:14px;background:var(--card);font-size:13px;font-weight:600;color:var(--mut)}
+.herr-pintar button[aria-pressed="true"]{border-color:var(--y);color:var(--y);background:#FFC72C12}
+.admin-stock{display:grid;grid-template-columns:24px 1fr 90px;gap:6px 10px;align-items:center;font-size:13px}
+.admin-stock input{width:100%;background:#0B0F16;border:1px solid var(--line2);border-radius:8px;padding:6px;text-align:right}
 
-/* order */
-.pedido .cont{padding-top:14px}
-.pedido h2{font-size:22px}
-.renglon{display:flex;justify-content:space-between;gap:10px;font-size:15px;padding:6px 0;border-bottom:1.5px dashed #0002}
-.renglon.total{font-size:22px;font-weight:800;border:0;padding-top:12px}
-.renglon small{color:var(--muted)}
-.bases-sel{display:flex;gap:8px;margin:6px 0 4px}
-.bases-sel button{cursor:pointer;display:flex;align-items:center;gap:6px;padding:6px 10px;border:2px solid var(--ink);border-radius:10px;background:var(--card);font-size:13px;font-weight:600}
-.bases-sel button[aria-pressed="true"]{background:var(--y)}
-.tabla{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
-.tabla th{text-align:left;color:var(--muted);font-weight:600;padding:4px}
-.tabla td{padding:5px 4px;border-top:1px solid #0001}
-.tabla td.num{text-align:right;font-variant-numeric:tabular-nums}
-.mini{font-size:13px;color:var(--muted);margin:8px 0 0}
-.bloquea{font-size:13px;font-weight:600;color:var(--r);margin:10px 0 0}
-.acc-pedido{display:grid;gap:10px;margin-top:14px}
-details.sub>summary{cursor:pointer;font-weight:600;font-size:14px;margin-top:12px}
+/* ---------- pedido ---------- */
+.ped{max-width:620px;margin:0 auto;padding:16px 16px 60px;display:grid;gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:16px}
+.card h3{font-family:Inter;font-size:16px;font-weight:700;margin-bottom:10px}
+#ped-mini{display:block;width:100%;max-width:360px;margin:0 auto;border-radius:6px;image-rendering:pixelated;box-shadow:0 20px 50px #000a}
+.datos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.datos div{background:var(--card2);border-radius:12px;padding:10px 4px;font-size:12px;color:var(--mut)}
+.datos b{display:block;font-size:17px;color:var(--tx);margin-bottom:2px}
+.renglon{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.renglon small{color:var(--mut)}
+.renglon.total{border:0;font-size:22px;font-weight:700;padding-top:12px}
+.verde-t{color:var(--g)}
+.bases-sel{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.bases-sel button{display:flex;align-items:center;gap:7px;padding:8px 12px;border-radius:12px;border:1.5px solid var(--line2);background:none;font-size:14px;font-weight:600}
+.bases-sel button[aria-pressed="true"]{border-color:var(--b);background:#3D7BFF1c}
+.bases-sel button:disabled{opacity:.35}
+.incluye{list-style:none;margin:0;padding:0;display:grid;gap:7px;font-size:14px}
+.incluye li::before{content:"✓";color:var(--g);font-weight:800;margin-right:8px}
+.bloquea{color:#FF8A73;font-weight:600;font-size:14px;margin:0}
+.tabla{width:100%;border-collapse:collapse;font-size:13px}
+.tabla th{text-align:left;color:var(--mut);font-weight:600;padding:5px 4px}
+.tabla td{padding:6px 4px;border-top:1px solid var(--line)}
+.tabla td.n{text-align:right;font-variant-numeric:tabular-nums}
+details>summary{cursor:pointer;font-weight:600;list-style:none}
+details>summary::-webkit-details-marker{display:none}
+details>summary::after{content:" ▾";color:var(--mut)}
+.check{display:flex;align-items:center;gap:10px;font-size:15px}
+.check input{width:20px;height:20px;accent-color:var(--b)}
 
-/* dialogs */
-dialog{border:var(--bd);border-radius:18px;box-shadow:8px 8px 0 var(--ink);padding:0;max-width:min(560px,94vw);width:100%;background:var(--card)}
-dialog::backdrop{background:#1E1B18aa}
+/* diálogos */
+dialog{border:1px solid var(--line2);border-radius:22px;background:#121823;color:var(--tx);padding:0;width:min(560px,94vw);box-shadow:0 30px 80px #000c}
+dialog::backdrop{background:#000b;backdrop-filter:blur(4px)}
 .dlg{padding:22px}
 .dlg h2{font-size:26px;margin-bottom:6px}
-.dlg p{color:var(--muted);margin:0 0 14px}
+.dlg p{color:var(--mut);margin:0 0 14px}
 .campos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.campos label{display:flex;flex-direction:column;font-size:13px;font-weight:600;gap:4px}
-.campos label.full{grid-column:1/-1}
-.campos input,.campos textarea,.campos select{padding:10px;border:2px solid var(--ink);border-radius:10px;font-size:16px;background:#fff}
-.dlg .pie{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
-.resumen-dlg{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:14px;margin-bottom:14px}
+.campos label{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:var(--mut)}
+.campos .full{grid-column:1/-1}
+.campos input,.campos select,.campos textarea{background:#0B0F16;border:1.5px solid var(--line2);border-radius:12px;padding:11px;font-size:16px;color:var(--tx)}
+.pie{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:18px}
+.resumen-dlg{background:var(--card2);border-radius:12px;padding:12px;font-size:14px;margin-bottom:14px}
 
-/* toast */
-#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);opacity:0;visibility:hidden;background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:12px;font-weight:600;z-index:90;transition:.3s cubic-bezier(.3,1.4,.5,1);max-width:90vw}
-#toast.on{transform:translate(-50%,0);opacity:1;visibility:visible}
+#toast{position:fixed;left:50%;top:calc(132px + env(safe-area-inset-top));transform:translate(-50%,-20px);opacity:0;visibility:hidden;z-index:99;background:#fff;color:#000;font-weight:600;padding:10px 16px;border-radius:12px;transition:.25s;max-width:90vw;box-shadow:0 10px 30px #0008}
+#toast.on{opacity:1;visibility:visible;transform:translate(-50%,0)}
 
-/* instructions */
-.instrucciones{position:fixed;inset:0;z-index:60;background:var(--bg);overflow:auto}
-.instr-barra{position:sticky;top:0;display:flex;align-items:center;gap:10px;padding:12px 20px;background:var(--bg);border-bottom:var(--bd);z-index:2}
+/* instrucciones (claras, para imprimir) */
+.instrucciones{position:fixed;inset:0;z-index:80;background:#F4F1EA;color:#1E1B18;overflow:auto}
+.instr-barra{position:sticky;top:0;display:flex;align-items:center;gap:10px;padding:12px 16px;background:#F4F1EA;border-bottom:1px solid #0002;z-index:2;flex-wrap:wrap}
 .instr-barra h2{font-size:20px;margin-right:auto}
-.pagina{max-width:860px;margin:24px auto;background:#fff;border:var(--bd);border-radius:14px;padding:28px}
+.instr-barra .btn{box-shadow:none}
+.real-op{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600}
+.pagina{max-width:860px;margin:20px auto;background:#fff;border-radius:14px;padding:26px;box-shadow:0 4px 20px #0001}
 .pagina h2{font-size:30px}
-.pagina h3{font-size:26px;display:flex;align-items:baseline;gap:12px}
-.pagina h3 small{font-size:14px;font-weight:400;color:var(--muted)}
+.pagina h3{font-size:24px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.pagina h3 small{font-size:14px;font-weight:400;color:#6B645C}
+.pagina .mini{font-size:13px;color:#6B645C}
 .pagina canvas{width:100%;height:auto;display:block;margin:14px 0}
-.mapa{display:grid;gap:4px;margin:14px 0;max-width:420px}
-.mapa div{aspect-ratio:1;border:2px solid var(--ink);border-radius:6px;display:grid;place-items:center;font-weight:800;background:var(--soft)}
+.pagina canvas.real{width:auto;margin:10px auto}
 .leyenda{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 14px;font-size:14px}
 .leyenda div{display:flex;align-items:center;gap:7px}
-.leyenda .num{display:inline-grid;place-items:center;min-width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);font-weight:800;font-size:12px}
-.leyenda .cant{margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums}
+.leyenda .num{display:inline-grid;place-items:center;min-width:26px;height:26px;border-radius:50%;border:2px solid #1E1B18;font-weight:800;font-size:12px}
+.leyenda .cant{margin-left:auto;color:#6B645C;font-variant-numeric:tabular-nums}
 .pasos-armado{padding-left:20px}
 .pasos-armado li{margin:6px 0}
 
-footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 16px 40px}
-
-@media (max-width:960px){
-  .app{grid-template-columns:1fr}
-  .vista{position:static}
-  .hero{grid-template-columns:1fr}
-  .caida{max-width:320px;margin:0 auto}
-  .pasos{display:none}
+@media (min-width:900px){
+  .lienzo{padding:22px}
 }
-@media (max-width:480px){.tamanos{grid-template-columns:repeat(4,1fr)} .campos{grid-template-columns:1fr}}
-
+@media (max-width:420px){.campos{grid-template-columns:1fr}.herr{font-size:14px;min-height:80px}.paso-nav{flex-basis:62px;font-size:12px}}
 @media print{
   @page{size:letter;margin:8mm}
   body{background:#fff}
   body>*:not(#instrucciones){display:none!important}
   .instrucciones{position:static;overflow:visible;background:#fff}
+  .instr-barra{display:none}
+  .pagina{box-shadow:none;margin:0;padding:0;max-width:none;break-after:page;border-radius:0}
+  .pagina:last-child{break-after:auto}
   .pagina canvas:not(.real){max-height:150mm;width:auto;max-width:100%;margin:6mm auto}
   .pagina.solo-real h3{font-size:14px}
-  .instr-barra{display:none}
-  .pagina{border:0;margin:0;padding:0;max-width:none;break-after:page}
-  .pagina:last-child{break-after:auto}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<div class="drop-zona">Suelta tu imagen aquí</div>
-
-<header class="top">
-  <a class="logo" href="./" aria-label="PIX·L inicio">PIX<span class="stud"></span>L</a>
-  <nav class="pasos" aria-label="Pasos">
-    <span data-paso="1" class="on">1 · Sube</span>
-    <span data-paso="2">2 · Ajusta</span>
-    <span data-paso="3">3 · Colores</span>
-    <span data-paso="4">4 · Ordena</span>
-  </nav>
-  <span class="admin-badge" id="admin-badge" hidden>Modo tienda</span>
+<div class="drop">Suelta tu foto aquí</div>
+<header class="marca">
+  <a class="logo" href="./" aria-label="PIX·L inicio">PIX<i></i>L</a>
+  <span class="der" id="marca-der">Envíos a todo México</span>
 </header>
-
-<section class="hero" id="hero">
-  <div>
-    <h1>Tu foto, <em>pieza por pieza.</em></h1>
-    <p>Sube una imagen, elige el tamaño y te armamos un mosaico de bloques con instrucciones numeradas. Te llega todo a casa, en cualquier parte de México.</p>
-    <div class="acciones">
-      <label class="btn grande" for="archivo">Subir imagen</label>
-      <button class="btn sec grande" id="ejemplo" type="button">Ver un ejemplo</button>
-    </div>
-    <div class="datos">
-      <div><b id="dato-colores">—</b>colores en inventario</div>
-      <div><b>4</b>tamaños de base</div>
-      <div><b>XS a XL</b>y tamaños a la medida</div>
-    </div>
-  </div>
-  <div aria-hidden="true"><div class="caida" id="caida"></div></div>
-</section>
 <input type="file" id="archivo" accept="image/*" hidden>
 
-<main class="app" id="app" hidden>
-  <section class="vista card" aria-label="Vista previa">
-    <div class="vista-barra">
-      <div class="medidas" id="medidas"></div>
-      <div class="vista-acciones">
-        <button class="chip" id="btn-original" type="button" aria-pressed="false">Ver original</button>
-        <button class="chip" id="btn-lineas" type="button" aria-pressed="true">Divisiones</button>
-        <label class="chip" for="archivo">Cambiar foto</label>
-      </div>
+<!-- ============ INICIO ============ -->
+<section class="pantalla" id="p-inicio">
+  <div class="centro ini">
+    <div class="ini-arte" id="ini-arte" aria-hidden="true"></div>
+    <h1>Convierte tu foto en <span class="arcoiris">arte de bloques</span></h1>
+    <p class="sub">Elige cómo empezar</p>
+    <label class="opcion punteada" for="archivo">
+      <span class="ico azul"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></span>
+      <div><b>Sube una foto</b><span>Arrástrala aquí o toca para elegir</span></div>
+    </label>
+    <button class="opcion" type="button" id="btn-galeria">
+      <span class="ico rojo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg></span>
+      <div><b>Galería de ejemplos</b><span>Diseños listos para probar</span></div>
+      <span class="flecha"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </button>
+    <div class="galeria" id="galeria" hidden></div>
+    <button class="opcion" type="button" id="btn-borradores">
+      <span class="ico gris"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+      <div><b>Continuar un borrador</b><span id="n-borr">Tus diseños guardados</span></div>
+      <span class="flecha"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </button>
+    <div class="borr-lista" id="borr-ini" hidden></div>
+    <p class="tips"><b>Tip</b> &nbsp;Las fotos con buena luz y un solo protagonista quedan mejor.</p>
+  </div>
+</section>
+
+<!-- ============ MODO ============ -->
+<section class="pantalla" id="p-modo" hidden>
+  <div class="centro">
+    <canvas class="foto-prev" id="foto-prev"></canvas>
+    <div class="fila-bot">
+      <button class="pill" type="button" id="rotar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg> Rotar</button>
+      <label class="pill" for="archivo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></svg> Cambiar foto</label>
     </div>
-    <div class="lienzo" id="lienzo">
-      <canvas id="mosaico" aria-label="Vista previa del mosaico"></canvas>
-      <div class="arrastra" id="hint">Arrastra para encuadrar</div>
+    <p class="modo-tit">Elige cómo crear tu mosaico</p>
+    <button class="opcion primaria" type="button" id="modo-editor">
+      <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18.4 2.6a2 2 0 0 1 3 3L11 16l-4-4z"/><path d="M7 12c-2 0-3.5 1.5-3.5 3.5 0 1.5-1 2.5-2 3 1 .8 2.6 1.5 4.5 1.5 3 0 5-2 5-4.5"/></svg></span>
+      <div><b>Editor PIX·L</b><span>Control total de tamaño, colores y detalles</span></div>
+      <span class="flecha" style="color:#fff"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </button>
+    <button class="opcion" type="button" id="modo-auto">
+      <span class="ico morado"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.6L19.5 10.5l-5.6 1.9L12 18l-1.9-5.6L4.5 10.5l5.6-1.9z"/><path d="M19 3v4M17 5h4"/></svg></span>
+      <div><b>Diseño automático</b><span>Elegimos tamaño, orientación y contraste por ti</span></div>
+      <span class="flecha"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </button>
+  </div>
+</section>
+
+<!-- ============ EDITOR ============ -->
+<section class="pantalla" id="p-editor" hidden>
+  <div class="barra-ed">
+    <button class="atras" type="button" id="ed-atras"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Atrás</button>
+    <div class="precio-ed"><small id="ed-cm"></small><div><s id="ed-antes"></s><b id="ed-precio"></b><span class="badge" id="ed-badge" hidden></span></div></div>
+    <button class="btn" type="button" id="finalizar">Finalizar <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  </div>
+  <div class="lienzo" id="lienzo"><canvas id="mosaico" aria-label="Vista previa del mosaico"></canvas></div>
+  <div class="tip" id="tip" hidden><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17 17 3l4 4L7 21z"/><path d="m7 13 2 2M10 10l2 2M13 7l2 2"/></svg><p>¿Se ve muy pixeleado? Más piezas = más detalle. Prueba un tamaño más grande.</p><button class="btn chico" type="button" data-herr="tamano">Cambiar tamaño</button><button class="x" type="button" id="tip-x" aria-label="Cerrar">×</button></div>
+  <div style="height:190px"></div>
+  <nav class="pasos" id="pasos" aria-label="Herramientas">
+    <div class="paso-tit" id="paso-tit"></div>
+    <div class="paso-fila">
+      <button class="paso-nav" type="button" id="paso-ant"></button>
+      <div class="herrs" id="herrs"></div>
+      <button class="paso-nav" type="button" id="paso-sig"></button>
     </div>
-  </section>
+  </nav>
+  <div class="hoja" id="hoja" role="dialog" aria-labelledby="hoja-tit">
+    <div class="asa"></div>
+    <div class="hoja-cab">
+      <button class="des" type="button" id="deshacer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg> Deshacer</button>
+      <h3 id="hoja-tit"></h3>
+      <button class="listo" type="button" id="listo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg> Listo</button>
+    </div>
+    <div class="hoja-cuerpo" id="hoja-cuerpo"></div>
+  </div>
+</section>
 
-  <aside class="panel">
-    <details class="card bloque" open id="b-tamano">
-      <summary><span class="n">1</span> Base y tamaño</summary>
-      <div class="cont">
-        <span class="etq">Tipo de base (building plate)</span>
-        <div class="placas" id="placas"></div>
-        <p class="placa-nota" id="placa-nota"></p>
-        <span class="etq">Orientación</span>
-        <div class="seg" id="orient">
-          <button type="button" data-v="cuadrado" aria-pressed="true">◻ Cuadrado</button>
-          <button type="button" data-v="vertical" aria-pressed="false">▯ Vertical</button>
-          <button type="button" data-v="horizontal" aria-pressed="false">▭ Horizontal</button>
-        </div>
-        <span class="etq">Tamaño</span>
-        <div class="tallas" id="tamanos"></div>
-        <div class="personal">Personalizado:
-          <input type="number" id="pw" min="1" value="2" aria-label="Bases a lo ancho"> ×
-          <input type="number" id="ph" min="1" value="2" aria-label="Bases a lo alto"> bases
-        </div>
-        <span class="etq">Forma de la pieza 1×1</span>
-        <div class="seg" id="pieza">
-          <button type="button" data-v="redondo" aria-pressed="true">● Redonda 1×1</button>
-          <button type="button" data-v="cuadrado" aria-pressed="false">■ Cuadrada 1×1</button>
-        </div>
-      </div>
-    </details>
-
-    <details class="card bloque" id="b-ajustes">
-      <summary><span class="n">2</span> Encuadre y ajustes</summary>
-      <div class="cont">
-        <div class="rango"><label for="zoom">Zoom</label><input type="range" id="zoom" min="1" max="4" step="0.01" value="1"><output id="o-zoom">1×</output></div>
-        <div class="rango"><label for="brillo">Brillo</label><input type="range" id="brillo" min="-50" max="50" value="0"><output id="o-brillo">0</output></div>
-        <div class="rango"><label for="contraste">Contraste</label><input type="range" id="contraste" min="-50" max="50" value="0"><output id="o-contraste">0</output></div>
-        <div class="rango"><label for="saturacion">Saturación</label><input type="range" id="saturacion" min="-50" max="50" value="0"><output id="o-saturacion">0</output></div>
-        <label class="check"><input type="checkbox" id="dither"> Difuminado (más detalle, más mezcla de colores)</label>
-        <button class="btn sec chico" id="reset" type="button" style="margin-top:12px">Restablecer</button>
-      </div>
-    </details>
-
-    <details class="card bloque" open id="b-colores">
-      <summary><span class="n">3</span> Colores <span class="inv" id="estado-inv"></span></summary>
-      <div class="cont">
-        <div id="alertas"></div>
-        <div class="subs" id="subs"></div>
-        <div class="paleta" id="paleta"></div>
-        <p class="leyenda-pal">Toca un color para quitarlo o volver a usarlo. Los marcados con contorno están en tu mosaico; los tachados están agotados.</p>
-        <div id="admin-inv" hidden>
-          <span class="etq">Inventario (piezas · <span id="admin-pieza"></span>)</span>
-          <div class="admin-stock" id="admin-stock"></div>
-          <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
-            <button class="btn sec chico" id="exportar-cat" type="button">Descargar catalog.json</button>
-            <button class="btn sec chico" id="reset-cat" type="button">Volver al publicado</button>
-          </div>
-        </div>
-      </div>
-    </details>
-
-    <section class="card bloque pedido" id="b-pedido" aria-label="Pedido">
-      <div class="cont">
-        <h2><span class="n">4</span> Tu kit</h2>
-        <div id="resumen"></div>
-        <span class="etq">Bases <span id="placa-nombre"></span></span>
-        <label class="check"><input type="checkbox" id="con-bases" checked> Incluir <span id="n-bases"></span> bases</label>
-        <div class="bases-sel" id="bases-sel"></div>
-        <div id="totales"></div>
-        <p class="bloquea" id="bloquea" hidden></p>
-        <div class="acc-pedido">
-          <button class="btn ancho grande" id="ordenar" type="button">Ordenar mi mosaico</button>
-          <button class="btn sec ancho" id="ver-instr" type="button">Ver instrucciones de armado</button>
-        </div>
-        <details class="sub"><summary>Lista de piezas</summary><div id="lista"></div></details>
-        <details class="sub" id="proveedor" hidden><summary>Compra al proveedor (solo tienda)</summary><div id="lista-prov"></div></details>
-      </div>
-    </section>
-  </aside>
-</main>
+<!-- ============ PEDIDO ============ -->
+<section class="pantalla" id="p-pedido" hidden>
+  <div class="barra-ed">
+    <button class="atras" type="button" id="ped-atras"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Editar</button>
+    <div class="precio-ed"><b>Tu kit</b></div>
+    <span style="width:70px"></span>
+  </div>
+  <div class="ped">
+    <canvas id="ped-mini"></canvas>
+    <div class="datos" id="ped-datos"></div>
+    <div id="ped-alertas"></div>
+    <div class="card">
+      <h3>Bases <span class="mut" id="ped-placa"></span></h3>
+      <label class="check"><input type="checkbox" id="con-bases" checked> Incluir <span id="n-bases"></span> bases en mi kit</label>
+      <div class="bases-sel" id="bases-sel"></div>
+      <p class="nota" id="nota-transp" hidden>Con bases transparentes te mandamos plantillas a tamaño real: pones la base encima y armas como pintar por números.</p>
+    </div>
+    <div class="card"><h3>Resumen</h3><div id="ped-totales"></div></div>
+    <div class="card"><h3>Tu kit incluye</h3><ul class="incluye" id="ped-incluye"></ul></div>
+    <p class="bloquea" id="bloquea" hidden></p>
+    <button class="btn rojo ancho" type="button" id="ordenar" style="padding:16px;font-size:18px">Ordenar mi mosaico</button>
+    <button class="btn sec ancho" type="button" id="ver-instr">Ver instrucciones de armado</button>
+    <div class="card"><details><summary>Lista de piezas por color</summary><div id="lista" style="margin-top:10px"></div></details></div>
+    <div class="card" id="proveedor" hidden><details><summary>Compra al proveedor (solo tienda)</summary><div id="lista-prov" style="margin-top:10px"></div></details></div>
+  </div>
+</section>
 
 <section class="instrucciones" id="instrucciones" hidden></section>
 
 <dialog id="dlg-pedido">
   <form class="dlg" id="form-pedido" method="dialog">
     <h2>Casi listo</h2>
-    <p>Déjanos tus datos para enviarte tu kit.</p>
+    <p>¿A dónde te mandamos tu kit?</p>
     <div class="resumen-dlg" id="resumen-dlg"></div>
     <div class="campos">
       <label class="full">Nombre completo<input name="nombre" required autocomplete="name"></label>
-      <label>WhatsApp / teléfono<input name="telefono" required type="tel" autocomplete="tel" inputmode="tel"></label>
+      <label>WhatsApp<input name="telefono" required type="tel" autocomplete="tel" inputmode="tel"></label>
       <label>Correo<input name="correo" type="email" autocomplete="email"></label>
       <label class="full">Calle y número<input name="calle" required autocomplete="street-address"></label>
       <label>Colonia<input name="colonia" required></label>
@@ -369,11 +403,10 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 16px 40p
     </div>
     <div class="pie">
       <button class="btn sec" value="cancel" formnovalidate type="submit">Cancelar</button>
-      <button class="btn" value="ok" type="submit" id="confirmar">Confirmar pedido</button>
+      <button class="btn rojo" value="ok" type="submit" id="confirmar">Confirmar pedido</button>
     </div>
   </form>
 </dialog>
-
 <dialog id="dlg-ok">
   <div class="dlg">
     <h2>¡Pedido <span id="folio"></span> listo! 🎉</h2>
@@ -386,40 +419,37 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 16px 40p
     </div>
   </div>
 </dialog>
-
 <div id="toast" role="status" aria-live="polite"></div>
-<footer>PIX·L · Mosaicos de bloques hechos en México · Piezas compatibles con las marcas principales de bloques de construcción.</footer>
 
 <script type="application/json" id="catalogo-embebido">{"actualizado":"2026-11-19","tienda":{"nombre":"PIX·L","whatsapp":"","moneda":"MXN","precioPieza":0.35,"envio":149,"envioGratisDesde":1500,"extraPct":0.03,"extraMin":2,"descuentos":[{"bases":9,"pct":5},{"bases":16,"pct":10},{"bases":25,"pct":15}],"recargoColores":{"limite":25,"pct":2},"minutosPorPieza":0.078,"incluye":["Piezas 1×1 de cada color + repuestos","Bases del tamaño y color que elijas","Separador de piezas","Instrucciones impresas a color, base por base"]},"proveedor":{"nombre":"AliExpress · lotes MOC 1×1 compatibles","nota":"Lotes de piezas 1×1 por color (round tile 98138 o plate 3024) de vendedores MOC con envío a México. Ajusta costoLote con el precio real que pagues.","loteTamano":100,"costoLote":25,"busqueda":{"redondo":"https://www.aliexpress.com/w/wholesale-1x1-round-tile-98138-{color}.html","cuadrado":"https://www.aliexpress.com/w/wholesale-1x1-plate-3024-{color}.html"}},"piezas":{"redondo":{"nombre":"Redondo 1×1","ref":"98138"},"cuadrado":{"nombre":"Cuadrado 1×1","ref":"3024"}},"placas":{"nota":"Bases (building plates) en las que se arma el mosaico. stock = piezas en inventario por tamaño.","tamanos":[{"id":"16","studs":16,"nombre":"16×16","nota":"Se unen entre sí con pines","precio":22},{"id":"24","studs":24,"nombre":"24×24","nota":"El tamaño más usado en mosaicos","precio":45},{"id":"32","studs":32,"nombre":"32×32","nota":"Base clásica","precio":79},{"id":"48","studs":48,"nombre":"48×48","nota":"Menos uniones, más rígida","precio":149}],"porDefecto":"24","colores":[{"id":"transparente","nombre":"Transparente","hex":"#DCE4E8","transparente":true,"stock":{"16":200,"24":150,"32":0,"48":0}},{"id":"negra","nombre":"Negra","hex":"#1E1E1E","stock":{"16":300,"24":150,"32":40,"48":15}},{"id":"gris","nombre":"Gris claro","hex":"#A0A5A9","stock":{"16":200,"24":100,"32":25,"48":10}},{"id":"blanca","nombre":"Blanca","hex":"#F2F2F2","stock":{"16":150,"24":60,"32":12,"48":0}}],"tallas":{"nota":"Bases por lado usando la base de 24×24 como referencia; con otras bases se ajusta al mismo tamaño en cm.","XS":[2,3],"S":[3,4],"M":[4,5],"L":[5,7],"XL":[6,8]},"maxPorLado":20},"colores":[{"id":"blanco","nombre":"Blanco","en":"white","hex":"#F4F4F4","stock":{"redondo":8000,"cuadrado":6000}},{"id":"gris-claro","nombre":"Gris claro","en":"light bluish gray","hex":"#A0A5A9","stock":{"redondo":6000,"cuadrado":5000}},{"id":"gris-oscuro","nombre":"Gris oscuro","en":"dark bluish gray","hex":"#6C6E68","stock":{"redondo":6000,"cuadrado":5000}},{"id":"negro","nombre":"Negro","en":"black","hex":"#1B2A34","stock":{"redondo":9000,"cuadrado":7000}},{"id":"rojo","nombre":"Rojo","en":"red","hex":"#C91A09","stock":{"redondo":4000,"cuadrado":3000}},{"id":"rojo-oscuro","nombre":"Rojo oscuro","en":"dark red","hex":"#720E0F","stock":{"redondo":2500,"cuadrado":2000}},{"id":"naranja","nombre":"Naranja","en":"orange","hex":"#FE8A18","stock":{"redondo":3000,"cuadrado":2500}},{"id":"naranja-claro","nombre":"Naranja claro","en":"bright light orange","hex":"#F8BB3D","stock":{"redondo":2500,"cuadrado":2000}},{"id":"amarillo","nombre":"Amarillo","en":"yellow","hex":"#F2CD37","stock":{"redondo":4000,"cuadrado":3000}},{"id":"amarillo-claro","nombre":"Amarillo claro","en":"bright light yellow","hex":"#FFF03A","stock":{"redondo":2000,"cuadrado":1500}},{"id":"beige","nombre":"Beige","en":"tan","hex":"#E4CD9E","stock":{"redondo":4000,"cuadrado":3000}},{"id":"beige-oscuro","nombre":"Beige oscuro","en":"dark tan","hex":"#958A73","stock":{"redondo":2500,"cuadrado":2000}},{"id":"piel-clara","nombre":"Piel clara","en":"light nougat","hex":"#F6D7B3","stock":{"redondo":3500,"cuadrado":2500}},{"id":"piel","nombre":"Piel","en":"nougat","hex":"#D09168","stock":{"redondo":3500,"cuadrado":2500}},{"id":"piel-media","nombre":"Piel media","en":"medium nougat","hex":"#AA7D55","stock":{"redondo":3000,"cuadrado":2500}},{"id":"cafe","nombre":"Café","en":"reddish brown","hex":"#582A12","stock":{"redondo":3500,"cuadrado":3000}},{"id":"cafe-oscuro","nombre":"Café oscuro","en":"dark brown","hex":"#352100","stock":{"redondo":2500,"cuadrado":2000}},{"id":"lima","nombre":"Lima","en":"lime","hex":"#BBE90B","stock":{"redondo":2000,"cuadrado":1500}},{"id":"verde-brillante","nombre":"Verde brillante","en":"bright green","hex":"#4B9F4A","stock":{"redondo":2500,"cuadrado":2000}},{"id":"verde","nombre":"Verde","en":"green","hex":"#237841","stock":{"redondo":3000,"cuadrado":2500}},{"id":"verde-oscuro","nombre":"Verde oscuro","en":"dark green","hex":"#184632","stock":{"redondo":2500,"cuadrado":2000}},{"id":"verde-olivo","nombre":"Verde olivo","en":"olive green","hex":"#9B9A5A","stock":{"redondo":0,"cuadrado":800}},{"id":"verde-arena","nombre":"Verde arena","en":"sand green","hex":"#A0BCAC","stock":{"redondo":1500,"cuadrado":1200}},{"id":"aqua-claro","nombre":"Aqua claro","en":"light aqua","hex":"#ADC3C0","stock":{"redondo":1200,"cuadrado":1000}},{"id":"turquesa","nombre":"Turquesa","en":"medium azure","hex":"#36AEBF","stock":{"redondo":2500,"cuadrado":2000}},{"id":"turquesa-oscuro","nombre":"Turquesa oscuro","en":"dark turquoise","hex":"#008F9B","stock":{"redondo":2000,"cuadrado":1500}},{"id":"azul-cielo","nombre":"Azul cielo","en":"bright light blue","hex":"#9FC3E9","stock":{"redondo":2500,"cuadrado":2000}},{"id":"azul-medio","nombre":"Azul medio","en":"medium blue","hex":"#5A93DB","stock":{"redondo":3000,"cuadrado":2500}},{"id":"azul","nombre":"Azul","en":"blue","hex":"#0055BF","stock":{"redondo":4000,"cuadrado":3000}},{"id":"azul-arena","nombre":"Azul arena","en":"sand blue","hex":"#6074A1","stock":{"redondo":1500,"cuadrado":1200}},{"id":"azul-marino","nombre":"Azul marino","en":"dark blue","hex":"#0A3463","stock":{"redondo":3000,"cuadrado":2500}},{"id":"lavanda","nombre":"Lavanda","en":"lavender","hex":"#E1D5ED","stock":{"redondo":150,"cuadrado":600}},{"id":"lila","nombre":"Lila","en":"medium lavender","hex":"#AC78BA","stock":{"redondo":1500,"cuadrado":1200}},{"id":"morado","nombre":"Morado","en":"dark purple","hex":"#3F3691","stock":{"redondo":5000,"cuadrado":4000}},{"id":"magenta","nombre":"Magenta","en":"magenta","hex":"#923978","stock":{"redondo":1500,"cuadrado":1200}},{"id":"rosa-oscuro","nombre":"Rosa oscuro","en":"dark pink","hex":"#C870A0","stock":{"redondo":2000,"cuadrado":1500}},{"id":"rosa-claro","nombre":"Rosa claro","en":"bright pink","hex":"#E4ADC8","stock":{"redondo":2000,"cuadrado":1500}},{"id":"coral","nombre":"Coral","en":"coral","hex":"#FF698F","stock":{"redondo":0,"cuadrado":0}}]}</script>
 <script>
 (() => {
 'use strict';
-/* ============================================================
-   PIX·L — generador de mosaicos de bloques
-   El inventario vive en catalog.json (se vuelve a consultar
-   cada 60 s y al regresar a la pestaña). Modo tienda: ?admin
-   ============================================================ */
+/* =====================================================================
+   PIX·L — editor de mosaicos de bloques 1×1
+   Inventario: catalog.json (se vuelve a leer cada 60 s). Tienda: ?admin
+   ===================================================================== */
 const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const CM = 0.8;
-const placaActual = () => S.cat.placas.tamanos.find(t => t.id === S.placa) || S.cat.placas.tamanos[0];
-const PL = () => placaActual().studs;
-const maxBases = () => S.cat.placas.maxPorLado || 20;
-const TALLAS = ['XS', 'S', 'M', 'L', 'XL'];
 const ADMIN = new URLSearchParams(location.search).has('admin');
-const LS_STOCK = 'pixl_stock_v1', LS_PEDIDOS = 'pixl_pedidos_v1';
+const LS_STOCK = 'pixl_stock_v1', LS_PEDIDOS = 'pixl_pedidos_v1', LS_BORR = 'pixl_borradores_v1';
 const fmt = n => n.toLocaleString('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
 const fmtN = n => n.toLocaleString('es-MX');
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 const ESTADOS = ['Aguascalientes','Baja California','Baja California Sur','Campeche','Chiapas','Chihuahua','Ciudad de México','Coahuila','Colima','Durango','Estado de México','Guanajuato','Guerrero','Hidalgo','Jalisco','Michoacán','Morelos','Nayarit','Nuevo León','Oaxaca','Puebla','Querétaro','Quintana Roo','San Luis Potosí','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz','Yucatán','Zacatecas'];
+const TALLAS = ['XS', 'S', 'M', 'L', 'XL'];
+const ICON = {"subir": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 16V4M7 9l5-5 5 5\"/><path d=\"M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3\"/></svg>", "imagen": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"3\"/><circle cx=\"9\" cy=\"9\" r=\"2\"/><path d=\"m21 15-5-5L5 21\"/></svg>", "der": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg>", "izq": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/></svg>", "carpeta": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/></svg>", "rotar": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 12a9 9 0 1 1-3-6.7\"/><path d=\"M21 4v5h-5\"/></svg>", "cambiar": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5\"/></svg>", "pincel": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M18.4 2.6a2 2 0 0 1 3 3L11 16l-4-4z\"/><path d=\"M7 12c-2 0-3.5 1.5-3.5 3.5 0 1.5-1 2.5-2 3 1 .8 2.6 1.5 4.5 1.5 3 0 5-2 5-4.5\"/></svg>", "chispa": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3l1.9 5.6L19.5 10.5l-5.6 1.9L12 18l-1.9-5.6L4.5 10.5l5.6-1.9z\"/><path d=\"M19 3v4M17 5h4\"/></svg>", "regla": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 17 17 3l4 4L7 21z\"/><path d=\"m7 13 2 2M10 10l2 2M13 7l2 2\"/></svg>", "crop": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 2v14a2 2 0 0 0 2 2h14\"/><path d=\"M18 22V8a2 2 0 0 0-2-2H2\"/></svg>", "paleta": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3a9 9 0 1 0 0 18c1.1 0 1.6-.9 1.3-1.8-.4-1 .3-2.2 1.4-2.2H17a4 4 0 0 0 4-4c0-5.5-4-10-9-10z\"/><circle cx=\"7.5\" cy=\"11\" r=\"1.2\"/><circle cx=\"10\" cy=\"7\" r=\"1.2\"/><circle cx=\"15\" cy=\"7.5\" r=\"1.2\"/></svg>", "sliders": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12\"/><circle cx=\"16\" cy=\"6\" r=\"2\"/><circle cx=\"10\" cy=\"12\" r=\"2\"/><circle cx=\"18\" cy=\"18\" r=\"2\"/></svg>", "copias": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8 7V5a2 2 0 0 1 2-2h6l4 4v10a2 2 0 0 1-2 2h-2\"/><rect x=\"4\" y=\"7\" width=\"12\" height=\"14\" rx=\"2\"/></svg>", "deshacer": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M9 14 4 9l5-5\"/><path d=\"M4 9h11a5 5 0 0 1 0 10h-3\"/></svg>", "check": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m5 12 5 5L20 7\"/></svg>", "cuadrado": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"5\" y=\"5\" width=\"14\" height=\"14\" rx=\"2\"/></svg>", "horizontal": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"7\" width=\"18\" height=\"11\" rx=\"2\"/></svg>", "vertical": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"7\" y=\"3\" width=\"10\" height=\"18\" rx=\"2\"/></svg>", "medida": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 3v14a2 2 0 0 0 2 2h14\"/><path d=\"m18 16 3 3-3 3M2 6l3-3 3 3\"/></svg>", "gotero": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m2 22 1-1h3l9-9\"/><path d=\"M3 21v-3l9-9\"/><path d=\"m15 6 3.4-3.4a2.1 2.1 0 1 1 3 3L18 9l.4.4a2.1 2.1 0 1 1-3 3l-3.8-3.8a2.1 2.1 0 1 1 3-3z\"/></svg>", "borrar": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 21h10M5 14l7-7 6 6-7 7H8z\"/><path d=\"m12 7 3-3 6 6-3 3\"/></svg>"};
 
 const S = {
-  cat: null, pal: [], fuente: '', img: null,
-  pieza: 'redondo', pw: 2, ph: 2,
-  zoom: 1, ox: .5, oy: .5, brillo: 0, contraste: 0, saturacion: 0, dither: false,
-  excluidos: new Set(), subs: {}, opcion: {},
+  cat: null, pal: [], fuente: '', img: null, src: null,
+  pieza: 'cuadrado', placa: null, base: null, conBases: true,
+  pw: 2, ph: 2, orient: 'cuadrado', rot: 0, zoom: 1, ox: .5, oy: .5,
+  brillo: 0, contraste: 0, saturacion: 0, dither: false, auto: false, filtro: 'original', maxColores: 0,
+  excluidos: new Set(), subs: {}, opcion: {}, pintura: new Map(), pinturaWH: '',
   grid: null, W: 0, H: 0, cuenta: null, problemas: [],
-  original: false, lineas: true, base: null, placa: null, conBases: true, orient: 'cuadrado', talla: 'XS', real: true,
-  firmaStock: '', pedido: null
+  paso: 0, herr: null, tipCerrado: false, colorPintura: null, modoPintar: 'pincel',
+  real: true, firmaStock: '', pedido: null, deshacer: [], animar: true
 };
 
 /* ---------------- color ---------------- */
@@ -463,41 +493,33 @@ const sombra = (rgb, f) => `rgb(${rgb.map(v => Math.round(clamp(v * f, 0, 255)))
 const aclara = (rgb, f) => `rgb(${rgb.map(v => Math.round(v + (255 - v) * f)).join(',')})`;
 function parecido(e) { return e < 4 ? 'casi idéntico' : e < 9 ? 'muy parecido' : e < 16 ? 'parecido' : 'se nota el cambio'; }
 
+
 /* ---------------- catálogo / inventario ---------------- */
+const placaActual = () => S.cat.placas.tamanos.find(t => t.id === S.placa) || S.cat.placas.tamanos[0];
+const PL = () => placaActual().studs;
+const maxBases = () => S.cat.placas.maxPorLado || 20;
 const stockDe = c => (c.stock && typeof c.stock === 'object') ? (c.stock[S.pieza] ?? 0) : (c.stock ?? 0);
 const leerLS = k => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } };
-const guardarLS = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+const guardarLS = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } };
+const idxDe = id => S.pal.findIndex(c => c.id === id);
+const baseActual = () => {
+  const c = S.cat.placas.colores.find(b => b.id === S.base) || S.cat.placas.colores[0], t = placaActual();
+  return { ...c, stock: (c.stock && typeof c.stock === 'object') ? (c.stock[t.id] ?? 0) : (c.stock ?? 0), precio: t.precio, tamano: t.nombre };
+};
 
 async function cargarCatalogo(silencioso) {
   let data = null, fuente = 'local';
-  try {
-    const r = await fetch('catalog.json?t=' + Date.now(), { cache: 'no-store' });
-    if (r.ok) { data = await r.json(); fuente = 'en línea'; }
-  } catch (e) {}
+  try { const r = await fetch('catalog.json?t=' + Date.now(), { cache: 'no-store' }); if (r.ok) { data = await r.json(); fuente = 'en línea'; } } catch (e) {}
   if (!data) data = JSON.parse($('#catalogo-embebido').textContent);
-  if (ADMIN) {
-    const loc = leerLS(LS_STOCK);
-    if (loc) for (const c of data.colores) if (loc[c.id]) c.stock = loc[c.id];
-  }
-  const firma = JSON.stringify(data.colores.map(c => [c.id, c.stock, c.activo]));
+  if (ADMIN) { const loc = leerLS(LS_STOCK); if (loc) for (const c of data.colores) if (loc[c.id]) c.stock = loc[c.id]; }
+  const firma = JSON.stringify(data.colores.map(c => [c.id, c.stock, c.activo]).concat(data.placas.colores.map(c => [c.id, c.stock])));
   const cambio = S.firmaStock && firma !== S.firmaStock;
   S.firmaStock = firma; S.cat = data; S.fuente = fuente; S.actualizado = new Date();
   S.pal = data.colores.filter(c => c.activo !== false).map(c => { const rgb = hex2rgb(c.hex); return { ...c, rgb, lab: rgb2lab(...rgb) }; });
-  const pl = data.placas;
-  if (!S.placa || !pl.tamanos.some(t => t.id === S.placa)) S.placa = pl.porDefecto || pl.tamanos[0].id;
-  if (!S.base || !pl.colores.some(b => b.id === S.base)) S.base = pl.colores[0].id;
-  pintarPlacas(); pintarTamanos();
-  $('#dato-colores').textContent = S.pal.filter(c => stockDe(c) > 0).length;
-  pintarBases();
-  if (cambio && !silencioso) toast('Inventario actualizado');
-  else if (cambio) toast('El inventario cambió — revisamos tu mosaico');
+  if (!S.placa || !data.placas.tamanos.some(t => t.id === S.placa)) S.placa = data.placas.porDefecto || data.placas.tamanos[0].id;
+  if (!S.base || !data.placas.colores.some(b => b.id === S.base)) S.base = (data.placas.colores.find(c => !c.transparente) || data.placas.colores[0]).id;
+  if (cambio) toast(silencioso ? 'El inventario cambió: revisamos tu diseño' : 'Inventario actualizado');
   if (S.img) procesar(false);
-  pintarEstadoInv();
-}
-function pintarEstadoInv() {
-  if (!S.actualizado) return;
-  const h = S.actualizado.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
-  $('#estado-inv').innerHTML = `<span class="punto"></span>inventario ${S.fuente} · ${h}`;
 }
 
 /* ---------------- imagen ---------------- */
@@ -505,36 +527,36 @@ async function cargarArchivo(file) {
   if (!file || !file.type.startsWith('image/')) { toast('Ese archivo no es una imagen'); return; }
   let img;
   try { img = await createImageBitmap(file); }
-  catch (e) {
-    img = await new Promise((ok, mal) => { const i = new Image(); i.onload = () => ok(i); i.onerror = mal; i.src = URL.createObjectURL(file); })
-      .catch(() => null);
-  }
+  catch (e) { img = await new Promise((ok, mal) => { const i = new Image(); i.onload = () => ok(i); i.onerror = mal; i.src = URL.createObjectURL(file); }).catch(() => null); }
   if (!img) { toast('No pudimos abrir esa imagen'); return; }
-  usarImagen(img);
-}
-function usarImagen(img) {
-  S.img = img; S.zoom = 1; S.ox = S.oy = .5; $('#zoom').value = 1; $('#o-zoom').textContent = '1×';
-  S.subs = {}; S.opcion = {};
-  $('#hero').hidden = true; $('#app').hidden = false;
-  marcarPasos(3);
-  window.scrollTo({ top: 0 });
-  requestAnimationFrame(() => procesar(true));
-}
-function ejemplo() {
-  const c = document.createElement('canvas'); c.width = c.height = 640; const x = c.getContext('2d');
-  let g = x.createLinearGradient(0, 0, 0, 400); g.addColorStop(0, '#2b3a8f'); g.addColorStop(.55, '#e85d8c'); g.addColorStop(1, '#ffb347');
-  x.fillStyle = g; x.fillRect(0, 0, 640, 640);
-  x.fillStyle = '#fff3a0'; x.beginPath(); x.arc(320, 330, 110, 0, Math.PI * 2); x.fill();
-  x.fillStyle = '#5b2a6e'; x.beginPath(); x.moveTo(0, 420); x.lineTo(150, 270); x.lineTo(260, 380); x.lineTo(390, 230); x.lineTo(520, 360); x.lineTo(640, 290); x.lineTo(640, 640); x.lineTo(0, 640); x.fill();
-  x.fillStyle = '#2a1640'; x.beginPath(); x.moveTo(0, 520); x.lineTo(200, 410); x.lineTo(360, 500); x.lineTo(500, 430); x.lineTo(640, 490); x.lineTo(640, 640); x.lineTo(0, 640); x.fill();
-  g = x.createLinearGradient(0, 540, 0, 640); g.addColorStop(0, '#1c6e8c'); g.addColorStop(1, '#0a2a44'); x.fillStyle = g; x.fillRect(0, 560, 640, 80);
-  x.fillStyle = '#ffd56b'; for (let i = 0; i < 6; i++) x.fillRect(250 + i * 6, 570 + i * 11, 140 - i * 12, 4);
-  for (let i = 0; i < 60; i++) { x.fillStyle = `rgba(255,255,255,${Math.random() * .8})`; x.fillRect(Math.random() * 640, Math.random() * 200, 2, 2); }
-  usarImagen(c);
+  nuevaImagen(img);
 }
 const dimImg = im => [im.width || im.naturalWidth, im.height || im.naturalHeight];
+function rotada() {
+  const [w, h] = dimImg(S.img), r = S.rot % 360;
+  if (!r) return S.img;
+  const c = document.createElement('canvas'), x = c.getContext('2d');
+  c.width = r % 180 ? h : w; c.height = r % 180 ? w : h;
+  x.translate(c.width / 2, c.height / 2); x.rotate(r * Math.PI / 180); x.drawImage(S.img, -w / 2, -h / 2);
+  return c;
+}
+function nuevaImagen(img, estado) {
+  S.img = img; S.rot = 0; S.src = img;
+  Object.assign(S, { zoom: 1, ox: .5, oy: .5, subs: {}, opcion: {}, deshacer: [], tipCerrado: false });
+  S.pintura = new Map(); S.pinturaWH = '';
+  if (estado) restaurar(estado, true);
+  S.src = rotada();
+  if (estado) { ir('editor'); return; }
+  pintarFotoPrev(); ir('modo');
+}
+function pintarFotoPrev() {
+  const c = $('#foto-prev'), [w, h] = dimImg(S.src), k = Math.min(1, 640 / Math.max(w, h));
+  c.width = Math.round(w * k); c.height = Math.round(h * k);
+  const x = c.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(S.src, 0, 0, c.width, c.height);
+}
+function orientDeFoto() { const [w, h] = dimImg(S.src), a = w / h; return a > 1.15 ? 'horizontal' : a < 0.87 ? 'vertical' : 'cuadrado'; }
 function recorte(W, H) {
-  const [iw, ih] = dimImg(S.img), a = W / H;
+  const [iw, ih] = dimImg(S.src), a = W / H;
   let cw, ch;
   if (iw / ih > a) { ch = ih; cw = ih * a; } else { cw = iw; ch = iw / a; }
   cw /= S.zoom; ch /= S.zoom;
@@ -542,36 +564,62 @@ function recorte(W, H) {
 }
 function muestrear(W, H) {
   const r = recorte(W, H);
-  // reducción por pasos para no perder detalle
-  let src = S.img, sx = r.sx, sy = r.sy, sw = r.cw, sh = r.ch;
+  let src = S.src, sx = r.sx, sy = r.sy, sw = r.cw, sh = r.ch;
   while (sw > W * 3 && sh > H * 3) {
     const c = document.createElement('canvas'); c.width = Math.ceil(sw / 2); c.height = Math.ceil(sh / 2);
-    const x = c.getContext('2d'); x.imageSmoothingQuality = 'high';
-    x.drawImage(src, sx, sy, sw, sh, 0, 0, c.width, c.height);
+    const x = c.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(src, sx, sy, sw, sh, 0, 0, c.width, c.height);
     src = c; sx = 0; sy = 0; sw = c.width; sh = c.height;
   }
   const c = document.createElement('canvas'); c.width = W; c.height = H;
   const x = c.getContext('2d', { willReadFrequently: true }); x.imageSmoothingQuality = 'high';
-  x.fillStyle = '#fff'; x.fillRect(0, 0, W, H);
-  x.drawImage(src, sx, sy, sw, sh, 0, 0, W, H);
+  x.fillStyle = '#fff'; x.fillRect(0, 0, W, H); x.drawImage(src, sx, sy, sw, sh, 0, 0, W, H);
   return x.getImageData(0, 0, W, H);
 }
-function ajustar(d) {
+
+/* ---------------- filtros y ajustes ---------------- */
+const gris = (r, g, b) => 0.299 * r + 0.587 * g + 0.114 * b;
+const FILTROS = {
+  original: { n: 'Original' },
+  vivo: { n: 'Vivo', f: (r, g, b) => { const y = gris(r, g, b); return [y + (r - y) * 1.45, y + (g - y) * 1.45, y + (b - y) * 1.45]; } },
+  bn: { n: 'Blanco y negro', f: (r, g, b) => { const y = gris(r, g, b); return [y, y, y]; }, paleta: ['blanco', 'gris-claro', 'gris-oscuro', 'negro'] },
+  sepia: { n: 'Sepia', f: (r, g, b) => [r * .393 + g * .769 + b * .189, r * .349 + g * .686 + b * .168, r * .272 + g * .534 + b * .131], paleta: ['blanco', 'piel-clara', 'beige', 'naranja-claro', 'piel', 'beige-oscuro', 'piel-media', 'cafe', 'cafe-oscuro', 'negro'] },
+  pop: { n: 'Pop', f: (r, g, b) => { const q = v => Math.round(v / 85) * 85, y = gris(r, g, b); return [q(y + (r - y) * 1.6), q(y + (g - y) * 1.6), q(y + (b - y) * 1.6)]; } },
+  frio: { n: 'Frío', f: (r, g, b) => [r * .88, g * .98, b * 1.14 + 6] },
+  calido: { n: 'Cálido', f: (r, g, b) => [r * 1.12 + 6, g * 1.03, b * .86] }
+};
+function autoNiveles(d) {
+  const hist = new Uint32Array(256), n = d.length / 4;
+  for (let i = 0; i < d.length; i += 4) hist[Math.round(gris(d[i], d[i + 1], d[i + 2]))]++;
+  let acc = 0, lo = 0, hi = 255;
+  for (let v = 0; v < 256; v++) { acc += hist[v]; if (acc > n * .02) { lo = v; break; } }
+  acc = 0; for (let v = 255; v >= 0; v--) { acc += hist[v]; if (acc > n * .02) { hi = v; break; } }
+  if (hi - lo < 20) return;
+  const k = 255 / (hi - lo);
+  for (let i = 0; i < d.length; i += 4) for (let j = 0; j < 3; j++) d[i + j] = clamp((d[i + j] - lo) * k, 0, 255);
+}
+function ajustar(d, filtro) {
+  if (S.auto) autoNiveles(d);
   const b = S.brillo * 2.55, cc = S.contraste * 2.55, f = (259 * (cc + 255)) / (255 * (259 - cc)), s = 1 + S.saturacion / 50;
-  if (!b && !cc && !S.saturacion) return;
+  const fx = FILTROS[filtro]?.f;
   for (let i = 0; i < d.length; i += 4) {
     let r = d[i], g = d[i + 1], bl = d[i + 2];
-    r = f * (r - 128) + 128 + b; g = f * (g - 128) + 128 + b; bl = f * (bl - 128) + 128 + b;
-    const gr = 0.299 * r + 0.587 * g + 0.114 * bl;
-    d[i] = clamp(gr + (r - gr) * s, 0, 255); d[i + 1] = clamp(gr + (g - gr) * s, 0, 255); d[i + 2] = clamp(gr + (bl - gr) * s, 0, 255);
+    if (b || cc || S.saturacion) {
+      r = f * (r - 128) + 128 + b; g = f * (g - 128) + 128 + b; bl = f * (bl - 128) + 128 + b;
+      const y = gris(r, g, bl); r = y + (r - y) * s; g = y + (g - y) * s; bl = y + (bl - y) * s;
+    }
+    if (fx) [r, g, bl] = fx(r, g, bl);
+    d[i] = clamp(r, 0, 255); d[i + 1] = clamp(g, 0, 255); d[i + 2] = clamp(bl, 0, 255);
   }
 }
 
 /* ---------------- cuantización ---------------- */
-const idxDe = id => S.pal.findIndex(c => c.id === id);
-function cuantizar(d, W, H) {
-  const usable = [];
-  S.pal.forEach((c, i) => { if (!S.excluidos.has(c.id)) usable.push(i); });
+function usables(extra, filtro) {
+  const pal = FILTROS[filtro]?.paleta, solo = pal ? new Set(pal.filter(id => idxDe(id) >= 0)) : null;
+  const out = [];
+  S.pal.forEach((c, i) => { if (!S.excluidos.has(c.id) && !(extra && extra.has(c.id)) && (!solo || !solo.size || solo.has(c.id))) out.push(i); });
+  return out;
+}
+function cuantizar(d, W, H, usable, dither) {
   if (!usable.length) return null;
   const sub = {};
   for (const [a, b] of Object.entries(S.subs)) { const ia = idxDe(a), ib = idxDe(b); if (ia >= 0 && ib >= 0) sub[ia] = ib; }
@@ -592,7 +640,7 @@ function cuantizar(d, W, H) {
     const i = y * W + x;
     const r = clamp(Math.round(buf[i * 3]), 0, 255), g = clamp(Math.round(buf[i * 3 + 1]), 0, 255), b = clamp(Math.round(buf[i * 3 + 2]), 0, 255);
     const k = cercano(r, g, b); grid[i] = k;
-    if (S.dither) {
+    if (dither) {
       const p = S.pal[k].rgb, er = (r - p[0]) * .75, eg = (g - p[1]) * .75, eb = (b - p[2]) * .75;
       suma(x + 1, y, er, eg, eb, 7 / 16); suma(x - 1, y + 1, er, eg, eb, 3 / 16); suma(x, y + 1, er, eg, eb, 5 / 16); suma(x + 1, y + 1, er, eg, eb, 1 / 16);
     }
@@ -600,10 +648,9 @@ function cuantizar(d, W, H) {
   return grid;
 }
 const necesarias = cnt => cnt ? cnt + Math.max(S.cat.tienda.extraMin ?? 2, Math.ceil(cnt * (S.cat.tienda.extraPct ?? .03))) : 0;
+function contar() { S.cuenta = new Uint32Array(S.pal.length); for (let i = 0; i < S.grid.length; i++) S.cuenta[S.grid[i]]++; }
 function revisarInventario() {
-  S.cuenta = new Uint32Array(S.pal.length);
-  for (let i = 0; i < S.grid.length; i++) S.cuenta[S.grid[i]]++;
-  S.problemas = [];
+  contar(); S.problemas = [];
   S.pal.forEach((c, k) => {
     const cnt = S.cuenta[k]; if (!cnt) return;
     const need = necesarias(cnt), st = stockDe(c);
@@ -622,21 +669,38 @@ function revisarInventario() {
 /* ---------------- pipeline ---------------- */
 let cola = 0;
 function procesar(animar) {
-  if (!S.img || !S.cat) return;
+  if (!S.src || !S.cat) return;
   cancelAnimationFrame(cola);
   cola = requestAnimationFrame(() => {
     S.W = S.pw * PL(); S.H = S.ph * PL();
-    const datos = muestrear(S.W, S.H); ajustar(datos.data);
-    const g = cuantizar(datos.data, S.W, S.H);
+    const wh = S.W + 'x' + S.H;
+    if (S.pinturaWH && S.pinturaWH !== wh && S.pintura.size) { S.pintura.clear(); toast('Cambió el tamaño: se borró lo que pintaste'); }
+    S.pinturaWH = wh;
+    const datos = muestrear(S.W, S.H); ajustar(datos.data, S.filtro);
+    let usable = usables(null, S.filtro), g = cuantizar(datos.data, S.W, S.H, usable, S.dither);
     if (!g) { toast('Necesitas al menos un color'); return; }
+    if (S.maxColores) {
+      const cnt = new Uint32Array(S.pal.length); for (let i = 0; i < g.length; i++) cnt[g[i]]++;
+      const usados = [...cnt.keys()].filter(k => cnt[k]).sort((a, b) => cnt[b] - cnt[a]);
+      if (usados.length > S.maxColores) {
+        const fuera = new Set(usados.slice(S.maxColores).map(k => S.pal[k].id));
+        usable = usables(fuera, S.filtro); g = cuantizar(datos.data, S.W, S.H, usable, S.dither) || g;
+      }
+    }
+    for (const [i, k] of S.pintura) if (i < g.length) g[i] = k;
     S.grid = g; revisarInventario();
-    render(animar); pintarMedidas(); pintarAlertas(); pintarPaleta(); pintarPedido();
+    render(animar && S.animar); refrescarUI();
   });
+}
+function refrescarUI() {
+  pintarBarra();
+  if (S.herr) pintarHoja(true);
+  if (!$('#p-pedido').hidden) pintarPedido();
 }
 
 /* ---------------- render ---------------- */
 const sprites = new Map();
-let anim = 0;
+let anim = 0, celda = 1;
 function sprite(k, s) {
   const key = k + '|' + s + '|' + S.pieza + '|' + S.base;
   if (sprites.has(key)) return sprites.get(key);
@@ -648,151 +712,71 @@ function sprite(k, s) {
     x.fillStyle = col; x.beginPath(); x.arc(s / 2, s / 2, s * .46, 0, Math.PI * 2); x.fill();
     if (s >= 6) {
       const g = x.createRadialGradient(s * .36, s * .32, s * .02, s / 2, s / 2, s * .5);
-      g.addColorStop(0, 'rgba(255,255,255,.45)'); g.addColorStop(.45, 'rgba(255,255,255,0)'); g.addColorStop(1, 'rgba(0,0,0,.22)');
+      g.addColorStop(0, 'rgba(255,255,255,.4)'); g.addColorStop(.45, 'rgba(255,255,255,0)'); g.addColorStop(1, 'rgba(0,0,0,.2)');
       x.fillStyle = g; x.beginPath(); x.arc(s / 2, s / 2, s * .46, 0, Math.PI * 2); x.fill();
     }
   } else {
     x.fillStyle = col; x.fillRect(0, 0, s, s);
-    if (s >= 6) {
-      const b = Math.max(1, s * .07);
-      x.fillStyle = aclara(rgb, .28); x.fillRect(0, 0, s, b); x.fillRect(0, 0, b, s);
-      x.fillStyle = sombra(rgb, .72); x.fillRect(0, s - b, s, b); x.fillRect(s - b, 0, b, s);
-      x.fillStyle = sombra(rgb, .78); x.beginPath(); x.arc(s / 2 + s * .04, s / 2 + s * .05, s * .3, 0, Math.PI * 2); x.fill();
-      x.fillStyle = col; x.beginPath(); x.arc(s / 2, s / 2, s * .3, 0, Math.PI * 2); x.fill();
-      x.fillStyle = aclara(rgb, .35); x.beginPath(); x.arc(s / 2, s / 2, s * .3, Math.PI * 1.05, Math.PI * 1.55); x.lineTo(s / 2, s / 2); x.fill();
+    if (s >= 7) {
+      const b = Math.max(1, Math.round(s * .06));
+      x.fillStyle = aclara(rgb, .16); x.fillRect(0, 0, s, b); x.fillRect(0, 0, b, s);
+      x.fillStyle = sombra(rgb, .82); x.fillRect(0, s - b, s, b); x.fillRect(s - b, 0, b, s);
+    }
+    if (s >= 12) {
+      x.fillStyle = sombra(rgb, .84); x.beginPath(); x.arc(s / 2 + s * .03, s / 2 + s * .04, s * .28, 0, Math.PI * 2); x.fill();
+      x.fillStyle = col; x.beginPath(); x.arc(s / 2, s / 2, s * .28, 0, Math.PI * 2); x.fill();
+      x.fillStyle = aclara(rgb, .25); x.beginPath(); x.arc(s / 2, s / 2, s * .28, Math.PI * 1.05, Math.PI * 1.55); x.lineTo(s / 2, s / 2); x.fill();
     }
   }
   sprites.set(key, c);
   return c;
 }
+function espacioLienzo() {
+  const top = $('#lienzo').getBoundingClientRect().top + scrollY;
+  const abajo = S.herr ? $('#hoja').offsetHeight : $('#pasos').offsetHeight + ($('#tip').hidden ? 0 : $('#tip').offsetHeight + 12);
+  return { w: $('#lienzo').clientWidth - 24, h: Math.max(220, innerHeight - top - abajo - 28) };
+}
+function pintarCelda(x, i) {
+  const px = i % S.W, py = (i / S.W) | 0;
+  x.drawImage(sprite(S.grid[i], celda), px * celda, py * celda);
+}
+function lineasPlacas(x) {
+  if (!(S.herr === 'tamano' || S.herr === 'recorte') || (S.pw === 1 && S.ph === 1)) return;
+  const cv = x.canvas, s = PL() * celda;
+  x.save(); x.strokeStyle = 'rgba(255,255,255,.6)'; x.lineWidth = Math.max(1, devicePixelRatio || 1);
+  x.beginPath();
+  for (let i = 1; i < S.pw; i++) { x.moveTo(i * s + .5, 0); x.lineTo(i * s + .5, cv.height); }
+  for (let j = 1; j < S.ph; j++) { x.moveTo(0, j * s + .5); x.lineTo(cv.width, j * s + .5); }
+  x.stroke(); x.restore();
+}
 function render(animar) {
-  const cv = $('#mosaico'), wrap = $('#lienzo');
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const maxW = wrap.clientWidth - 20, maxH = Math.max(280, Math.min(window.innerHeight - 220, 900));
-  const s = Math.max(2, Math.floor(Math.min(maxW / S.W, maxH / S.H) * dpr));
+  if (!S.grid || $('#p-editor').hidden) return;
+  const cv = $('#mosaico'), dpr = Math.min(devicePixelRatio || 1, 2), esp = espacioLienzo();
+  const s = Math.max(1, Math.floor(Math.min(esp.w / S.W, esp.h / S.H) * dpr));
+  celda = s;
   cv.width = S.W * s; cv.height = S.H * s;
   cv.style.width = (S.W * s / dpr) + 'px'; cv.style.height = (S.H * s / dpr) + 'px';
   const x = cv.getContext('2d');
   cancelAnimationFrame(anim);
-  if (sprites.size > 400) sprites.clear();
-  const pintar = i => { const px = i % S.W, py = (i / S.W) | 0; x.drawImage(sprite(S.grid[i], s), px * s, py * s); };
-  const final = () => {
-    if (S.original) { const r = recorte(S.W, S.H); x.drawImage(S.img, r.sx, r.sy, r.cw, r.ch, 0, 0, cv.width, cv.height); }
-    if (S.lineas && (S.pw > 1 || S.ph > 1)) {
-      x.save(); x.strokeStyle = 'rgba(255,255,255,.85)'; x.lineWidth = Math.max(1, dpr * 1.5); x.setLineDash([6 * dpr, 4 * dpr]);
-      x.beginPath();
-      for (let i = 1; i < S.pw; i++) { x.moveTo(i * PL() * s, 0); x.lineTo(i * PL() * s, cv.height); }
-      for (let j = 1; j < S.ph; j++) { x.moveTo(0, j * PL() * s); x.lineTo(cv.width, j * PL() * s); }
-      x.stroke(); x.restore();
-    }
-  };
+  if (sprites.size > 600) sprites.clear();
   const n = S.grid.length;
-  if (!animar || matchMedia('(prefers-reduced-motion: reduce)').matches) { for (let i = 0; i < n; i++) pintar(i); final(); return; }
-  // animación: las piezas "caen" en diagonal
-  x.fillStyle = baseActual().hex; x.fillRect(0, 0, cv.width, cv.height);
-  const orden = new Uint32Array(n); for (let i = 0; i < n; i++) orden[i] = i;
-  const peso = i => (i % S.W) + ((i / S.W) | 0) + Math.random() * 6;
-  const pesos = new Float32Array(n); for (let i = 0; i < n; i++) pesos[i] = peso(i);
+  if (!animar || matchMedia('(prefers-reduced-motion: reduce)').matches) { for (let i = 0; i < n; i++) pintarCelda(x, i); lineasPlacas(x); return; }
+  x.fillStyle = '#05070A'; x.fillRect(0, 0, cv.width, cv.height);
+  const pesos = new Float32Array(n), orden = new Uint32Array(n);
+  for (let i = 0; i < n; i++) { orden[i] = i; pesos[i] = (i % S.W) + ((i / S.W) | 0) + Math.random() * 8; }
   orden.sort((a, b) => pesos[a] - pesos[b]);
-  const pasos = 28, lote = Math.ceil(n / pasos); let p = 0;
-  const frame = () => { const fin = Math.min(n, p + lote); for (; p < fin; p++) pintar(orden[p]); if (p < n) anim = requestAnimationFrame(frame); else final(); };
+  const lote = Math.ceil(n / 26); let p = 0;
+  const frame = () => { const fin = Math.min(n, p + lote); for (; p < fin; p++) pintarCelda(x, orden[p]); if (p < n) anim = requestAnimationFrame(frame); else lineasPlacas(x); };
   anim = requestAnimationFrame(frame);
 }
-function pintarMedidas() {
-  const pz = S.cat.piezas[S.pieza];
-  $('#medidas').innerHTML = `${S.W} × ${S.H} piezas<small>${(S.W * CM).toFixed(1)} × ${(S.H * CM).toFixed(1)} cm · ${fmtN(S.W * S.H)} piezas ${pz.nombre.toLowerCase()} · ${S.pw}×${S.ph} ${S.pw * S.ph === 1 ? 'base' : 'bases'} de ${placaActual().nombre}</small>`;
-}
 
-/* ---------------- UI: tamaños ---------------- */
-function dimTalla(t, orient) {
-  const ref = S.cat.placas.tallas[t], k = 24 / PL(), mx = maxBases();
-  const a = clamp(Math.round(ref[0] * k), 1, mx), b = clamp(Math.round(ref[1] * k), 1, mx);
-  return orient === 'vertical' ? [a, b] : orient === 'horizontal' ? [b, a] : [a, a];
-}
-function pintarPlacas() {
-  const t = placaActual();
-  $('#placas').innerHTML = S.cat.placas.tamanos.map(p => {
-    const g = Math.min(8, p.studs / 4);
-    return `<button type="button" class="placa" data-placa="${p.id}" aria-pressed="${p.id === S.placa}"><div class="studs" style="grid-template-columns:repeat(${g},1fr)">${'<i></i>'.repeat(g * g)}</div><b>${p.nombre}</b>${(p.studs * CM).toFixed(1)} cm</button>`;
-  }).join('');
-  $('#placa-nota').textContent = `${t.nota || ''} · ${fmt(t.precio)} c/u`;
-}
-function pintarTamanos() {
-  if (!S.cat) return;
-  const s = PL();
-  $('#tamanos').innerHTML = TALLAS.map(t => {
-    const [w, hh] = dimTalla(t, S.orient), on = w === S.pw && hh === S.ph;
-    return `<button type="button" class="tam" data-talla="${t}" aria-pressed="${on}" title="${w}×${hh} bases · ${fmtN(w * hh * s * s)} piezas"><b>${t}</b>${Math.round(w * s * CM)}×${Math.round(hh * s * CM)}<span>cm · ${w * hh} ${w * hh === 1 ? 'base' : 'bases'}</span></button>`;
-  }).join('');
-  const mx = maxBases();
-  for (const id of ['pw', 'ph']) $('#' + id).max = mx;
-  $('#pw').value = S.pw; $('#ph').value = S.ph;
-  document.querySelectorAll('#orient button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === S.orient));
-}
-function setTamano(w, h) {
-  const mx = maxBases();
-  S.pw = clamp(w | 0 || 1, 1, mx); S.ph = clamp(h | 0 || 1, 1, mx);
-  pintarTamanos(); pintarBases(); $('#n-bases').textContent = S.pw * S.ph; procesar(true);
-}
-function setPlaca(id) {
-  const tallaAntes = TALLAS.find(t => { const [w, hh] = dimTalla(t, S.orient); return w === S.pw && hh === S.ph; });
-  const w = S.pw * PL(), hh = S.ph * PL();
-  S.placa = id; const s = PL();
-  if (tallaAntes) [S.pw, S.ph] = dimTalla(tallaAntes, S.orient);
-  else { S.pw = clamp(Math.round(w / s), 1, maxBases()); S.ph = clamp(Math.round(hh / s), 1, maxBases()); }
-  if (baseActual().stock <= 0) { const otra = S.cat.placas.colores.find(c => (c.stock?.[id] ?? 0) > 0); if (otra) S.base = otra.id; }
-  sprites.clear(); pintarPlacas(); setTamano(S.pw, S.ph);
-}
-
-/* ---------------- UI: colores ---------------- */
-function pintarAlertas() {
-  const el = $('#alertas');
-  if (!S.problemas.length) {
-    el.innerHTML = `<p class="ok">✓ Todos los colores de tu mosaico están en inventario.</p>`;
-  } else {
-    const varios = S.problemas.filter(p => p.cands.length).length > 1;
-    el.innerHTML = S.problemas.map(p => {
-      const c = S.pal[p.k], falta = p.need - p.st;
-      if (!p.cands.length) return `<div class="alerta sin"><div class="par"><span class="sw" style="background:${c.hex}"></span>${c.nombre}</div>
-        <p>Necesitas ${fmtN(p.need)} y ${p.st ? 'solo hay ' + fmtN(p.st) : 'está agotado'}. No hay un color parecido con suficientes piezas.</p>
-        <div class="btns"><button class="btn sec chico" data-quitar="${c.id}" type="button">Quitar este color</button></div></div>`;
-      const i = (S.opcion[c.id] || 0) % p.cands.length, d = S.pal[p.cands[i].j];
-      return `<div class="alerta"><p><b>${c.nombre}</b> — necesitas ${fmtN(p.need)}, ${p.st ? 'hay ' + fmtN(p.st) + ' (faltan ' + fmtN(falta) + ')' : 'está agotado'}.</p>
-        <div class="par"><span class="sw" style="background:${c.hex}"></span><span class="flecha">→</span><span class="sw" style="background:${d.hex}"></span>${d.nombre} <span class="parecido">${parecido(p.cands[i].e)}</span></div>
-        <div class="btns"><button class="btn verde chico" type="button" data-acepta="${c.id}" data-por="${d.id}">Sí, sustituir</button>
-        ${p.cands.length > 1 ? `<button class="btn sec chico" type="button" data-otra="${c.id}">Otra opción (${i + 1}/${p.cands.length})</button>` : ''}</div></div>`;
-    }).join('') + (varios ? `<button class="btn chico" id="aceptar-todas" type="button" style="margin-bottom:12px">Aceptar todas las sugerencias</button>` : '');
-  }
-  const subs = Object.entries(S.subs);
-  $('#subs').innerHTML = subs.map(([a, b]) => {
-    const A = S.pal[idxDe(a)], B = S.pal[idxDe(b)]; if (!A || !B) return '';
-    return `<div><span class="sw" style="background:${A.hex};width:16px;height:16px"></span>→<span class="sw" style="background:${B.hex};width:16px;height:16px"></span>${A.nombre} → ${B.nombre}<button type="button" data-deshacer="${a}">deshacer</button></div>`;
-  }).join('');
-}
-function pintarPaleta() {
-  $('#paleta').innerHTML = S.pal.map((c, k) => {
-    const usado = S.cuenta && S.cuenta[k] > 0, fuera = S.excluidos.has(c.id) || !!S.subs[c.id], agot = stockDe(c) <= 0;
-    const t = `${c.nombre}${agot ? ' · agotado' : ''}${usado ? ' · ' + fmtN(S.cuenta[k]) + ' piezas' : ''}`;
-    return `<button type="button" class="pc${usado ? ' usado' : ''}${fuera ? ' fuera' : ''}${agot ? ' agotado' : ''}" style="background:${c.hex};color:${lum(c.rgb) > 140 ? '#1E1B18' : '#fff'}" data-color="${c.id}" title="${t}" aria-label="${t}"></button>`;
-  }).join('');
-  if (ADMIN) {
-    $('#admin-pieza').textContent = S.cat.piezas[S.pieza].nombre;
-    $('#admin-stock').innerHTML = S.pal.map(c => `<span class="sw" style="background:${c.hex}"></span><span>${c.nombre}</span><input type="number" min="0" step="100" value="${stockDe(c)}" data-stock="${c.id}" aria-label="Inventario ${c.nombre}">`).join('');
-  }
-}
-
-/* ---------------- UI: pedido ---------------- */
-const baseActual = () => {
-  const c = S.cat.placas.colores.find(b => b.id === S.base) || S.cat.placas.colores[0], t = placaActual();
-  return { ...c, stock: (c.stock && typeof c.stock === 'object') ? (c.stock[t.id] ?? 0) : (c.stock ?? 0), precio: t.precio, tamano: t.nombre };
-};
-function pintarBases() {
-  const t = placaActual();
-  $('#placa-nombre').textContent = t.nombre;
-  $('#bases-sel').innerHTML = S.cat.placas.colores.map(b => {
-    const st = typeof b.stock === 'object' ? (b.stock[t.id] ?? 0) : b.stock;
-    return `<button type="button" data-base="${b.id}" aria-pressed="${b.id === S.base}" ${st <= 0 ? 'disabled title="Agotada en ' + t.nombre + '"' : ''}><span class="sw sq" style="background:${b.hex}"></span>${b.nombre}</button>`;
-  }).join('');
+/* ---------------- precio ---------------- */
+function precio(pw, ph, piezasReales) {
+  const t = S.cat.tienda, s = PL(), nb = pw * ph, b = baseActual();
+  const piezas = piezasReales ?? Math.round(nb * s * s * (1 + (t.extraPct ?? .03)));
+  const sP = Math.round(piezas * t.precioPieza), sB = S.conBases ? nb * b.precio : 0, bruto = sP + sB;
+  const tramo = (t.descuentos || []).filter(d => nb >= d.bases).pop(), desc = tramo ? Math.round(bruto * tramo.pct / 100) : 0;
+  return { bruto, desc, tramo, neto: bruto - desc, sP, sB, nb, piezas };
 }
 function usados() {
   const u = []; S.pal.forEach((c, k) => { if (S.cuenta[k]) u.push(k); });
@@ -802,57 +786,284 @@ function usados() {
 function calcular() {
   const t = S.cat.tienda, { u } = usados();
   const piezas = u.reduce((a, k) => a + necesarias(S.cuenta[k]), 0);
-  const nb = S.pw * S.ph, b = baseActual();
-  const sPiezas = Math.round(piezas * t.precioPieza), sBases = S.conBases ? nb * b.precio : 0;
-  const tramo = (t.descuentos || []).filter(d => nb >= d.bases).pop();
-  const desc = tramo ? Math.round((sPiezas + sBases) * tramo.pct / 100) : 0;
-  const rc = t.recargoColores, recargo = rc && u.length > rc.limite ? Math.round((sPiezas + sBases) * rc.pct / 100) : 0;
-  const sub = sPiezas + sBases - desc + recargo, envio = sub >= (t.envioGratisDesde ?? Infinity) ? 0 : t.envio;
-  const minutos = Math.round(S.W * S.H * (t.minutosPorPieza ?? .078));
-  return { piezas, colores: u.length, nb, sPiezas, sBases, desc, tramo, recargo, envio, total: sub + envio, base: b, minutos };
+  const p = precio(S.pw, S.ph, piezas), rc = t.recargoColores;
+  const recargo = rc && u.length > rc.limite ? Math.round(p.bruto * rc.pct / 100) : 0;
+  const sub = p.neto + recargo, envio = sub >= (t.envioGratisDesde ?? Infinity) ? 0 : t.envio;
+  return { piezas, colores: u.length, nb: p.nb, sPiezas: p.sP, sBases: p.sB, desc: p.desc, tramo: p.tramo, recargo, sub, envio, total: sub + envio, base: baseActual(), bruto: p.bruto + recargo, minutos: Math.round(S.W * S.H * (t.minutosPorPieza ?? .078)) };
 }
-function pintarPedido() {
-  const c = calcular(), { u, num } = usados();
-  $('#n-bases').textContent = c.nb;
-  $('#resumen').innerHTML = `<p class="mini">${fmtN(S.W * S.H)} piezas en el mosaico + ${fmtN(c.piezas - S.W * S.H)} de repuesto · ${c.colores} colores</p>`;
-  $('#totales').innerHTML = `
-    <div class="renglon"><span>Piezas <small>(${fmtN(c.piezas)})</small></span><span>${fmt(c.sPiezas)}</span></div>
-    <div class="renglon"><span>Bases <small>(${S.conBases ? c.nb + ' × ' + c.base.tamano + ' · ' + fmt(c.base.precio) : 'no incluidas'})</small></span><span>${fmt(c.sBases)}</span></div>
-    ${c.desc ? `<div class="renglon"><span>Descuento por tamaño <small>(${c.tramo.pct}% desde ${c.tramo.bases} bases)</small></span><span>−${fmt(c.desc)}</span></div>` : ''}
-    ${c.recargo ? `<div class="renglon"><span>Más de ${S.cat.tienda.recargoColores.limite} colores <small>(+${S.cat.tienda.recargoColores.pct}%)</small></span><span>${fmt(c.recargo)}</span></div>` : ''}
-    <div class="renglon"><span>Envío a todo México</span><span>${c.envio ? fmt(c.envio) : 'Gratis'}</span></div>
-    <div class="renglon total"><span>Total</span><span>${fmt(c.total)}</span></div>
-    <p class="mini">Tiempo de armado aprox.: ${c.minutos < 90 ? c.minutos + ' min' : (c.minutos / 60).toFixed(1).replace('.0', '') + ' h'}</p>
-    <ul class="incluye">${(S.cat.tienda.incluye || []).map(x => `<li>${x}</li>`).join('')}</ul>`;
-  const pend = S.problemas.length, baseSin = S.conBases && c.base.stock < c.nb;
-  const msg = pend ? `Hay ${pend} ${pend === 1 ? 'color' : 'colores'} sin piezas suficientes. Acepta una sustitución arriba para continuar.` : baseSin ? `Solo hay ${c.base.stock} bases ${c.base.tamano} ${c.base.nombre.toLowerCase()}. Elige otro color o tamaño de base.` : '';
-  $('#bloquea').hidden = !msg; $('#bloquea').textContent = msg;
-  $('#ordenar').disabled = !!msg;
-  $('#lista').innerHTML = `<table class="tabla"><tr><th>#</th><th>Color</th><th class="num">Piezas</th><th class="num">Inventario</th></tr>${u.map(k => {
-    const col = S.pal[k], need = necesarias(S.cuenta[k]), st = stockDe(col);
-    return `<tr><td><b>${num.get(k)}</b></td><td><span class="sw" style="background:${col.hex};width:14px;height:14px;vertical-align:-2px"></span> ${col.nombre}</td><td class="num">${fmtN(need)}</td><td class="num">${st >= need ? '✓' : '⚠ ' + fmtN(st)}</td></tr>`;
-  }).join('')}</table>`;
-  if (ADMIN) pintarProveedor(u);
-  marcarPasos(pend ? 3 : 4);
+function pintarBarra() {
+  const c = calcular();
+  $('#ed-cm').textContent = `${(S.W * CM).toFixed(1)} × ${(S.H * CM).toFixed(1)} cm`;
+  $('#ed-precio').textContent = fmt(c.sub);
+  $('#ed-antes').textContent = c.desc ? fmt(c.bruto) : '';
+  $('#ed-badge').hidden = !c.desc; $('#ed-badge').textContent = c.tramo ? `−${c.tramo.pct}%` : '';
+  $('#tip').hidden = S.tipCerrado || S.herr || S.W * S.H >= 96 * 96;
 }
-function pintarProveedor(u) {
-  const p = S.cat.proveedor, lote = p.loteTamano, url = p.busqueda[S.pieza];
-  let tl = 0, tc = 0;
-  const filas = u.map(k => {
-    const c = S.pal[k], need = necesarias(S.cuenta[k]), lotes = Math.ceil(need / lote); tl += lotes; tc += lotes * p.costoLote;
-    return `<tr><td><span class="sw" style="background:${c.hex};width:14px;height:14px;vertical-align:-2px"></span> ${c.nombre}</td><td class="num">${fmtN(need)}</td><td class="num">${lotes}</td><td><a href="${url.replace('{color}', encodeURIComponent(c.en.replace(/ /g, '-')))}" target="_blank" rel="noopener">buscar</a></td></tr>`;
-  }).join('');
-  $('#lista-prov').innerHTML = `<p class="mini">${p.nombre}. Lotes de ${lote} piezas · ${fmt(p.costoLote)} c/u (estimado).</p>
-    <table class="tabla"><tr><th>Color</th><th class="num">Piezas</th><th class="num">Lotes</th><th></th></tr>${filas}
-    <tr><td><b>Total</b></td><td></td><td class="num"><b>${tl}</b></td><td><b>${fmt(tc)}</b></td></tr></table>
-    <button class="btn sec chico" id="csv-prov" type="button" style="margin-top:10px">Descargar CSV</button>`;
+
+/* ---------------- navegación ---------------- */
+function ir(p) {
+  for (const id of ['inicio', 'modo', 'editor', 'pedido']) $('#p-' + id).hidden = id !== p;
+  window.scrollTo({ top: 0 });
+  if (p === 'editor') { cerrarHoja(true); pintarPasos(); requestAnimationFrame(() => procesar(true)); }
+  if (p === 'pedido') pintarPedido();
+  if (p === 'inicio') pintarBorradoresIni();
 }
-function marcarPasos(n) { document.querySelectorAll('.pasos span').forEach(s => s.classList.toggle('on', +s.dataset.paso <= n)); }
+
+/* ---------------- pasos / herramientas ---------------- */
+const PASOS = [
+  { tit: 'PASO 1 · PREPARA', c: 'b', herrs: [['tamano', 'Tamaño', 'regla'], ['recorte', 'Recorte', 'crop']] },
+  { tit: 'PASO 2 · AFINA', c: 'r', herrs: [['colores', 'Colores', 'paleta'], ['ajustes', 'Ajustes', 'sliders'], ['filtros', 'Filtros', 'chispa', 'p']] },
+  { tit: 'PASO 3 · AVANZADO', c: 'y', herrs: [['pintar', 'Pintar', 'pincel'], ['borradores', 'Borradores', 'copias']] }
+];
+const TITULOS = { tamano: 'Tamaño', recorte: 'Recorte', colores: 'Colores', ajustes: 'Ajustes', filtros: 'Filtros', pintar: 'Pintar', borradores: 'Borradores' };
+function pintarPasos() {
+  const p = PASOS[S.paso], ant = PASOS[S.paso - 1], sig = PASOS[S.paso + 1];
+  $('#paso-tit').textContent = p.tit; $('#paso-tit').className = 'paso-tit c-' + p.c; $('#paso-tit').style.border = '0';
+  $('#herrs').innerHTML = p.herrs.map(([id, n, ic, c], i) => `<button type="button" class="herr c-${c || p.c}" data-herr="${id}">${S.paso === 0 && i === 0 && !S.vioTamano ? '<span class="empieza">EMPIEZA AQUÍ</span>' : ''}${ICON[ic]}${n}</button>`).join('');
+  const nav = (el, q, dir) => { el.style.visibility = q ? 'visible' : 'hidden'; if (!q) return; el.className = 'paso-nav c-' + q.c; el.style.border = '0'; el.innerHTML = `${dir < 0 ? ICON.izq : ICON.der}<span>Paso ${S.paso + 1 + dir} ·<br>${q.tit.split('· ')[1][0] + q.tit.split('· ')[1].slice(1).toLowerCase()}</span>`; };
+  nav($('#paso-ant'), ant, -1); nav($('#paso-sig'), sig, 1);
+}
+function abrirHoja(h) {
+  S.herr = h; if (h === 'tamano') S.vioTamano = true;
+  $('#hoja-tit').textContent = TITULOS[h];
+  pintarHoja(); $('#hoja').classList.add('abierta'); $('#pasos').style.visibility = 'hidden';
+  $('#mosaico').classList.toggle('pintando', h === 'pintar');
+  setTimeout(() => render(false), 330); pintarBarra();
+}
+function cerrarHoja(sinRender) {
+  const ab = !!S.herr; S.herr = null; $('#hoja').classList.remove('abierta'); $('#pasos').style.visibility = '';
+  $('#mosaico').classList.remove('pintando'); pintarPasos();
+  if (ab && !sinRender) { render(false); pintarBarra(); }
+}
+function pintarHoja(refresco) {
+  const h = S.herr, el = $('#hoja-cuerpo');
+  if (!h || !S.cat) return;
+  $('#deshacer').disabled = !S.deshacer.length;
+  if (refresco && h === 'recorte') return; // los controles ya están vivos
+  if (refresco && h === 'ajustes') return;
+  if (refresco && document.activeElement && document.activeElement.type === 'range' && el.contains(document.activeElement)) return;
+  const sc = el.scrollTop, sx = $('.carrusel', el)?.scrollLeft;
+  el.innerHTML = HOJAS[h]();
+  el.scrollTop = sc; if (sx != null && $('.carrusel', el)) $('.carrusel', el).scrollLeft = sx;
+  if (h === 'filtros') miniFiltros();
+  if (h === 'tamano' && !refresco) $('.tarjeta[aria-pressed="true"]', el)?.scrollIntoView({ inline: 'center', block: 'nearest' });
+}
+
+/* ---------------- deshacer ---------------- */
+const CAMPOS = ['pw', 'ph', 'placa', 'orient', 'zoom', 'ox', 'oy', 'rot', 'brillo', 'contraste', 'saturacion', 'dither', 'auto', 'filtro', 'maxColores', 'pieza', 'base'];
+function estado() {
+  const o = {}; for (const k of CAMPOS) o[k] = S[k];
+  o.excluidos = [...S.excluidos]; o.subs = { ...S.subs }; o.pintura = [...S.pintura];
+  return o;
+}
+function restaurar(o, sinProcesar) {
+  const rotAntes = S.rot;
+  for (const k of CAMPOS) if (k in o) S[k] = o[k];
+  S.excluidos = new Set(o.excluidos || []); S.subs = { ...(o.subs || {}) }; S.pintura = new Map(o.pintura || []);
+  S.pinturaWH = '';
+  if (S.img && S.rot !== rotAntes) S.src = rotada();
+  sprites.clear();
+  if (!sinProcesar) { S.pinturaWH = (S.pw * PL()) + 'x' + (S.ph * PL()); procesar(false); }
+}
+function guardarPaso() { S.deshacer.push(estado()); if (S.deshacer.length > 60) S.deshacer.shift(); $('#deshacer').disabled = false; }
+function deshacer() { const o = S.deshacer.pop(); if (!o) return; restaurar(o); toast('Deshecho'); $('#deshacer').disabled = !S.deshacer.length; }
+
+/* ---------------- hojas ---------------- */
+function dimTalla(t, orient) {
+  const ref = S.cat.placas.tallas[t], k = 24 / PL(), mx = maxBases();
+  const a = clamp(Math.round(ref[0] * k), 1, mx), b = clamp(Math.round(ref[1] * k), 1, mx);
+  return orient === 'vertical' ? [a, b] : orient === 'horizontal' ? [b, a] : [a, a];
+}
+function miniGrid(w, h) {
+  const m = Math.max(w, h), g = Math.min(m, 7), cw = Math.max(1, Math.round(w / m * g)), ch = Math.max(1, Math.round(h / m * g));
+  return `<div class="mini-grid" style="grid-template-columns:repeat(${cw},1fr);grid-template-rows:repeat(${ch},1fr);width:${42 * cw / g}px;height:${42 * ch / g}px">${'<i></i>'.repeat(cw * ch)}</div>`;
+}
+const HOJAS = {
+  tamano() {
+    const tabs = [['cuadrado', 'Cuadrado', 'cuadrado'], ['horizontal', 'Horizontal', 'horizontal'], ['vertical', 'Vertical', 'vertical'], ['personal', 'A la medida', 'medida']];
+    let h = `<div class="tabs">${tabs.map(([v, n, ic]) => `<button type="button" data-orient="${v}" aria-pressed="${S.orient === v}">${ICON[ic]}${n}</button>`).join('')}</div>`;
+    h += `<div class="fila-chips"><span>Base:</span>${S.cat.placas.tamanos.map(p => `<button type="button" class="chip" data-placa="${p.id}" aria-pressed="${p.id === S.placa}">${p.nombre}</button>`).join('')}</div>`;
+    if (S.orient === 'personal') {
+      const s = PL();
+      h += `<div class="stepper"><span>Ancho <small class="mut">(${(S.pw * s * CM).toFixed(1)} cm)</small></span><div><button type="button" data-paso-w="-1">−</button><output>${S.pw}</output><button type="button" data-paso-w="1">+</button></div></div>
+        <div class="stepper"><span>Alto <small class="mut">(${(S.ph * s * CM).toFixed(1)} cm)</small></span><div><button type="button" data-paso-h="-1">−</button><output>${S.ph}</output><button type="button" data-paso-h="1">+</button></div></div>
+        <p class="nota">${S.pw * S.ph} bases de ${placaActual().nombre} · ${fmtN(S.W * S.H)} piezas · hasta ${maxBases()} bases por lado.</p>`;
+    } else {
+      h += `<div class="carrusel">${TALLAS.map(t => {
+        const [w, hh] = dimTalla(t, S.orient), p = precio(w, hh), s = PL(), on = w === S.pw && hh === S.ph;
+        return `<button type="button" class="tarjeta" data-talla="${t}" aria-pressed="${on}"><span class="talla">${t}</span>${p.tramo ? `<span class="ahorra">Ahorra ${p.tramo.pct}%</span>` : ''}${miniGrid(w, hh)}<b>${(w * s * CM).toFixed(1)} × ${(hh * s * CM).toFixed(1)} cm</b><small>${w}×${hh} bases · ${fmtN(w * hh * s * s)} piezas</small>${p.desc ? `<s>${fmt(p.bruto)}</s>` : ''}<em>${fmt(p.neto)}</em></button>`;
+      }).join('')}</div>`;
+    }
+    h += `<p class="nota">${placaActual().nota || ''}. Las líneas sobre el mosaico marcan cada base.</p>`;
+    return h;
+  },
+  recorte() {
+    return `<div class="rango"><label for="r-zoom">Zoom</label><input type="range" id="r-zoom" data-campo="zoom" min="1" max="4" step="0.01" value="${S.zoom}"><output>${(+S.zoom).toFixed(1)}×</output></div>
+      <p class="nota">Arrastra el mosaico con el dedo para moverlo dentro del cuadro.</p>
+      <div class="btns"><button class="btn sec chico" type="button" data-acc="rotar">${ICON.rotar} Rotar 90°</button><button class="btn sec chico" type="button" data-acc="centrar">Centrar</button><button class="btn sec chico" type="button" data-acc="ajustar-foto">Orientación de la foto</button></div>`;
+  },
+  colores() {
+    let h = alertasHTML();
+    const n = S.cuenta ? S.cuenta.reduce((a, v) => a + (v ? 1 : 0), 0) : 0;
+    h += `<div class="seg">${[['cuadrado', '■ Pieza cuadrada'], ['redondo', '● Pieza redonda']].map(([v, t]) => `<button type="button" data-pieza="${v}" aria-pressed="${S.pieza === v}">${t}</button>`).join('')}</div>`;
+    h += `<div class="rango"><label for="r-max">Máx. colores</label><input type="range" id="r-max" data-campo="maxColores" min="3" max="${S.pal.length + 1}" step="1" value="${S.maxColores || S.pal.length + 1}"><output>${S.maxColores || 'todos'}</output></div>`;
+    h += `<p class="titulo-sec">Paleta · ${n} en uso</p><div class="paleta">${S.pal.map((c, k) => {
+      const usado = S.cuenta && S.cuenta[k] > 0, fuera = S.excluidos.has(c.id) || !!S.subs[c.id], agot = stockDe(c) <= 0;
+      const t = `${c.nombre}${agot ? ' · agotado' : ''}${usado ? ' · ' + fmtN(S.cuenta[k]) + ' piezas' : ''}`;
+      return `<button type="button" class="pc${usado ? ' usado' : ''}${fuera ? ' fuera' : ''}${agot ? ' agotado' : ''}" style="background:${c.hex}" data-color="${c.id}" title="${t}" aria-label="${t}"></button>`;
+    }).join('')}</div><p class="nota">Toca un color para quitarlo o volverlo a usar. Los tachados están agotados.</p>`;
+    if (ADMIN) h += `<p class="titulo-sec">Inventario · ${S.cat.piezas[S.pieza].nombre}</p><div class="admin-stock">${S.pal.map(c => `<span class="sw" style="background:${c.hex}"></span><span>${c.nombre}</span><input type="number" min="0" step="100" value="${stockDe(c)}" data-stock="${c.id}">`).join('')}</div>
+      <div class="btns" style="margin-top:12px"><button class="btn sec chico" type="button" data-acc="exportar-cat">Descargar catalog.json</button><button class="btn sec chico" type="button" data-acc="reset-cat">Volver al publicado</button></div>`;
+    return h;
+  },
+  ajustes() {
+    const r = (id, n) => `<div class="rango"><label for="r-${id}">${n}</label><input type="range" id="r-${id}" data-campo="${id}" min="-50" max="50" value="${S[id]}"><output>${S[id]}</output></div>`;
+    return `<label class="interruptor"><span>Contraste automático<small>Ajusta luces y sombras por ti</small></span><span class="sw-t"><input type="checkbox" data-campo="auto" ${S.auto ? 'checked' : ''}><span></span></span></label>
+      ${r('brillo', 'Brillo')}${r('contraste', 'Contraste')}${r('saturacion', 'Saturación')}
+      <label class="interruptor"><span>Difuminado<small>Mezcla colores para más detalle en degradados</small></span><span class="sw-t"><input type="checkbox" data-campo="dither" ${S.dither ? 'checked' : ''}><span></span></span></label>
+      <button class="btn sec chico" type="button" data-acc="reset-ajustes">Restablecer</button>`;
+  },
+  filtros() {
+    return `<div class="filtros">${Object.entries(FILTROS).map(([id, f]) => `<button type="button" data-filtro="${id}" aria-pressed="${S.filtro === id}"><canvas data-mini="${id}" width="96" height="96"></canvas>${f.n}</button>`).join('')}</div>
+      <p class="nota">Blanco y negro y Sepia usan solo los colores de su estilo.</p>`;
+  },
+  pintar() {
+    if (!S.colorPintura || idxDe(S.colorPintura) < 0) S.colorPintura = S.pal[0].id;
+    const m = [['pincel', 'Pincel', 'pincel'], ['gotero', 'Tomar color', 'gotero'], ['borrar', 'Borrar', 'borrar']];
+    return `<div class="herr-pintar">${m.map(([v, n, ic]) => `<button type="button" data-modo="${v}" aria-pressed="${S.modoPintar === v}">${ICON[ic]}${n}</button>`).join('')}</div>
+      <p class="nota">${S.modoPintar === 'pincel' ? 'Toca o arrastra sobre el mosaico para pintar pieza por pieza.' : S.modoPintar === 'gotero' ? 'Toca una pieza del mosaico para usar su color.' : 'Toca las piezas pintadas para regresarlas a como estaban.'}</p>
+      <div class="paleta">${S.pal.filter(c => !S.excluidos.has(c.id)).map(c => `<button type="button" class="pc${c.id === S.colorPintura ? ' sel' : ''}${stockDe(c) <= 0 ? ' agotado' : ''}" style="background:${c.hex}" data-pinta="${c.id}" title="${c.nombre}" aria-label="${c.nombre}"></button>`).join('')}</div>
+      <div class="btns" style="margin-top:12px"><span class="etq">${S.pintura.size} piezas pintadas</span>${S.pintura.size ? '<button class="btn sec chico" type="button" data-acc="limpiar-pintura">Borrar todo lo pintado</button>' : ''}</div>`;
+  },
+  borradores() {
+    const l = leerLS(LS_BORR) || [];
+    return `<button class="btn ancho" type="button" data-acc="guardar-borrador">${ICON.copias} Guardar este diseño</button>
+      <p class="titulo-sec">Guardados en este dispositivo · ${l.length}</p>
+      <div class="borr-lista" style="margin:0">${l.length ? l.slice().reverse().map(b => borrHTML(b)).join('') : '<p class="nota">Aún no guardas ningún diseño.</p>'}</div>`;
+  }
+};
+function alertasHTML() {
+  if (!S.problemas.length) return `<p class="ok">✓ Todos los colores de tu diseño están en inventario</p>` + subsHTML();
+  return S.problemas.map(p => {
+    const c = S.pal[p.k], falta = p.need - p.st;
+    if (!p.cands.length) return `<div class="alerta sin"><div class="par"><span class="sw" style="background:${c.hex}"></span>${c.nombre}</div><p>Necesitas ${fmtN(p.need)} y ${p.st ? 'solo hay ' + fmtN(p.st) : 'está agotado'}. No hay un color parecido con piezas suficientes.</p><div class="btns"><button class="btn sec chico" data-quitar="${c.id}" type="button">Quitar este color</button></div></div>`;
+    const i = (S.opcion[c.id] || 0) % p.cands.length, d = S.pal[p.cands[i].j];
+    return `<div class="alerta"><p><b>${c.nombre}</b>: necesitas ${fmtN(p.need)}, ${p.st ? 'hay ' + fmtN(p.st) + ' (faltan ' + fmtN(falta) + ')' : 'está agotado'}.</p>
+      <div class="par"><span class="sw" style="background:${c.hex}"></span>→<span class="sw" style="background:${d.hex}"></span>${d.nombre} <span class="etq">${parecido(p.cands[i].e)}</span></div>
+      <div class="btns"><button class="btn verde chico" type="button" data-acepta="${c.id}" data-por="${d.id}">Sí, sustituir</button>${p.cands.length > 1 ? `<button class="btn sec chico" type="button" data-otra="${c.id}">Otra opción (${i + 1}/${p.cands.length})</button>` : ''}</div></div>`;
+  }).join('') + (S.problemas.filter(p => p.cands.length).length > 1 ? `<button class="btn chico" type="button" data-acc="aceptar-todas" style="margin-bottom:12px">Aceptar todas las sugerencias</button>` : '') + subsHTML();
+}
+function subsHTML() {
+  const s = Object.entries(S.subs); if (!s.length) return '';
+  return `<div class="subs">${s.map(([a, b]) => { const A = S.pal[idxDe(a)], B = S.pal[idxDe(b)]; if (!A || !B) return ''; return `<div><span class="sw" style="background:${A.hex};width:16px;height:16px"></span>→<span class="sw" style="background:${B.hex};width:16px;height:16px"></span>${A.nombre} → ${B.nombre}<button type="button" data-deshacer-sub="${a}">deshacer</button></div>`; }).join('')}</div>`;
+}
+function miniFiltros() {
+  const N = 28, datos = muestrear(N, N);
+  for (const [id] of Object.entries(FILTROS)) {
+    const cv = $(`canvas[data-mini="${id}"]`); if (!cv) continue;
+    const d = new Uint8ClampedArray(datos.data); ajustar(d, id);
+    const g = cuantizar(d, N, N, usables(null, id), false); if (!g) continue;
+    const x = cv.getContext('2d'), k = cv.width / N;
+    for (let i = 0; i < g.length; i++) { x.fillStyle = S.pal[g[i]].hex; x.fillRect((i % N) * k, ((i / N) | 0) * k, Math.ceil(k), Math.ceil(k)); }
+  }
+}
+
+/* ---------------- borradores ---------------- */
+function borrHTML(b) {
+  const f = new Date(b.fecha).toLocaleDateString('es-MX', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  return `<div class="borr"><img src="${b.mini}" alt=""><div><b>${b.cm}</b>${f}</div><button class="btn sec chico" type="button" data-abrir-borr="${b.id}">Abrir</button><button class="x" type="button" data-borrar-borr="${b.id}" aria-label="Borrar">×</button></div>`;
+}
+function guardarBorrador() {
+  const [w, h] = dimImg(S.img), k = Math.min(1, 1100 / Math.max(w, h)), c = document.createElement('canvas');
+  c.width = Math.round(w * k); c.height = Math.round(h * k); c.getContext('2d').drawImage(S.img, 0, 0, c.width, c.height);
+  const m = document.createElement('canvas'), mk = Math.max(1, Math.floor(116 / Math.max(S.W, S.H)));
+  m.width = S.W * mk; m.height = S.H * mk; const mx = m.getContext('2d');
+  for (let i = 0; i < S.grid.length; i++) { mx.fillStyle = S.pal[S.grid[i]].hex; mx.fillRect((i % S.W) * mk, ((i / S.W) | 0) * mk, mk, mk); }
+  const l = leerLS(LS_BORR) || [];
+  l.push({ id: Date.now().toString(36), fecha: new Date().toISOString(), cm: `${(S.W * CM).toFixed(1)} × ${(S.H * CM).toFixed(1)} cm`, img: c.toDataURL('image/jpeg', .85), mini: m.toDataURL('image/png'), estado: estado() });
+  while (l.length > 8) l.shift();
+  let ok = guardarLS(LS_BORR, l);
+  while (!ok && l.length > 1) { l.shift(); ok = guardarLS(LS_BORR, l); }
+  toast(ok ? 'Diseño guardado en este dispositivo' : 'No hay espacio para guardar el borrador');
+}
+function abrirBorrador(id) {
+  const b = (leerLS(LS_BORR) || []).find(x => x.id === id); if (!b) return;
+  const im = new Image(); im.onload = () => nuevaImagen(im, b.estado); im.src = b.img;
+}
+function borrarBorrador(id) { guardarLS(LS_BORR, (leerLS(LS_BORR) || []).filter(x => x.id !== id)); pintarBorradoresIni(); if (S.herr === 'borradores') pintarHoja(); }
+function pintarBorradoresIni() {
+  const l = leerLS(LS_BORR) || [];
+  $('#n-borr').textContent = l.length ? `${l.length} ${l.length === 1 ? 'diseño guardado' : 'diseños guardados'}` : 'Aún no tienes diseños guardados';
+  $('#borr-ini').innerHTML = l.slice().reverse().map(borrHTML).join('');
+  if (!l.length) $('#borr-ini').hidden = true;
+}
+
+/* ---------------- galería ---------------- */
+const EJEMPLOS = {
+  atardecer(x) {
+    let g = x.createLinearGradient(0, 0, 0, 420); g.addColorStop(0, '#2b3a8f'); g.addColorStop(.55, '#e85d8c'); g.addColorStop(1, '#ffb347'); x.fillStyle = g; x.fillRect(0, 0, 640, 640);
+    x.fillStyle = '#fff3a0'; x.beginPath(); x.arc(320, 340, 110, 0, Math.PI * 2); x.fill();
+    x.fillStyle = '#5b2a6e'; x.beginPath(); x.moveTo(0, 430); x.lineTo(150, 280); x.lineTo(260, 390); x.lineTo(390, 240); x.lineTo(520, 370); x.lineTo(640, 300); x.lineTo(640, 640); x.lineTo(0, 640); x.fill();
+    x.fillStyle = '#2a1640'; x.beginPath(); x.moveTo(0, 530); x.lineTo(200, 420); x.lineTo(360, 510); x.lineTo(500, 440); x.lineTo(640, 500); x.lineTo(640, 640); x.lineTo(0, 640); x.fill();
+  },
+  corazon(x) {
+    const g = x.createRadialGradient(320, 320, 40, 320, 320, 460); g.addColorStop(0, '#ffe3ef'); g.addColorStop(1, '#ff9ec4'); x.fillStyle = g; x.fillRect(0, 0, 640, 640);
+    x.fillStyle = '#e8183c'; x.beginPath(); x.moveTo(320, 520); x.bezierCurveTo(60, 360, 120, 120, 320, 220); x.bezierCurveTo(520, 120, 580, 360, 320, 520); x.fill();
+    x.fillStyle = '#ffffffaa'; x.beginPath(); x.ellipse(230, 250, 40, 22, -.6, 0, Math.PI * 2); x.fill();
+  },
+  playa(x) {
+    let g = x.createLinearGradient(0, 0, 0, 300); g.addColorStop(0, '#5ab8f0'); g.addColorStop(1, '#bfe6ff'); x.fillStyle = g; x.fillRect(0, 0, 640, 640);
+    g = x.createLinearGradient(0, 300, 0, 470); g.addColorStop(0, '#0a7ea4'); g.addColorStop(1, '#36c2c8'); x.fillStyle = g; x.fillRect(0, 300, 640, 170);
+    x.fillStyle = '#f2d8a7'; x.beginPath(); x.moveTo(0, 470); x.quadraticCurveTo(320, 420, 640, 480); x.lineTo(640, 640); x.lineTo(0, 640); x.fill();
+    x.fillStyle = '#fff'; for (let i = 0; i < 5; i++) { x.beginPath(); x.ellipse(80 + i * 130, 455 - (i % 2) * 8, 60, 6, 0, 0, Math.PI * 2); x.fill(); }
+    x.fillStyle = '#ffef8a'; x.beginPath(); x.arc(520, 90, 46, 0, Math.PI * 2); x.fill();
+    x.strokeStyle = '#5a3a1a'; x.lineWidth = 16; x.beginPath(); x.moveTo(140, 560); x.quadraticCurveTo(120, 420, 170, 330); x.stroke();
+    x.fillStyle = '#1f8a3b'; for (const a of [-2.6, -2, -1.2, -.5, .2]) { x.beginPath(); x.ellipse(170 + Math.cos(a) * 60, 330 + Math.sin(a) * 30, 70, 16, a, 0, Math.PI * 2); x.fill(); }
+  }
+};
+function lienzoEjemplo(id) { const c = document.createElement('canvas'); c.width = c.height = 640; EJEMPLOS[id](c.getContext('2d')); return c; }
+function pintarGaleria() {
+  const n = { atardecer: 'Atardecer', corazon: 'Corazón', playa: 'Playa' };
+  $('#galeria').innerHTML = Object.keys(EJEMPLOS).map(id => `<button type="button" data-ejemplo="${id}"><canvas width="120" height="120"></canvas><span>${n[id]}</span></button>`).join('');
+  $$('#galeria button').forEach(b => { const src = lienzoEjemplo(b.dataset.ejemplo), x = $('canvas', b).getContext('2d'); x.imageSmoothingEnabled = false; const t = document.createElement('canvas'); t.width = t.height = 24; t.getContext('2d').drawImage(src, 0, 0, 24, 24); x.drawImage(t, 0, 0, 120, 120); });
+}
 
 /* ---------------- pedido ---------------- */
+function pintarPedido() {
+  if (!S.grid) return;
+  const c = calcular(), { u, num } = usados();
+  const mini = $('#ped-mini'), k = Math.max(1, Math.floor(720 / Math.max(S.W, S.H)));
+  mini.width = S.W * k; mini.height = S.H * k; const x = mini.getContext('2d');
+  for (let i = 0; i < S.grid.length; i++) { x.fillStyle = S.pal[S.grid[i]].hex; x.fillRect((i % S.W) * k, ((i / S.W) | 0) * k, k, k); }
+  const h = c.minutos < 90 ? c.minutos + ' min' : (c.minutos / 60).toFixed(1).replace('.0', '') + ' h';
+  $('#ped-datos').innerHTML = `<div><b>${(S.W * CM).toFixed(0)}×${(S.H * CM).toFixed(0)}</b>cm</div><div><b>${fmtN(S.W * S.H)}</b>piezas · ${c.colores} colores</div><div><b>${h}</b>de armado aprox.</div>`;
+  $('#ped-alertas').innerHTML = S.problemas.length ? `<div class="card"><h3>Revisa estos colores</h3>${alertasHTML()}</div>` : '';
+  const t = placaActual();
+  $('#ped-placa').textContent = `· ${t.nombre} · ${S.pw}×${S.ph}`; $('#n-bases').textContent = c.nb; $('#con-bases').checked = S.conBases;
+  $('#bases-sel').innerHTML = S.cat.placas.colores.map(b => { const st = typeof b.stock === 'object' ? (b.stock[t.id] ?? 0) : b.stock; return `<button type="button" data-base="${b.id}" aria-pressed="${b.id === S.base}" ${st < c.nb ? 'disabled title="Sin suficientes en ' + t.nombre + '"' : ''}><span class="sw" style="background:${b.hex}${b.transparente ? ';background-image:linear-gradient(135deg,#fff8 25%,transparent 25% 50%,#fff8 50% 75%,transparent 75%);background-size:8px 8px' : ''}"></span>${b.nombre}</button>`; }).join('');
+  $('#nota-transp').hidden = !baseActual().transparente;
+  $('#ped-totales').innerHTML = `
+    <div class="renglon"><span>Piezas 1×1 <small>(${fmtN(c.piezas)} con repuesto)</small></span><span>${fmt(c.sPiezas)}</span></div>
+    <div class="renglon"><span>Bases <small>(${S.conBases ? c.nb + ' × ' + fmt(c.base.precio) : 'no incluidas'})</small></span><span>${fmt(c.sBases)}</span></div>
+    ${c.desc ? `<div class="renglon verde-t"><span>Descuento por tamaño <small>(${c.tramo.pct}%)</small></span><span>−${fmt(c.desc)}</span></div>` : ''}
+    ${c.recargo ? `<div class="renglon"><span>Más de ${S.cat.tienda.recargoColores.limite} colores <small>(+${S.cat.tienda.recargoColores.pct}%)</small></span><span>${fmt(c.recargo)}</span></div>` : ''}
+    <div class="renglon"><span>Envío a todo México</span><span>${c.envio ? fmt(c.envio) : '<b class="verde-t">Gratis</b>'}</span></div>
+    <div class="renglon total"><span>Total</span><span>${fmt(c.total)}</span></div>`;
+  $('#ped-incluye').innerHTML = (S.cat.tienda.incluye || []).map(i => `<li>${i}</li>`).join('');
+  const pend = S.problemas.length, baseSin = S.conBases && c.base.stock < c.nb;
+  const msg = pend ? `Falta resolver ${pend} ${pend === 1 ? 'color' : 'colores'} sin piezas suficientes (arriba).` : baseSin ? `No hay ${c.nb} bases ${c.base.nombre.toLowerCase()} de ${c.base.tamano}. Elige otro color de base.` : '';
+  $('#bloquea').hidden = !msg; $('#bloquea').textContent = msg; $('#ordenar').disabled = !!msg;
+  $('#lista').innerHTML = `<table class="tabla"><tr><th>#</th><th>Color</th><th class="n">Piezas</th><th class="n">Stock</th></tr>${u.map(k => { const col = S.pal[k], need = necesarias(S.cuenta[k]), st = stockDe(col); return `<tr><td><b>${num.get(k)}</b></td><td><span class="sw" style="background:${col.hex};width:14px;height:14px;vertical-align:-2px"></span> ${col.nombre}</td><td class="n">${fmtN(need)}</td><td class="n">${st >= need ? '✓' : '⚠ ' + fmtN(st)}</td></tr>`; }).join('')}</table>`;
+  if (ADMIN) pintarProveedor(u);
+}
+function pintarProveedor(u) {
+  const p = S.cat.proveedor, lote = p.loteTamano, url = p.busqueda[S.pieza]; let tl = 0, tc = 0;
+  const filas = u.map(k => { const c = S.pal[k], need = necesarias(S.cuenta[k]), lotes = Math.ceil(need / lote); tl += lotes; tc += lotes * p.costoLote; return `<tr><td><span class="sw" style="background:${c.hex};width:14px;height:14px;vertical-align:-2px"></span> ${c.nombre}</td><td class="n">${fmtN(need)}</td><td class="n">${lotes}</td><td><a href="${url.replace('{color}', encodeURIComponent(c.en.replace(/ /g, '-')))}" target="_blank" rel="noopener">buscar</a></td></tr>`; }).join('');
+  $('#lista-prov').innerHTML = `<p class="nota">${p.nombre}. Lotes de ${lote} piezas · ${fmt(p.costoLote)} c/u (estimado).</p><table class="tabla"><tr><th>Color</th><th class="n">Piezas</th><th class="n">Lotes</th><th></th></tr>${filas}<tr><td><b>Total</b></td><td></td><td class="n"><b>${tl}</b></td><td><b>${fmt(tc)}</b></td></tr></table><button class="btn sec chico" id="csv-prov" type="button" style="margin-top:10px">Descargar CSV</button>`;
+}
 function abrirPedido() {
   const c = calcular();
-  $('#resumen-dlg').innerHTML = `<b>Mosaico ${S.W}×${S.H}</b> (${(S.W * CM).toFixed(1)} × ${(S.H * CM).toFixed(1)} cm) · ${c.colores} colores · ${S.cat.piezas[S.pieza].nombre}<br>${S.conBases ? c.nb + ' bases ' + c.base.tamano + ' ' + c.base.nombre.toLowerCase() : 'Sin bases'} · <b>Total ${fmt(c.total)}</b>`;
+  $('#resumen-dlg').innerHTML = `<b>Mosaico ${(S.W * CM).toFixed(1)} × ${(S.H * CM).toFixed(1)} cm</b> · ${fmtN(S.W * S.H)} piezas · ${c.colores} colores<br>${S.conBases ? c.nb + ' bases ' + c.base.tamano + ' ' + c.base.nombre.toLowerCase() : 'Sin bases'} · <b>Total ${fmt(c.total)}</b>`;
   $('#dlg-pedido').showModal();
 }
 function crearPedido(form) {
@@ -884,6 +1095,7 @@ function crearPedido(form) {
   descargar(`${folio}.json`, JSON.stringify(pedido, null, 1), 'application/json');
   $('#dlg-ok').showModal();
 }
+
 function descargar(nombre, contenido, tipo) {
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([contenido], { type: tipo })); a.download = nombre;
   document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
@@ -965,109 +1177,158 @@ function abrirInstrucciones() {
 }
 function cerrarInstrucciones() { $('#instrucciones').hidden = true; document.body.style.overflow = ''; }
 
-/* ---------------- toast ---------------- */
-let tt = 0;
-function toast(m) { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('on'), 2600); }
 
-/* ---------------- hero ---------------- */
-function hero() {
-  const P = ['............','...yy..yy...','..yyyyyyyy..','..yrryyrry..','..yrryyrry..','..yyyyyyyy..','..ybyyyyby..','..yybbbbyy..','...yyyyyy...','............','.g.g.g.g.g.g','g.g.g.g.g.g.'];
-  const C = { '.': '#2D5BFF', y: '#FFC72C', r: '#1E1B18', b: '#FF4D2E', g: '#1FA463' };
-  $('#caida').innerHTML = P.join('').split('').map((ch, i) => `<i style="background:${C[ch]};animation-delay:${(((i % 12) + ((i / 12) | 0)) * 0.05).toFixed(2)}s"></i>`).join('');
+/* ---------------- utilidades ---------------- */
+let tt = 0;
+function toast(m) { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('on'), 2400); }
+function arteInicio() {
+  const P = ['..............', '..rr......bb..', '.rrrr....bbbb.', '.rrrrr..bbbbb.', '..rrrrrrbbbb..', '...rrrryybb...', '....ryyyyb....', '....gyyyyp....', '...gggyyppp...', '..ggggg.pppp..', '.ggggg...pppp.', '.gggg.....ppp.', '..gg.......p..', '..............'];
+  const C = { '.': '#151B25', r: '#FF4D2E', b: '#3D7BFF', y: '#FFC72C', g: '#22C55E', p: '#A26BFF' };
+  $('#ini-arte').innerHTML = P.join('').split('').map((ch, i) => `<i style="background:${C[ch]};animation-delay:${(((i % 14) + ((i / 14) | 0)) * .035).toFixed(2)}s"></i>`).join('');
 }
 
 /* ---------------- eventos ---------------- */
+function celdaDe(e) {
+  const cv = $('#mosaico'), r = cv.getBoundingClientRect();
+  const x = Math.floor((e.clientX - r.left) / r.width * S.W), y = Math.floor((e.clientY - r.top) / r.height * S.H);
+  return x < 0 || y < 0 || x >= S.W || y >= S.H ? -1 : y * S.W + x;
+}
+function aplicarPincel(i) {
+  if (i < 0) return;
+  const x = $('#mosaico').getContext('2d');
+  if (S.modoPintar === 'gotero') { S.colorPintura = S.pal[S.grid[i]].id; S.modoPintar = 'pincel'; pintarHoja(); toast('Color: ' + S.pal[S.grid[i]].nombre); return; }
+  if (S.modoPintar === 'borrar') { S.pintura.delete(i); return; }
+  const k = idxDe(S.colorPintura); if (k < 0 || S.grid[i] === k) return;
+  S.pintura.set(i, k); S.grid[i] = k; pintarCelda(x, i);
+}
 function eventos() {
   $('#archivo').addEventListener('change', e => { cargarArchivo(e.target.files[0]); e.target.value = ''; });
-  $('#ejemplo').addEventListener('click', ejemplo);
   let dd = 0;
   addEventListener('dragenter', e => { e.preventDefault(); dd++; document.body.classList.add('arrastrando'); });
   addEventListener('dragleave', () => { if (--dd <= 0) { dd = 0; document.body.classList.remove('arrastrando'); } });
   addEventListener('dragover', e => e.preventDefault());
   addEventListener('drop', e => { e.preventDefault(); dd = 0; document.body.classList.remove('arrastrando'); cargarArchivo(e.dataTransfer.files[0]); });
 
-  $('#placas').addEventListener('click', e => { const b = e.target.closest('.placa'); if (b && b.dataset.placa !== S.placa) setPlaca(b.dataset.placa); });
-  $('#tamanos').addEventListener('click', e => { const b = e.target.closest('.tam'); if (!b) return; S.talla = b.dataset.talla; setTamano(...dimTalla(S.talla, S.orient)); });
-  $('#orient').addEventListener('click', e => {
-    const b = e.target.closest('button'); if (!b) return; S.orient = b.dataset.v;
-    const t = TALLAS.find(t => { const [w, hh] = dimTalla(t, 'cuadrado'); return w === Math.max(S.pw, S.ph) || w === Math.min(S.pw, S.ph); }) || S.talla;
-    S.talla = t; setTamano(...dimTalla(t, S.orient));
+  // inicio
+  $('#btn-galeria').addEventListener('click', () => { const g = $('#galeria'); g.hidden = !g.hidden; if (!g.hidden && !g.children.length) pintarGaleria(); });
+  $('#galeria').addEventListener('click', e => { const b = e.target.closest('[data-ejemplo]'); if (b) nuevaImagen(lienzoEjemplo(b.dataset.ejemplo)); });
+  $('#btn-borradores').addEventListener('click', () => { const l = leerLS(LS_BORR) || []; if (!l.length) { toast('Aún no tienes borradores'); return; } $('#borr-ini').hidden = !$('#borr-ini').hidden; });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('[data-abrir-borr]'); if (a) abrirBorrador(a.dataset.abrirBorr);
+    const d = e.target.closest('[data-borrar-borr]'); if (d) borrarBorrador(d.dataset.borrarBorr);
   });
-  $('#pw').addEventListener('change', () => setTamano(+$('#pw').value, S.ph));
-  $('#ph').addEventListener('change', () => setTamano(S.pw, +$('#ph').value));
-  $('#pieza').addEventListener('click', e => {
-    const b = e.target.closest('button'); if (!b) return; S.pieza = b.dataset.v;
-    document.querySelectorAll('#pieza button').forEach(x => x.setAttribute('aria-pressed', x === b));
-    S.subs = {}; S.opcion = {}; procesar(true);
+  // modo
+  $('#rotar').addEventListener('click', () => { S.rot = (S.rot + 90) % 360; S.src = rotada(); pintarFotoPrev(); });
+  $('#modo-editor').addEventListener('click', () => { S.orient = orientDeFoto(); [S.pw, S.ph] = dimTalla('S', S.orient); S.paso = 0; ir('editor'); });
+  $('#modo-auto').addEventListener('click', () => {
+    Object.assign(S, { orient: orientDeFoto(), auto: true, saturacion: 12, contraste: 6, filtro: 'original', paso: 1, vioTamano: true });
+    [S.pw, S.ph] = dimTalla('M', S.orient); ir('editor'); toast('Listo: ajustamos tamaño y contraste por ti');
   });
-  for (const id of ['brillo', 'contraste', 'saturacion', 'zoom']) {
-    $('#' + id).addEventListener('input', e => { S[id] = +e.target.value; $('#o-' + id).textContent = id === 'zoom' ? (+e.target.value).toFixed(1) + '×' : e.target.value; procesar(false); });
-  }
-  $('#dither').addEventListener('change', e => { S.dither = e.target.checked; procesar(false); });
-  $('#reset').addEventListener('click', () => {
-    Object.assign(S, { zoom: 1, ox: .5, oy: .5, brillo: 0, contraste: 0, saturacion: 0, dither: false });
-    for (const id of ['brillo', 'contraste', 'saturacion']) { $('#' + id).value = 0; $('#o-' + id).textContent = 0; }
-    $('#zoom').value = 1; $('#o-zoom').textContent = '1×'; $('#dither').checked = false; procesar(true);
+  // editor
+  $('#ed-atras').addEventListener('click', () => { if (S.herr) { cerrarHoja(); return; } pintarFotoPrev(); ir('modo'); });
+  $('#finalizar').addEventListener('click', () => { cerrarHoja(true); ir('pedido'); });
+  $('#tip-x').addEventListener('click', () => { S.tipCerrado = true; pintarBarra(); render(false); });
+  $('#tip').addEventListener('click', e => { if (e.target.closest('[data-herr]')) abrirHoja('tamano'); });
+  $('#herrs').addEventListener('click', e => { const b = e.target.closest('[data-herr]'); if (b) abrirHoja(b.dataset.herr); });
+  $('#paso-ant').addEventListener('click', () => { if (S.paso > 0) { S.paso--; pintarPasos(); } });
+  $('#paso-sig').addEventListener('click', () => { if (S.paso < PASOS.length - 1) { S.paso++; pintarPasos(); } });
+  $('#listo').addEventListener('click', () => cerrarHoja());
+  $('#deshacer').addEventListener('click', deshacer);
+  addEventListener('keydown', e => {
+    if (e.key === 'Escape') { if (!$('#instrucciones').hidden) cerrarInstrucciones(); else if (S.herr) cerrarHoja(); }
+    if ((e.metaKey || e.ctrlKey) && e.key === 'z' && !$('#p-editor').hidden) { e.preventDefault(); deshacer(); }
   });
-  $('#btn-original').addEventListener('click', e => { S.original = !S.original; e.currentTarget.setAttribute('aria-pressed', S.original); render(false); });
-  $('#btn-lineas').addEventListener('click', e => { S.lineas = !S.lineas; e.currentTarget.setAttribute('aria-pressed', S.lineas); render(false); });
 
-  // arrastrar para encuadrar
+  // hoja: clics
+  $('#hoja-cuerpo').addEventListener('click', e => {
+    const t = e.target.closest('button'); if (!t) return;
+    const d = t.dataset;
+    if (d.orient) { guardarPaso(); S.orient = d.orient; if (d.orient !== 'personal') { const tal = TALLAS.find(x => dimTalla(x, 'cuadrado')[0] === Math.min(S.pw, S.ph)) || 'S'; [S.pw, S.ph] = dimTalla(tal, d.orient); procesar(true); } else pintarHoja(); return; }
+    if (d.placa) { guardarPaso(); cambiarPlaca(d.placa); return; }
+    if (d.talla) { guardarPaso(); [S.pw, S.ph] = dimTalla(d.talla, S.orient); procesar(true); return; }
+    if (d.pasoW || d.pasoH) { guardarPaso(); if (d.pasoW) S.pw = clamp(S.pw + +d.pasoW, 1, maxBases()); else S.ph = clamp(S.ph + +d.pasoH, 1, maxBases()); procesar(true); return; }
+    if (d.pieza) { guardarPaso(); S.pieza = d.pieza; S.subs = {}; S.opcion = {}; sprites.clear(); procesar(false); return; }
+    if (d.filtro) { guardarPaso(); S.filtro = d.filtro; procesar(false); return; }
+    if (d.color) {
+      const id = d.color; guardarPaso();
+      if (S.subs[id]) delete S.subs[id]; else if (S.excluidos.has(id)) S.excluidos.delete(id);
+      else if (S.excluidos.size >= S.pal.length - 1) { toast('Deja al menos un color'); return; } else S.excluidos.add(id);
+      procesar(false); return;
+    }
+    if (d.modo) { S.modoPintar = d.modo; pintarHoja(); return; }
+    if (d.pinta) { S.colorPintura = d.pinta; S.modoPintar = 'pincel'; pintarHoja(); return; }
+    switch (d.acc) {
+      case 'rotar': guardarPaso(); S.rot = (S.rot + 90) % 360; S.src = rotada(); procesar(true); break;
+      case 'centrar': guardarPaso(); S.ox = S.oy = .5; S.zoom = 1; $('#r-zoom').value = 1; $('#r-zoom').nextElementSibling.textContent = '1.0×'; procesar(false); break;
+      case 'ajustar-foto': guardarPaso(); S.orient = orientDeFoto(); { const tal = TALLAS.find(x => dimTalla(x, 'cuadrado')[0] === Math.min(S.pw, S.ph)) || 'S'; [S.pw, S.ph] = dimTalla(tal, S.orient); } procesar(true); break;
+      case 'reset-ajustes': guardarPaso(); Object.assign(S, { brillo: 0, contraste: 0, saturacion: 0, dither: false, auto: false }); pintarHoja(); procesar(false); break;
+      case 'limpiar-pintura': guardarPaso(); S.pintura.clear(); procesar(false); break;
+      case 'guardar-borrador': guardarBorrador(); pintarHoja(); break;
+      case 'exportar-cat': { const out = JSON.parse(JSON.stringify(S.cat)); out.actualizado = new Date().toISOString().slice(0, 10); descargar('catalog.json', JSON.stringify(out, null, 2), 'application/json'); break; }
+      case 'reset-cat': localStorage.removeItem(LS_STOCK); cargarCatalogo(false); break;
+    }
+  });
+  // hoja: deslizadores e interruptores
+  let arrastrando = false;
+  $('#hoja-cuerpo').addEventListener('input', e => {
+    const c = e.target.dataset.campo; if (!c) return;
+    if (!arrastrando) { guardarPaso(); arrastrando = true; }
+    if (e.target.type === 'checkbox') { S[c] = e.target.checked; arrastrando = false; }
+    else {
+      let v = +e.target.value;
+      if (c === 'maxColores') { v = v > S.pal.length ? 0 : v; e.target.nextElementSibling.textContent = v || 'todos'; }
+      else e.target.nextElementSibling.textContent = c === 'zoom' ? v.toFixed(1) + '×' : v;
+      S[c] = v;
+    }
+    procesar(false);
+  });
+  $('#hoja-cuerpo').addEventListener('change', e => {
+    arrastrando = false;
+    if (e.target.type === 'range') { e.target.blur(); pintarHoja(true); }
+    const id = e.target.dataset.stock; if (!id) return;
+    const v = Math.max(0, +e.target.value || 0);
+    for (const c of [S.cat.colores.find(c => c.id === id), S.pal[idxDe(id)]]) { if (!c) continue; if (typeof c.stock !== 'object') c.stock = { redondo: c.stock || 0, cuadrado: c.stock || 0 }; c.stock[S.pieza] = v; }
+    const loc = {}; S.cat.colores.forEach(c => loc[c.id] = c.stock); guardarLS(LS_STOCK, loc);
+    procesar(false);
+  });
+
+  // lienzo: arrastrar (encuadre) o pintar
   const cv = $('#mosaico'); let drag = null;
-  cv.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY, ox: S.ox, oy: S.oy }; cv.setPointerCapture(e.pointerId); cv.classList.add('arrastrando'); $('#hint').hidden = true; });
+  cv.addEventListener('pointerdown', e => {
+    if (!S.grid) return; cv.setPointerCapture(e.pointerId);
+    if (S.herr === 'pintar') { if (S.modoPintar === 'gotero') { aplicarPincel(celdaDe(e)); return; } guardarPaso(); drag = { pintar: true }; aplicarPincel(celdaDe(e)); return; }
+    guardarPaso(); drag = { x: e.clientX, y: e.clientY, ox: S.ox, oy: S.oy, movio: false };
+  });
   cv.addEventListener('pointermove', e => {
-    if (!drag) return; const r = recorte(S.W, S.H), w = cv.clientWidth, h = cv.clientHeight;
+    if (!drag) return;
+    if (drag.pintar) { aplicarPincel(celdaDe(e)); return; }
+    const r = recorte(S.W, S.H), w = cv.clientWidth, h = cv.clientHeight;
     const dx = (e.clientX - drag.x) / w * r.cw, dy = (e.clientY - drag.y) / h * r.ch;
+    if (Math.abs(e.clientX - drag.x) + Math.abs(e.clientY - drag.y) > 3) drag.movio = true;
     S.ox = r.iw > r.cw ? clamp(drag.ox - dx / (r.iw - r.cw), 0, 1) : .5;
     S.oy = r.ih > r.ch ? clamp(drag.oy - dy / (r.ih - r.ch), 0, 1) : .5;
     procesar(false);
   });
-  const fin = () => { drag = null; cv.classList.remove('arrastrando'); };
+  const fin = () => {
+    if (!drag) return;
+    if (drag.pintar) { if (S.modoPintar === 'borrar') procesar(false); else { revisarInventario(); refrescarUI(); } }
+    else if (!drag.movio) S.deshacer.pop();
+    drag = null;
+  };
   cv.addEventListener('pointerup', fin); cv.addEventListener('pointercancel', fin);
 
-  // colores
-  $('#b-colores').addEventListener('click', e => {
-    const t = e.target.closest('button'); if (!t) return;
-    if (t.dataset.acepta) { S.subs[t.dataset.acepta] = t.dataset.por; toast('Color sustituido'); procesar(false); }
-    else if (t.dataset.otra) { S.opcion[t.dataset.otra] = (S.opcion[t.dataset.otra] || 0) + 1; pintarAlertas(); }
-    else if (t.dataset.quitar) { S.excluidos.add(t.dataset.quitar); procesar(false); }
-    else if (t.dataset.deshacer) { delete S.subs[t.dataset.deshacer]; procesar(false); }
-    else if (t.id === 'aceptar-todas') {
-      for (const p of S.problemas) if (p.cands.length) { const c = S.pal[p.k]; S.subs[c.id] = S.pal[p.cands[(S.opcion[c.id] || 0) % p.cands.length].j].id; }
-      toast('Sugerencias aceptadas'); procesar(false);
-    } else if (t.dataset.color) {
-      const id = t.dataset.color;
-      if (S.subs[id]) delete S.subs[id];
-      else if (S.excluidos.has(id)) S.excluidos.delete(id);
-      else if (S.excluidos.size >= S.pal.length - 1) { toast('Deja al menos un color'); return; }
-      else S.excluidos.add(id);
-      procesar(false);
-    } else if (t.id === 'exportar-cat') {
-      const out = JSON.parse(JSON.stringify(S.cat)); out.actualizado = new Date().toISOString().slice(0, 10);
-      descargar('catalog.json', JSON.stringify(out, null, 2), 'application/json');
-    } else if (t.id === 'reset-cat') { localStorage.removeItem(LS_STOCK); cargarCatalogo(false); }
-  });
-  $('#admin-stock').addEventListener('change', e => {
-    const id = e.target.dataset.stock; if (!id) return;
-    const v = Math.max(0, +e.target.value || 0);
-    for (const c of [S.cat.colores.find(c => c.id === id), S.pal[idxDe(id)]]) {
-      if (!c) continue; if (typeof c.stock !== 'object') c.stock = { redondo: c.stock || 0, cuadrado: c.stock || 0 }; c.stock[S.pieza] = v;
-    }
-    const loc = {}; S.cat.colores.forEach(c => loc[c.id] = c.stock); guardarLS(LS_STOCK, loc);
-    S.firmaStock = JSON.stringify(S.cat.colores.map(c => [c.id, c.stock, c.activo]));
-    procesar(false);
-  });
-
+  // alertas de inventario (en hoja de colores y en pedido)
+  document.addEventListener('click', e => accionesComunes(e.target.closest('button'), e));
   // pedido
+  $('#ped-atras').addEventListener('click', () => ir('editor'));
   $('#con-bases').addEventListener('change', e => { S.conBases = e.target.checked; pintarPedido(); });
-  $('#bases-sel').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; S.base = b.dataset.base; pintarBases(); sprites.clear(); render(false); pintarPedido(); });
+  $('#bases-sel').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; S.base = b.dataset.base; sprites.clear(); pintarPedido(); });
   $('#ordenar').addEventListener('click', abrirPedido);
   $('#ver-instr').addEventListener('click', abrirInstrucciones);
-  $('#b-pedido').addEventListener('click', e => {
+  $('#p-pedido').addEventListener('click', e => {
     if (e.target.id !== 'csv-prov') return;
     const p = S.cat.proveedor, { u } = usados();
-    const csv = ['color,nombre,hex,piezas,lotes'].concat(u.map(k => { const c = S.pal[k], n = necesarias(S.cuenta[k]); return [c.id, c.nombre, c.hex, n, Math.ceil(n / p.loteTamano)].join(','); })).join('\n');
-    descargar('compra-proveedor.csv', csv, 'text/csv');
+    descargar('compra-proveedor.csv', ['color,nombre,hex,piezas,lotes'].concat(u.map(k => { const c = S.pal[k], n = necesarias(S.cuenta[k]); return [c.id, c.nombre, c.hex, n, Math.ceil(n / p.loteTamano)].join(','); })).join('\n'), 'text/csv');
   });
   $('#sel-estado').innerHTML = '<option value="">Elige…</option>' + ESTADOS.map(e => `<option>${e}</option>`).join('');
   $('#form-pedido').addEventListener('submit', e => {
@@ -1080,17 +1341,37 @@ function eventos() {
   $('#ok-cerrar').addEventListener('click', () => $('#dlg-ok').close());
   $('#instrucciones').addEventListener('change', e => { if (e.target.id === 'real') { S.real = e.target.checked; abrirInstrucciones(); } });
   $('#instrucciones').addEventListener('click', e => { if (e.target.id === 'imprimir') print(); if (e.target.id === 'cerrar-instr') cerrarInstrucciones(); });
-  addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#instrucciones').hidden) cerrarInstrucciones(); });
 
-  let rz = 0; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => S.grid && render(false), 150); });
-  // inventario en tiempo real
+  let rz = 0; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => render(false), 150); });
   setInterval(() => cargarCatalogo(true), 60000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) cargarCatalogo(true); });
 }
+function accionesComunes(t) {
+  if (!t || !t.dataset) return;
+  const d = t.dataset;
+  if (d.acepta) { guardarPaso(); S.subs[d.acepta] = d.por; toast('Color sustituido'); procesar(false); }
+  else if (d.otra) { S.opcion[d.otra] = (S.opcion[d.otra] || 0) + 1; refrescarUI(); }
+  else if (d.quitar) { guardarPaso(); S.excluidos.add(d.quitar); procesar(false); }
+  else if (d.deshacerSub) { guardarPaso(); delete S.subs[d.deshacerSub]; procesar(false); }
+  else if (d.acc === 'aceptar-todas') {
+    guardarPaso();
+    for (const p of S.problemas) if (p.cands.length) { const c = S.pal[p.k]; S.subs[c.id] = S.pal[p.cands[(S.opcion[c.id] || 0) % p.cands.length].j].id; }
+    toast('Sugerencias aceptadas'); procesar(false);
+  }
+}
+function cambiarPlaca(id) {
+  const tal = TALLAS.find(t => { const [w, h] = dimTalla(t, S.orient === 'personal' ? 'cuadrado' : S.orient); return w === S.pw && h === S.ph; });
+  const w = S.pw * PL(), h = S.ph * PL();
+  S.placa = id;
+  if (tal && S.orient !== 'personal') [S.pw, S.ph] = dimTalla(tal, S.orient);
+  else { S.pw = clamp(Math.round(w / PL()), 1, maxBases()); S.ph = clamp(Math.round(h / PL()), 1, maxBases()); }
+  if (baseActual().stock <= 0) { const otra = S.cat.placas.colores.find(c => (c.stock?.[id] ?? 0) > 0); if (otra) S.base = otra.id; }
+  sprites.clear(); procesar(true);
+}
 
 /* ---------------- inicio ---------------- */
-if (ADMIN) { $('#admin-badge').hidden = false; $('#admin-inv').hidden = false; $('#proveedor').hidden = false; }
-hero(); eventos(); cargarCatalogo(true);
+if (ADMIN) { $('#marca-der').innerHTML = 'Envíos a todo México <span class="admin">TIENDA</span>'; $('#proveedor').hidden = false; }
+arteInicio(); eventos(); pintarBorradoresIni(); cargarCatalogo(true);
 })();
 </script>
 </body>
